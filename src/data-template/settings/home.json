@@ -1,0 +1,20 @@
+{
+  "navVisible": true,
+  "navOrder": 1,
+  "pageTitle": "",
+  "metaDescription": "",
+  "heroTagline": "Brief tagline describing your research focus. This is the first thing visitors and Google see — make it clear and keyword-rich.",
+  "researchAreasHeading": "Research Areas",
+  "researchAreasIntro": "My research covers the following areas:",
+  "researchAreas": [
+    "Research area 1",
+    "Research area 2",
+    "Research area 3"
+  ],
+  "researchProfilesHeading": "Research Profiles",
+  "ctaButtons": {
+    "showResearchButton": true,
+    "showPublicationsButton": true,
+    "showCvButton": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "navVisible": true,
+  "navOrder": 7,
+  "pageTitle": "Webtools",
+  "metaDescription": "Web-based tools and interactive resources by Dr. Jane Doe.",
+  "introText": "Interactive tools and resources I've developed or contributed to.",
+  "emptyStateMessage": "Webtools will be added soon."
+}

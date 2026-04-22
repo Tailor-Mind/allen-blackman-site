@@ -1,0 +1,15 @@
+{
+  "siteTitle": "Dr. Jane Doe",
+  "siteDescription": "Researcher specializing in [your field]. Replace this site-wide description with 1–2 sentences about your research focus.",
+  "authorName": "Dr. Jane Doe",
+  "authorTitle": "Associate Professor",
+  "authorAffiliation": "Placeholder University",
+  "authorEmail": "jane.doe@example.edu",
+  "authorPhoto": "",
+  "photoFocus": "upper",
+  "favicon": "",
+  "defaultOgImage": "",
+  "primaryColor": "#1a365d",
+  "accentColor": "#2b6cb0",
+  "googleAnalyticsId": ""
+}

@@ -1,0 +1,15 @@
+{
+  "sections": [
+    { "id": "home", "label": "Home", "path": "/" },
+    { "id": "about", "label": "About", "path": "/about" },
+    { "id": "cv", "label": "CV", "path": "/cv" },
+    { "id": "research", "label": "Research", "path": "/research" },
+    { "id": "publications", "label": "Publications", "path": "/publications" },
+    { "id": "blog", "label": "Blog", "path": "/blog" },
+    { "id": "webtools", "label": "Webtools", "path": "/webtools" },
+    { "id": "links", "label": "Links", "path": "/links" },
+    { "id": "contact", "label": "Contact", "path": "/contact" }
+  ],
+  "showCvDownload": true,
+  "cvFile": ""
+}

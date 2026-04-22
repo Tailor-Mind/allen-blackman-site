@@ -1,0 +1,8 @@
+{
+  "navVisible": true,
+  "navOrder": 4,
+  "pageTitle": "Research",
+  "metaDescription": "Research projects by Dr. Jane Doe.",
+  "introText": "My research focuses on [main themes]. Below are my active and completed research projects.",
+  "emptyStateMessage": "Research projects will be added soon."
+}

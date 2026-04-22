@@ -1,0 +1,18 @@
+{
+  "navVisible": true,
+  "navOrder": 9,
+  "pageTitle": "Contact",
+  "metaDescription": "",
+  "addressHeading": "Address",
+  "phoneHeading": "Phone",
+  "emailHeading": "Email",
+  "organizationName": "Placeholder University",
+  "departmentName": "Department of [Your Field]",
+  "streetAddress": "123 University Drive",
+  "city": "City",
+  "region": "State",
+  "postalCode": "00000",
+  "country": "Country",
+  "phone": "",
+  "additionalInfo": ""
+}

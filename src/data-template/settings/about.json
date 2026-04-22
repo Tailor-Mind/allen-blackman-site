@@ -1,0 +1,21 @@
+{
+  "navVisible": true,
+  "navOrder": 2,
+  "pageTitle": "About",
+  "metaDescription": "",
+  "biographyHeading": "Biography",
+  "biography": "Replace this placeholder with your own biography. Aim for 3–4 paragraphs covering your research focus, current position, and notable achievements. This is prime SEO content — mention your institution, degrees, and the journals you publish in.\n\nSecond paragraph: go deeper on methodology, research questions you care about, and the populations or contexts you study.\n\nThird paragraph: prior positions, awards, or notable collaborations. Keep the tone professional and factual.",
+  "educationHeading": "Education",
+  "education": [
+    { "degree": "Ph.D. in [Field]", "institution": "Graduate Institution" },
+    { "degree": "M.A. in [Field]", "institution": "Graduate Institution" },
+    { "degree": "B.A. in [Field]", "institution": "Undergraduate Institution" }
+  ],
+  "affiliationsHeading": "Affiliations",
+  "affiliations": [
+    "Primary institution, department",
+    "Secondary affiliation (if applicable)",
+    "Research network or initiative (if applicable)"
+  ],
+  "cvButtonLabel": "View Full CV"
+}

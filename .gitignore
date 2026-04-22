@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# reset-to-template backups (created automatically by scripts/reset-to-template.mjs)
+src/data.backup-*/
