@@ -32,15 +32,42 @@ export function getSettings() {
   };
 }
 
+/**
+ * Map each section id to its page settings file.
+ * This is the bridge between sections.json (structural: id, label, path)
+ * and per-page JSONs (which own navVisible + navOrder).
+ */
+type NavConfig = { navVisible?: boolean; navOrder?: number };
+const pageNavConfig: Record<string, NavConfig> = {
+  home: home as NavConfig,
+  about: about as NavConfig,
+  cv: cvPage as NavConfig,
+  research: researchPage as NavConfig,
+  publications: publicationsPage as NavConfig,
+  blog: blogPage as NavConfig,
+  webtools: webtoolsPage as NavConfig,
+  links: linksPage as NavConfig,
+  contact: contact as NavConfig,
+};
+
+/** Resolve a section's effective nav visibility and order from the per-page config. */
+function resolveSectionNav(id: string, fallbackOrder: number) {
+  const cfg = pageNavConfig[id];
+  return {
+    navVisible: cfg?.navVisible ?? true,
+    navOrder: cfg?.navOrder ?? fallbackOrder,
+  };
+}
+
 export function getEnabledSections() {
   return sections.sections
-    .filter((s) => s.enabled)
-    .sort((a, b) => a.order - b.order);
+    .map((s, i) => ({ ...s, ...resolveSectionNav(s.id, i + 1) }))
+    .filter((s) => s.navVisible)
+    .sort((a, b) => a.navOrder - b.navOrder);
 }
 
 export function isSectionEnabled(id: string): boolean {
-  const section = sections.sections.find((s) => s.id === id);
-  return section?.enabled ?? false;
+  return resolveSectionNav(id, 0).navVisible;
 }
 
 /** Format a publication in APA-like style */
