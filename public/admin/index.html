@@ -13,50 +13,68 @@
         line-height: 1.6;
       }
 
-      /* Preview-flow help banner */
+      /* Preview-flow help banner — high-specificity selectors + !important
+         to win against Decap CMS's typography rules */
       #preview-help-banner {
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-        max-width: 320px;
-        padding: 0.9rem 1.1rem 0.9rem 1.1rem;
-        background: #1a365d;
-        color: #fff;
-        border-radius: 6px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        font-size: 0.85rem;
-        line-height: 1.5;
-        z-index: 10000;
+        position: fixed !important;
+        bottom: 1rem !important;
+        right: 1rem !important;
+        max-width: 340px !important;
+        padding: 0.9rem 2rem 0.9rem 1.1rem !important;
+        background: #1a365d !important;
+        color: #ffffff !important;
+        border-radius: 6px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+        font-size: 0.85rem !important;
+        line-height: 1.5 !important;
+        z-index: 10000 !important;
       }
-      #preview-help-banner a {
-        color: #b6d4f5;
-        text-decoration: underline;
+      #preview-help-banner,
+      #preview-help-banner h4,
+      #preview-help-banner p,
+      #preview-help-banner strong,
+      #preview-help-banner span {
+        color: #ffffff !important;
       }
       #preview-help-banner h4 {
-        margin: 0 0 0.4rem 0;
-        font-size: 0.95rem;
+        margin: 0 0 0.4rem 0 !important;
+        font-size: 0.95rem !important;
+        font-weight: 600 !important;
       }
-      #preview-help-banner .banner-close {
-        position: absolute;
-        top: 0.3rem;
-        right: 0.5rem;
-        cursor: pointer;
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 1.2rem;
-        opacity: 0.7;
-        padding: 0.2rem 0.5rem;
+      #preview-help-banner p {
+        margin: 0 !important;
       }
-      #preview-help-banner .banner-close:hover {
-        opacity: 1;
+      #preview-help-banner a {
+        color: #9ec5ff !important;
+        text-decoration: underline !important;
+      }
+      #preview-help-banner a:hover {
+        color: #c8dcff !important;
       }
       #preview-help-banner code {
-        background: rgba(255, 255, 255, 0.15);
-        padding: 0.1rem 0.3rem;
-        border-radius: 3px;
-        font-size: 0.78rem;
+        background: rgba(255, 255, 255, 0.18) !important;
+        color: #ffffff !important;
+        padding: 0.12rem 0.35rem !important;
+        border-radius: 3px !important;
+        font-size: 0.78rem !important;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+      }
+      #preview-help-banner .banner-close {
+        position: absolute !important;
+        top: 0.25rem !important;
+        right: 0.4rem !important;
+        cursor: pointer !important;
+        background: transparent !important;
+        border: none !important;
+        color: #ffffff !important;
+        font-size: 1.3rem !important;
+        line-height: 1 !important;
+        opacity: 0.7 !important;
+        padding: 0.25rem 0.5rem !important;
+      }
+      #preview-help-banner .banner-close:hover {
+        opacity: 1 !important;
       }
     </style>
   </head>
