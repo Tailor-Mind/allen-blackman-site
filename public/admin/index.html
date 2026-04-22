@@ -8,10 +8,55 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
       /* Decap CMS admin-only tweaks */
-      /* Make collection descriptions a bit more readable with wider line-height */
       [class*="CollectionTopContainer"] p,
       [class*="SidebarHeading"] + div {
         line-height: 1.6;
+      }
+
+      /* Preview-flow help banner */
+      #preview-help-banner {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        max-width: 320px;
+        padding: 0.9rem 1.1rem 0.9rem 1.1rem;
+        background: #1a365d;
+        color: #fff;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        z-index: 10000;
+      }
+      #preview-help-banner a {
+        color: #b6d4f5;
+        text-decoration: underline;
+      }
+      #preview-help-banner h4 {
+        margin: 0 0 0.4rem 0;
+        font-size: 0.95rem;
+      }
+      #preview-help-banner .banner-close {
+        position: absolute;
+        top: 0.3rem;
+        right: 0.5rem;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.2rem;
+        opacity: 0.7;
+        padding: 0.2rem 0.5rem;
+      }
+      #preview-help-banner .banner-close:hover {
+        opacity: 1;
+      }
+      #preview-help-banner code {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+        font-size: 0.78rem;
       }
     </style>
   </head>
@@ -20,9 +65,7 @@
     <script>
       // Hide the non-functional "Check for Preview when saving a change" toggle.
       // We don't have React preview templates — drafts are previewed via
-      // Netlify deploy previews instead. A broken button creates false
-      // expectations, so we hide it. If this breaks after a Decap upgrade,
-      // inspect the DOM and update the matcher below.
+      // Netlify deploy previews instead (see the help banner).
       (function hideBrokenPreviewToggle() {
         const matcher = (label) => {
           const text = (label.textContent || '').toLowerCase();
@@ -43,13 +86,45 @@
           });
         };
 
-        // Run on load
         hide();
-        // Decap is a SPA — observe DOM mutations to catch re-renders
         new MutationObserver(hide).observe(document.body, {
           childList: true,
           subtree: true,
         });
+      })();
+
+      // Preview-flow help banner. Shown by default; dismiss persists via
+      // localStorage. Clear localStorage to see it again.
+      (function showPreviewHelpBanner() {
+        if (localStorage.getItem('preview-banner-dismissed') === '1') return;
+
+        const banner = document.createElement('div');
+        banner.id = 'preview-help-banner';
+        banner.innerHTML =
+          '<button class="banner-close" aria-label="Dismiss">&times;</button>' +
+          '<h4>💡 Preview drafts before publishing</h4>' +
+          '<p style="margin: 0;">' +
+          'After saving a draft, open the PR on ' +
+          '<a href="https://github.com/Tailor-Mind/allen-blackman-site/pulls" target="_blank" rel="noopener">GitHub</a> ' +
+          'and click the <strong>Netlify — Preview deploy</strong> check. ' +
+          'URL pattern: <code>deploy-preview-{N}--allenblackman.netlify.app</code>' +
+          '</p>';
+
+        const dismiss = () => {
+          localStorage.setItem('preview-banner-dismissed', '1');
+          banner.remove();
+        };
+
+        // Append only after Decap CMS has loaded something (avoid showing on login screen)
+        const waitForCms = () => {
+          if (document.querySelector('[class*="AppContainer"], [class*="Main"], nav')) {
+            document.body.appendChild(banner);
+            banner.querySelector('.banner-close').addEventListener('click', dismiss);
+          } else {
+            setTimeout(waitForCms, 500);
+          }
+        };
+        setTimeout(waitForCms, 1000);
       })();
     </script>
   </body>
