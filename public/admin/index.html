@@ -6,8 +6,51 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>Content Manager — Allen Blackman</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+      /* Decap CMS admin-only tweaks */
+      /* Make collection descriptions a bit more readable with wider line-height */
+      [class*="CollectionTopContainer"] p,
+      [class*="SidebarHeading"] + div {
+        line-height: 1.6;
+      }
+    </style>
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      // Hide the non-functional "Check for Preview when saving a change" toggle.
+      // We don't have React preview templates — drafts are previewed via
+      // Netlify deploy previews instead. A broken button creates false
+      // expectations, so we hide it. If this breaks after a Decap upgrade,
+      // inspect the DOM and update the matcher below.
+      (function hideBrokenPreviewToggle() {
+        const matcher = (label) => {
+          const text = (label.textContent || '').toLowerCase();
+          return (
+            text.includes('check for preview') ||
+            text.includes('toggle preview') ||
+            (text.includes('preview') && text.includes('saving'))
+          );
+        };
+
+        const hide = () => {
+          document.querySelectorAll('label').forEach((label) => {
+            if (matcher(label) && !label.dataset.previewHidden) {
+              label.dataset.previewHidden = '1';
+              const container = label.closest('div, section, fieldset') || label;
+              container.style.display = 'none';
+            }
+          });
+        };
+
+        // Run on load
+        hide();
+        // Decap is a SPA — observe DOM mutations to catch re-renders
+        new MutationObserver(hide).observe(document.body, {
+          childList: true,
+          subtree: true,
+        });
+      })();
+    </script>
   </body>
 </html>

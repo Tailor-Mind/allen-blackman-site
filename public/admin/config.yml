@@ -21,7 +21,7 @@ collections:
   - name: "publications"
     label: "📚 Publications"
     label_singular: "Publication"
-    description: "Journal articles, working papers, book chapters, and policy reports. Each publication generates its own indexed page with full citation metadata for Google Scholar."
+    description: "Journal articles, working papers, book chapters, and policy reports. Each publication generates its own indexed page with full citation metadata for Google Scholar. → View live listing: https://allenblackman.netlify.app/publications"
     folder: "src/data/publications"
     create: true
     slug: "{{slug}}"
@@ -164,7 +164,7 @@ collections:
   - name: "blog"
     label: "✍️ Blog Posts"
     label_singular: "Blog Post"
-    description: "News, commentary, and updates. Active blog posts signal to Google that your site is actively maintained — a ranking factor."
+    description: "News, commentary, and updates. Active blog posts signal to Google that your site is actively maintained — a ranking factor. → View live listing: https://allenblackman.netlify.app/blog"
     folder: "src/data/blog"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -216,7 +216,7 @@ collections:
   - name: "projects"
     label: "🔬 Research Projects"
     label_singular: "Research Project"
-    description: "Active and completed research projects. Each project becomes its own page, giving search engines more content to index under your name."
+    description: "Active and completed research projects. Each project becomes its own page, giving search engines more content to index under your name. → View live listing: https://allenblackman.netlify.app/research"
     folder: "src/data/projects"
     create: true
     slug: "{{slug}}"
@@ -329,7 +329,7 @@ collections:
   - name: "webtools"
     label: "🛠️ Webtools"
     label_singular: "Webtool"
-    description: "Interactive tools you've developed. These differentiate your portfolio from typical academic sites."
+    description: "Interactive tools you've developed. These differentiate your portfolio from typical academic sites. → View live listing: https://allenblackman.netlify.app/webtools"
     folder: "src/data/webtools"
     create: true
     slug: "{{slug}}"
@@ -352,7 +352,7 @@ collections:
   - name: "links"
     label: "🔗 External Links"
     label_singular: "Link"
-    description: "Curated directory of organizations and networks. Establishes the site as a useful resource."
+    description: "Curated directory of organizations and networks. Establishes the site as a useful resource. → View live listing: https://allenblackman.netlify.app/links"
     folder: "src/data/links"
     create: true
     slug: "{{slug}}"
@@ -465,8 +465,8 @@ collections:
   # PAGE CONTENT — All page text is editable here
   # ============================================================
   - name: "pages"
-    label: "📄 Page Content"
-    description: "Edit every piece of text on every page. Each page has its own entry below."
+    label: "📝 Pages"
+    description: "Edit the text on every page of your site. Each page is a separate entry below, with a direct link to the live page so you can see your context while editing. → Visit the live site: https://allenblackman.netlify.app/"
     editor:
       preview: false
     files:
@@ -474,7 +474,7 @@ collections:
       - label: "🏠 Home Page"
         name: "home"
         file: "src/data/settings/home.json"
-        description: "The homepage — your main landing page and most important SEO asset."
+        description: "The homepage — your main landing page and most important SEO asset. → View live: https://allenblackman.netlify.app/"
         fields:
           - { label: "Page Title Override (optional)", name: "pageTitle", widget: "string", required: false, hint: "🎯 SEO: Override the browser tab title for the home page. Leave blank to use site title from Settings." }
           - { label: "Meta Description Override (optional)", name: "metaDescription", widget: "text", required: false, hint: "🎯 SEO: Override the Google search result description for the home page. Leave blank to use site description from Settings." }
@@ -510,7 +510,7 @@ collections:
       - label: "👤 About Page"
         name: "about"
         file: "src/data/settings/about.json"
-        description: "Your biography, education, and affiliations — the second-most visited page."
+        description: "Your biography, education, and affiliations — the second-most visited page. → View live: https://allenblackman.netlify.app/about"
         fields:
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "🎯 SEO: Page heading AND browser tab title. Default: 'About'." }
           - { label: "Meta Description Override (optional)", name: "metaDescription", widget: "text", required: false, hint: "🎯 SEO: Google search result description for the About page." }
@@ -538,7 +538,7 @@ collections:
       - label: "📬 Contact Page"
         name: "contact"
         file: "src/data/settings/contact.json"
-        description: "Contact information — update this if you change institutions."
+        description: "Contact information — update this if you change institutions. → View live: https://allenblackman.netlify.app/contact"
         fields:
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Contact'." }
           - { label: "Meta Description Override (optional)", name: "metaDescription", widget: "text", required: false }
@@ -558,7 +558,7 @@ collections:
       - label: "🔬 Research Listing Page"
         name: "research-page"
         file: "src/data/settings/research-page.json"
-        description: "The Research page (the listing page that shows all projects)."
+        description: "The Research page (the listing page that shows all projects). → View live: https://allenblackman.netlify.app/research"
         fields:
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Research'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results for this page." }
@@ -568,7 +568,7 @@ collections:
       - label: "📚 Publications Listing Page"
         name: "publications-page"
         file: "src/data/settings/publications-page.json"
-        description: "The Publications page (the listing page that shows all publications)."
+        description: "The Publications page (the listing page that shows all publications). → View live: https://allenblackman.netlify.app/publications"
         fields:
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Publications'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results." }
@@ -578,7 +578,7 @@ collections:
       - label: "✍️ Blog Listing Page"
         name: "blog-page"
         file: "src/data/settings/blog-page.json"
-        description: "The Blog page (the listing page that shows all blog posts)."
+        description: "The Blog page (the listing page that shows all blog posts). → View live: https://allenblackman.netlify.app/blog"
         fields:
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Blog'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results." }
@@ -588,7 +588,7 @@ collections:
       - label: "🛠️ Webtools Listing Page"
         name: "webtools-page"
         file: "src/data/settings/webtools-page.json"
-        description: "The Webtools page."
+        description: "The Webtools page. → View live: https://allenblackman.netlify.app/webtools"
         fields:
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Webtools'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results." }
@@ -598,7 +598,7 @@ collections:
       - label: "🔗 Links Page"
         name: "links-page"
         file: "src/data/settings/links-page.json"
-        description: "The Links page."
+        description: "The Links page. → View live: https://allenblackman.netlify.app/links"
         fields:
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Links'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results." }
@@ -608,7 +608,7 @@ collections:
       - label: "📄 CV Page"
         name: "cv-page"
         file: "src/data/settings/cv-page.json"
-        description: "The Curriculum Vitae page — shows the CV PDF inline with download options. To upload the actual CV file, go to Settings → Navigation → CV File."
+        description: "The Curriculum Vitae page — shows the CV PDF inline with download options. To upload the actual CV file, go to Settings → Navigation → CV File. → View live: https://allenblackman.netlify.app/cv"
         fields:
           - { label: "Page Title (browser tab)", name: "pageTitle", widget: "string", hint: "Default: 'Curriculum Vitae'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Shown in Google search results for the CV page." }
@@ -621,7 +621,7 @@ collections:
       - label: "❌ 404 Not Found Page"
         name: "not-found"
         file: "src/data/settings/not-found.json"
-        description: "Text shown when a visitor hits a non-existent URL."
+        description: "Text shown when a visitor hits a non-existent URL. → View live (any non-existent URL): https://allenblackman.netlify.app/doesnotexist"
         fields:
           - { label: "Page Heading", name: "heading", widget: "string", hint: "Large heading on the 404 page. Default: 'Page Not Found'." }
           - { label: "Message", name: "message", widget: "text", hint: "Explanation shown under the heading." }
@@ -631,7 +631,7 @@ collections:
       - label: "🦶 Footer"
         name: "footer"
         file: "src/data/settings/footer.json"
-        description: "Text shown at the bottom of every page."
+        description: "Text shown at the bottom of every page. → View live: visible at the bottom of any page (e.g., https://allenblackman.netlify.app/)"
         fields:
           - { label: "Show Social Links in Footer", name: "showSocialLinks", widget: "boolean", default: true, hint: "Show Google Scholar, ORCID, etc. links in the footer." }
           - { label: "Copyright Text (optional)", name: "copyrightText", widget: "string", required: false, hint: "Override the default '© YEAR Name. Institution.' Leave blank to use the default." }
@@ -642,7 +642,7 @@ collections:
   # ============================================================
   - name: "settings"
     label: "⚙️ Site Settings"
-    description: "Core site identity: your name, site-wide metadata, colors, and social profiles. Powers a lot of SEO."
+    description: "Core site identity: your name, site-wide metadata, colors, social profiles. These apply to every page — changing them affects the whole site."
     editor:
       preview: false
     files:
