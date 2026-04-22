@@ -79,6 +79,27 @@ export function parsePages(pages: string | undefined): { first?: string; last?: 
   };
 }
 
+/**
+ * Map a photoFocus setting to a CSS object-position value.
+ * Controls where faces/subjects are when the photo is cropped to a square.
+ */
+export function photoFocusToCss(focus?: string): string {
+  switch (focus) {
+    case 'top':
+      return 'center top';
+    case 'upper':
+      return 'center 25%';
+    case 'center':
+      return 'center center';
+    case 'lower':
+      return 'center 75%';
+    case 'bottom':
+      return 'center bottom';
+    default:
+      return 'center 25%'; // safe default for portraits
+  }
+}
+
 /** Format a date as YYYY/MM/DD for Highwire Press tags */
 export function formatCitationDate(year: number, publicationDate?: Date): string {
   if (publicationDate) {

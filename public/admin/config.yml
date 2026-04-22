@@ -664,7 +664,22 @@ collections:
           - { label: "Your Title / Position", name: "authorTitle", widget: "string", hint: "E.g., 'Lead Economist'. Appears next to your name and in structured data." }
           - { label: "Your Affiliation", name: "authorAffiliation", widget: "string", hint: "🎯 SEO: Your institution. Used in structured data — Google reads this to understand who you work for." }
           - { label: "Your Email", name: "authorEmail", widget: "string", hint: "Public contact email." }
-          - { label: "Your Photo", name: "authorPhoto", widget: "image", required: false, hint: "Professional headshot. Shown on homepage and About page. Also used as fallback social media preview image. At least 400×400px." }
+          - label: "Your Photo"
+            name: "authorPhoto"
+            widget: "image"
+            required: false
+            hint: "🎯 SEO: Professional headshot. Shown on homepage and About page. Also used as a fallback social media preview image. ⚠️ IMPORTANT: For the best look, upload a SQUARE image (1:1 ratio) with the face centered — at least 400×400px. If you upload a rectangular/portrait photo, use the 'Photo Focus' dropdown below to adjust which part of the image is shown."
+          - label: "Photo Focus (which part of the image to show when cropped)"
+            name: "photoFocus"
+            widget: "select"
+            default: "upper"
+            options:
+              - { label: "Upper portion (best for portraits — shows face)", value: "upper" }
+              - { label: "Top", value: "top" }
+              - { label: "Center", value: "center" }
+              - { label: "Lower portion", value: "lower" }
+              - { label: "Bottom", value: "bottom" }
+            hint: "Your photo is cropped to a square for display. This setting chooses which part of the image stays visible. 'Upper portion' works for most portraits since faces are usually in the top half. Change this if your photo's face is getting cut off."
           - label: "Favicon (browser tab icon)"
             name: "favicon"
             widget: "image"

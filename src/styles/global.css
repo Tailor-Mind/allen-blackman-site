@@ -269,6 +269,7 @@ main {
   height: 200px;
   border-radius: 4px;
   object-fit: cover;
+  object-position: var(--photo-object-position, center 25%);
   flex-shrink: 0;
 }
 @media (max-width: 600px) {
