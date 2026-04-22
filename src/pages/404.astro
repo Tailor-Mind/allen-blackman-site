@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getEnabledSections, getSettings } from '../lib/utils';
+
+const { notFound } = getSettings();
+const enabledSections = getEnabledSections().filter((s) => s.id !== 'home');
+---
+
+<BaseLayout title={notFound.heading || 'Page Not Found'} description={notFound.message}>
+  <div style="text-align: center; padding: 3rem 0;">
+    <h1>{notFound.heading}</h1>
+    <p style="margin: 1rem 0 2rem; color: var(--color-text-muted);">
+      {notFound.message}
+    </p>
+    <p><a href="/" class="btn">{notFound.homeButtonLabel}</a></p>
+    <nav style="margin-top: 2rem;">
+      <p style="font-size: 0.9rem; color: var(--color-text-muted);">{notFound.navSuggestionText}</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">
+        {enabledSections.map((section) => (
+          <a href={section.path}>{section.label}</a>
+        ))}
+      </div>
+    </nav>
+  </div>
+</BaseLayout>

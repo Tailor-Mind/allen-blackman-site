@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CitationMeta from '../../components/CitationMeta.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import PdfPreview from '../../components/PdfPreview.astro';
+import AttachmentsList from '../../components/AttachmentsList.astro';
+import { getCollection, render } from 'astro:content';
+import { getSettings, parsePages } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  const pubs = await getCollection('publications');
+  return pubs.map((pub) => ({
+    params: { slug: pub.id },
+    props: { pub },
+  }));
+}
+
+const { pub } = Astro.props;
+const { Content } = await render(pub);
+const { general } = getSettings();
+
+const { first: firstPage, last: lastPage } = parsePages(pub.data.pages);
+
+let citationInfo = '';
+if (pub.data.journal) {
+  citationInfo = pub.data.journal;
+  if (pub.data.volume) citationInfo += `, ${pub.data.volume}`;
+  if (pub.data.issue) citationInfo += `(${pub.data.issue})`;
+  if (pub.data.pages) citationInfo += `, ${pub.data.pages}`;
+}
+
+const articleSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  '@id': new URL(`/publications/${pub.id}`, Astro.site).href,
+  headline: pub.data.title,
+  name: pub.data.title,
+  author: pub.data.authors.map((name: string) => ({
+    '@type': 'Person',
+    name,
+  })),
+  datePublished: pub.data.publicationDate
+    ? new Date(pub.data.publicationDate).toISOString().split('T')[0]
+    : `${pub.data.year}-01-01`,
+  url: new URL(`/publications/${pub.id}`, Astro.site).href,
+};
+
+if (pub.data.abstract) articleSchema.abstract = pub.data.abstract;
+if (pub.data.journal) {
+  articleSchema.isPartOf = {
+    '@type': 'Periodical',
+    name: pub.data.journal,
+    ...(pub.data.issn ? { issn: pub.data.issn } : {}),
+  };
+}
+if (pub.data.volume) articleSchema.volumeNumber = pub.data.volume;
+if (firstPage) articleSchema.pageStart = firstPage;
+if (lastPage) articleSchema.pageEnd = lastPage;
+if (pub.data.doi) {
+  articleSchema.identifier = {
+    '@type': 'PropertyValue',
+    propertyID: 'DOI',
+    value: pub.data.doi,
+  };
+  articleSchema.sameAs = `https://doi.org/${pub.data.doi}`;
+}
+if (pub.data.tags?.length) articleSchema.keywords = pub.data.tags;
+
+const description = pub.data.abstract
+  ? pub.data.abstract.slice(0, 160)
+  : `${pub.data.title} by ${pub.data.authors.join(', ')} (${pub.data.year})`;
+
+const hasPdf = !!pub.data.pdfUrl && pub.data.pdfUrl.toLowerCase().endsWith('.pdf');
+---
+
+<BaseLayout title={pub.data.title} description={description} type="article">
+  <Fragment slot="head">
+    <CitationMeta
+      title={pub.data.title}
+      authors={pub.data.authors}
+      year={pub.data.year}
+      publicationDate={pub.data.publicationDate}
+      journal={pub.data.journal}
+      volume={pub.data.volume}
+      issue={pub.data.issue}
+      pages={pub.data.pages}
+      doi={pub.data.doi}
+      pdfUrl={pub.data.pdfUrl}
+      issn={pub.data.issn}
+      language={pub.data.language}
+    />
+    <JsonLd data={articleSchema} />
+  </Fragment>
+
+  <article>
+    <p style="margin-bottom: 1rem;"><a href="/publications">&larr; All Publications</a></p>
+
+    <h1>{pub.data.title}</h1>
+
+    <p class="meta" style="font-size: 1rem; margin-bottom: 0.5rem;">
+      {pub.data.authors.join(', ')} ({pub.data.year})
+    </p>
+
+    {citationInfo && (
+      <p class="meta"><em>{citationInfo}</em></p>
+    )}
+
+    {pub.data.status !== 'published' && (
+      <p><span class="tag">{pub.data.status === 'forthcoming' ? 'Forthcoming' : 'Under Review'}</span></p>
+    )}
+
+    <div class="pub-links" style="margin: 1rem 0;">
+      {pub.data.doi && (
+        <a href={`https://doi.org/${pub.data.doi}`} target="_blank" rel="noopener noreferrer">DOI: {pub.data.doi}</a>
+      )}
+      {pub.data.externalUrl && (
+        <a href={pub.data.externalUrl} target="_blank" rel="noopener noreferrer">Publisher Page</a>
+      )}
+    </div>
+
+    {pub.data.abstract && (
+      <section style="margin-top: 1.5rem;">
+        <h2>Abstract</h2>
+        <p>{pub.data.abstract}</p>
+      </section>
+    )}
+
+    {pub.body && (
+      <section class="prose" style="margin-top: 1.5rem;">
+        <Content />
+      </section>
+    )}
+
+    {hasPdf && (
+      <section style="margin-top: 2rem;">
+        <h2>Paper</h2>
+        <PdfPreview
+          src={pub.data.pdfUrl}
+          title={pub.data.title}
+          downloadLabel="Download Paper (PDF)"
+        />
+      </section>
+    )}
+
+    {pub.data.attachments && pub.data.attachments.length > 0 && (
+      <AttachmentsList attachments={pub.data.attachments} heading="Supplementary Materials" />
+    )}
+
+    {pub.data.tags && pub.data.tags.length > 0 && (
+      <div style="margin-top: 1.5rem;">
+        {pub.data.tags.map((tag: string) => <span class="tag">{tag}</span>)}
+      </div>
+    )}
+  </article>
+</BaseLayout>

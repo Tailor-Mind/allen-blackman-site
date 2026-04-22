@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+import { getSettings } from '../../lib/utils';
+
+const { blogPage } = getSettings();
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sorted = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title={blogPage.pageTitle || 'Blog'}
+  description={blogPage.metaDescription}
+>
+  <div class="section-header">
+    <h1>{blogPage.pageTitle || 'Blog'}</h1>
+  </div>
+
+  {blogPage.introText && (
+    <p style="margin-bottom: 2rem;">{blogPage.introText}</p>
+  )}
+
+  {sorted.map((post) => (
+    <BlogPostCard
+      id={post.id}
+      title={post.data.title}
+      description={post.data.description}
+      pubDate={post.data.pubDate}
+      heroImage={post.data.heroImage}
+      tags={post.data.tags}
+    />
+  ))}
+
+  {sorted.length === 0 && (
+    <p style="color: var(--color-text-muted);">{blogPage.emptyStateMessage}</p>
+  )}
+</BaseLayout>

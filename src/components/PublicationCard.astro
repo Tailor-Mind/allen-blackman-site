@@ -1,0 +1,51 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  authors: string[];
+  year: number;
+  journal?: string;
+  volume?: string;
+  issue?: string;
+  pages?: string;
+  doi?: string;
+  pdfUrl?: string;
+  externalUrl?: string;
+  abstract?: string;
+  status?: string;
+  tags?: string[];
+}
+
+const { id, title, authors, year, journal, volume, issue, pages, doi, pdfUrl, externalUrl, abstract, status, tags } = Astro.props;
+
+// Build citation line
+let citationInfo = '';
+if (journal) {
+  citationInfo = journal;
+  if (volume) citationInfo += `, ${volume}`;
+  if (issue) citationInfo += `(${issue})`;
+  if (pages) citationInfo += `, ${pages}`;
+}
+---
+
+<article class="card">
+  <h3>
+    <a href={`/publications/${id}`}>{title}</a>
+    {status === 'forthcoming' && <span class="tag">Forthcoming</span>}
+    {status === 'under-review' && <span class="tag">Under Review</span>}
+  </h3>
+  <p class="meta">{authors.join(', ')} ({year})</p>
+  {citationInfo && <p class="meta"><em>{citationInfo}</em></p>}
+  {abstract && <p style="font-size: 0.9rem; margin-top: 0.5rem;">{abstract.length > 250 ? abstract.slice(0, 250) + '...' : abstract}</p>}
+  <div class="pub-links">
+    <a href={`/publications/${id}`}>Details</a>
+    {doi && <a href={`https://doi.org/${doi}`} target="_blank" rel="noopener noreferrer">DOI</a>}
+    {pdfUrl && <a href={pdfUrl} target="_blank" rel="noopener noreferrer">PDF</a>}
+    {externalUrl && <a href={externalUrl} target="_blank" rel="noopener noreferrer">Publisher</a>}
+  </div>
+  {tags && tags.length > 0 && (
+    <div style="margin-top: 0.5rem;">
+      {tags.map((tag) => <span class="tag">{tag}</span>)}
+    </div>
+  )}
+</article>

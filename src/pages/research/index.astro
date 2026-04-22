@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { getSettings, validateCategoryReferences } from '../../lib/utils';
+
+const { researchPage } = getSettings();
+
+const allProjects = await getCollection('projects');
+const categories = await getCollection('projectCategories');
+
+// Fail build if any project references a deleted category
+validateCategoryReferences(allProjects, categories, 'category', 'project', 'Research Projects');
+
+const sortedCategories = categories.sort((a, b) => a.data.order - b.data.order);
+
+const sortedProjects = allProjects.sort((a, b) => {
+  if (a.data.sortOrder !== undefined && b.data.sortOrder !== undefined) {
+    return a.data.sortOrder - b.data.sortOrder;
+  }
+  return a.data.title.localeCompare(b.data.title);
+});
+
+const grouped = sortedCategories
+  .map((cat) => ({
+    id: cat.id,
+    label: cat.data.label,
+    projects: sortedProjects.filter((p) => p.data.category === cat.id),
+  }))
+  .filter((g) => g.projects.length > 0);
+---
+
+<BaseLayout
+  title={researchPage.pageTitle || 'Research'}
+  description={researchPage.metaDescription}
+>
+  <div class="section-header">
+    <h1>{researchPage.pageTitle || 'Research'}</h1>
+  </div>
+
+  {researchPage.introText && (
+    <p style="margin-bottom: 2rem;">{researchPage.introText}</p>
+  )}
+
+  {grouped.map((group) => (
+    <section class="category-group">
+      <h2>{group.label}</h2>
+      {group.projects.map((project) => (
+        <ProjectCard
+          id={project.id}
+          title={project.data.title}
+          description={project.data.description}
+          status={project.data.status}
+          collaborators={project.data.collaborators}
+          funding={project.data.funding}
+        />
+      ))}
+    </section>
+  ))}
+
+  {allProjects.length === 0 && (
+    <p style="color: var(--color-text-muted);">{researchPage.emptyStateMessage}</p>
+  )}
+</BaseLayout>

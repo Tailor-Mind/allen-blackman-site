@@ -1,0 +1,14 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+const { title, url, description } = Astro.props;
+---
+
+<div style="margin-bottom: 0.5rem;">
+  <a href={url} target="_blank" rel="noopener noreferrer">{title}</a>
+  {description && <span style="color: var(--color-text-muted); font-size: 0.9rem;"> — {description}</span>}
+</div>

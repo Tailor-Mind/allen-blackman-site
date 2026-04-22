@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WebtoolCard from '../components/WebtoolCard.astro';
+import { getCollection } from 'astro:content';
+import { getSettings } from '../lib/utils';
+
+const { webtoolsPage } = getSettings();
+
+const allTools = await getCollection('webtools');
+const sorted = allTools.sort((a, b) => {
+  if (a.data.sortOrder !== undefined && b.data.sortOrder !== undefined) {
+    return a.data.sortOrder - b.data.sortOrder;
+  }
+  return a.data.title.localeCompare(b.data.title);
+});
+---
+
+<BaseLayout
+  title={webtoolsPage.pageTitle || 'Webtools'}
+  description={webtoolsPage.metaDescription}
+>
+  <div class="section-header">
+    <h1>{webtoolsPage.pageTitle || 'Webtools'}</h1>
+  </div>
+
+  {webtoolsPage.introText && (
+    <p style="margin-bottom: 2rem;">{webtoolsPage.introText}</p>
+  )}
+
+  {sorted.map((tool) => (
+    <WebtoolCard
+      title={tool.data.title}
+      description={tool.data.description}
+      url={tool.data.url}
+      image={tool.data.image}
+      funding={tool.data.funding}
+    />
+  ))}
+
+  {allTools.length === 0 && (
+    <p style="color: var(--color-text-muted);">{webtoolsPage.emptyStateMessage}</p>
+  )}
+</BaseLayout>

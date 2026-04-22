@@ -1,0 +1,20 @@
+{
+  "pageTitle": "",
+  "metaDescription": "",
+  "heroTagline": "Environmental economist specializing in pollution, land use, agricultural supply chains, and climate change in developing countries.",
+  "researchAreasHeading": "Research Areas",
+  "researchAreasIntro": "My research focuses on environmental and natural resource issues in developing countries, specifically:",
+  "researchAreas": [
+    "Air and water pollution",
+    "Land use and land cover change",
+    "Agricultural supply chains",
+    "Climate change adaptation and mitigation",
+    "Forest conservation and ecosystem services"
+  ],
+  "researchProfilesHeading": "Research Profiles",
+  "ctaButtons": {
+    "showResearchButton": true,
+    "showPublicationsButton": true,
+    "showCvButton": true
+  }
+}

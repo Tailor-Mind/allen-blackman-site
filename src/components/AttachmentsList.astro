@@ -1,0 +1,43 @@
+---
+interface Attachment {
+  label: string;
+  file?: string;
+  externalUrl?: string;
+}
+
+interface Props {
+  attachments: Attachment[];
+  heading?: string;
+}
+
+const { attachments, heading = 'Resources' } = Astro.props;
+
+const valid = attachments.filter((a) => a.file || a.externalUrl);
+---
+
+{valid.length > 0 && (
+  <section style="margin-top: 2rem;">
+    <h2>{heading}</h2>
+    <ul style="padding-left: 1.5rem;">
+      {valid.map((a) => {
+        const url = a.file || a.externalUrl;
+        const isExternal = !!a.externalUrl && !a.file;
+        const isPdf = url?.toLowerCase().endsWith('.pdf');
+        return (
+          <li style="margin-bottom: 0.4rem;">
+            <a
+              href={url}
+              target={isExternal ? '_blank' : undefined}
+              rel={isExternal ? 'noopener noreferrer' : undefined}
+              download={!isExternal ? '' : undefined}
+            >
+              {a.label}
+            </a>
+            {isPdf && <span style="color: var(--color-text-muted); font-size: 0.85rem;"> (PDF)</span>}
+            {isExternal && <span style="color: var(--color-text-muted); font-size: 0.85rem;"> ↗</span>}
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}

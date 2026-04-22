@@ -1,0 +1,19 @@
+{
+  "pageTitle": "About",
+  "metaDescription": "",
+  "biographyHeading": "Biography",
+  "biography": "Allen Blackman is a Lead Economist at the Inter-American Development Bank (IDB), where he works in the Climate and Sustainable Development Sector. He specializes in environmental economics and natural resource policy in developing countries, with a focus on Latin America and the Caribbean.\n\nHis research covers air and water pollution, land use and land cover change, agricultural supply chains, climate change, and forest conservation. He has extensive experience in applied econometric methods, including randomized controlled trials, quasi-experimental designs, and stated preference methods.\n\nBefore joining the IDB, Dr. Blackman was a Senior Fellow at Resources for the Future (RFF) in Washington, DC, where he spent over two decades conducting research on environmental policy in developing countries. He has published widely in leading journals including the Journal of Environmental Economics and Management, Ecological Economics, World Development, and Land Economics.",
+  "educationHeading": "Education",
+  "education": [
+    { "degree": "Ph.D. in Economics", "institution": "University of Texas at Austin" },
+    { "degree": "M.A. in Economics", "institution": "University of Texas at Austin" },
+    { "degree": "B.A. in Economics", "institution": "University of California, San Diego" }
+  ],
+  "affiliationsHeading": "Affiliations",
+  "affiliations": [
+    "Inter-American Development Bank, Climate and Sustainable Development Sector",
+    "Resources for the Future (former Senior Fellow)",
+    "Environment for Development Initiative"
+  ],
+  "cvButtonLabel": "View Full CV"
+}

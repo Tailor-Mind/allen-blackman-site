@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PublicationCard from '../../components/PublicationCard.astro';
+import { getCollection } from 'astro:content';
+import { getSettings, validateCategoryReferences } from '../../lib/utils';
+
+const { publicationsPage } = getSettings();
+
+const allPubs = await getCollection('publications');
+const types = await getCollection('publicationTypes');
+
+// Fail build if any publication references a deleted type
+validateCategoryReferences(allPubs, types, 'type', 'publication', 'Publication Types');
+
+const sortedTypes = types.sort((a, b) => a.data.order - b.data.order);
+
+const sortedPubs = allPubs.sort((a, b) => {
+  if (a.data.sortOrder !== undefined && b.data.sortOrder !== undefined) {
+    return a.data.sortOrder - b.data.sortOrder;
+  }
+  if (a.data.year !== b.data.year) return b.data.year - a.data.year;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+const grouped = sortedTypes
+  .map((type) => ({
+    id: type.id,
+    label: type.data.label,
+    pubs: sortedPubs.filter((p) => p.data.type === type.id),
+  }))
+  .filter((g) => g.pubs.length > 0);
+---
+
+<BaseLayout
+  title={publicationsPage.pageTitle || 'Publications'}
+  description={publicationsPage.metaDescription}
+>
+  <div class="section-header">
+    <h1>{publicationsPage.pageTitle || 'Publications'}</h1>
+  </div>
+
+  {publicationsPage.introText && (
+    <p style="margin-bottom: 2rem;">{publicationsPage.introText}</p>
+  )}
+
+  {grouped.map((group) => (
+    <section class="category-group">
+      <h2>{group.label}</h2>
+      {group.pubs.map((pub) => (
+        <PublicationCard
+          id={pub.id}
+          title={pub.data.title}
+          authors={pub.data.authors}
+          year={pub.data.year}
+          journal={pub.data.journal}
+          volume={pub.data.volume}
+          issue={pub.data.issue}
+          pages={pub.data.pages}
+          doi={pub.data.doi}
+          pdfUrl={pub.data.pdfUrl}
+          externalUrl={pub.data.externalUrl}
+          abstract={pub.data.abstract}
+          status={pub.data.status}
+          tags={pub.data.tags}
+        />
+      ))}
+    </section>
+  ))}
+
+  {allPubs.length === 0 && (
+    <p style="color: var(--color-text-muted);">{publicationsPage.emptyStateMessage}</p>
+  )}
+</BaseLayout>

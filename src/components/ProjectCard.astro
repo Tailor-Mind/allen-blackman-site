@@ -1,0 +1,26 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  collaborators?: { name: string; institution?: string }[];
+  funding?: string;
+}
+
+const { id, title, description, status, collaborators, funding } = Astro.props;
+---
+
+<article class="card">
+  <h3>
+    <a href={`/research/${id}`}>{title}</a>
+    <span class="tag">{status === 'active' ? 'Active' : 'Completed'}</span>
+  </h3>
+  <p>{description}</p>
+  {collaborators && collaborators.length > 0 && (
+    <p class="meta">
+      With: {collaborators.map((c) => c.institution ? `${c.name} (${c.institution})` : c.name).join(', ')}
+    </p>
+  )}
+  {funding && <p class="meta">Funding: {funding}</p>}
+</article>

@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { getSettings, getEnabledSections } from '../lib/utils';
+
+const { general, social, sections: sectionsData, home } = getSettings();
+const enabledSections = getEnabledSections();
+
+const sameAs = [
+  social.googleScholar,
+  social.orcid,
+  social.researchGate,
+  social.academiaEdu,
+  social.linkedin,
+  social.twitter,
+  social.github,
+].filter(Boolean);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  dateModified: new Date().toISOString().split('T')[0],
+  mainEntity: {
+    '@type': 'Person',
+    '@id': `${Astro.site}#person`,
+    name: general.authorName,
+    url: Astro.site?.href,
+    image: general.authorPhoto ? new URL(general.authorPhoto, Astro.site).href : undefined,
+    jobTitle: general.authorTitle,
+    description: general.siteDescription,
+    email: `mailto:${general.authorEmail}`,
+    worksFor: {
+      '@type': 'Organization',
+      name: general.authorAffiliation,
+    },
+    sameAs,
+    knowsAbout: home.researchAreas,
+  },
+};
+
+const pageTitle = home.pageTitle || general.siteTitle;
+const pageDescription = home.metaDescription || general.siteDescription;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Fragment slot="head">
+    <JsonLd data={personSchema} />
+    {sameAs.map((url) => (
+      <link rel="me" href={url} />
+    ))}
+  </Fragment>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>{general.authorName}</h1>
+      <p style="font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 1rem;">
+        {general.authorTitle}, {general.authorAffiliation}
+      </p>
+      <p>{home.heroTagline}</p>
+      <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        {home.ctaButtons?.showResearchButton && enabledSections.find((s) => s.id === 'research') && (
+          <a href="/research" class="btn">Research</a>
+        )}
+        {home.ctaButtons?.showPublicationsButton && enabledSections.find((s) => s.id === 'publications') && (
+          <a href="/publications" class="btn">Publications</a>
+        )}
+        {home.ctaButtons?.showCvButton && sectionsData.showCvDownload && sectionsData.cvFile && (
+          <a href="/cv" class="btn">View CV</a>
+        )}
+      </div>
+    </div>
+    {general.authorPhoto && (
+      <img
+        src={general.authorPhoto}
+        alt={`${general.authorName}, ${general.authorTitle} at ${general.authorAffiliation}`}
+        class="hero-photo"
+        width="200"
+        height="200"
+      />
+    )}
+  </section>
+
+  {home.researchAreas && home.researchAreas.length > 0 && (
+    <section style="margin-top: 2rem;">
+      <h2>{home.researchAreasHeading}</h2>
+      <p>{home.researchAreasIntro}</p>
+      <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+        {home.researchAreas.map((area) => <li>{area}</li>)}
+      </ul>
+    </section>
+  )}
+
+  {(social.googleScholar || social.researchGate || social.academiaEdu || social.orcid) && (
+    <section style="margin-top: 2rem;">
+      <h2>{home.researchProfilesHeading}</h2>
+      <div class="social-links">
+        {social.googleScholar && <a href={social.googleScholar} target="_blank" rel="noopener noreferrer">Google Scholar</a>}
+        {social.researchGate && <a href={social.researchGate} target="_blank" rel="noopener noreferrer">ResearchGate</a>}
+        {social.academiaEdu && <a href={social.academiaEdu} target="_blank" rel="noopener noreferrer">Academia.edu</a>}
+        {social.orcid && <a href={social.orcid} target="_blank" rel="noopener noreferrer">ORCID</a>}
+      </div>
+    </section>
+  )}
+</BaseLayout>

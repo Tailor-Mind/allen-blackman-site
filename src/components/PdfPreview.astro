@@ -1,0 +1,36 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  downloadLabel?: string;
+  showDownloadButton?: boolean;
+}
+
+const { src, title, downloadLabel = 'Download PDF', showDownloadButton = true } = Astro.props;
+
+// PDF viewer URL fragment parameters:
+//   navpanes=0  → hide thumbnails / outline sidebar
+//   view=FitH   → fit page width on load
+//   toolbar=1   → keep native toolbar
+const viewerUrl = `${src}#navpanes=0&view=FitH&toolbar=1`;
+---
+
+<div class="pdf-viewer-wrapper">
+  {showDownloadButton && (
+    <div class="cv-actions">
+      <a href={src} class="btn" download>{downloadLabel}</a>
+      <a href={src} target="_blank" rel="noopener noreferrer" style="font-size: 0.9rem;">
+        Open in new tab &rarr;
+      </a>
+    </div>
+  )}
+  <iframe
+    src={viewerUrl}
+    class="pdf-viewer"
+    title={title}
+    loading="lazy"
+  ></iframe>
+  <p style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--color-text-muted);">
+    Having trouble viewing? <a href={src} download>Download the PDF</a> or <a href={src} target="_blank" rel="noopener noreferrer">open in a new tab</a>.
+  </p>
+</div>

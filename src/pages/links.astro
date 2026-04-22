@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LinkCard from '../components/LinkCard.astro';
+import { getCollection } from 'astro:content';
+import { getSettings, validateCategoryReferences } from '../lib/utils';
+
+const { linksPage } = getSettings();
+
+const allLinks = await getCollection('links');
+const categories = await getCollection('linkCategories');
+
+// Fail build if any link references a deleted category
+validateCategoryReferences(allLinks, categories, 'category', 'link', 'Link Categories');
+
+const sortedCategories = categories.sort((a, b) => a.data.order - b.data.order);
+
+const sortedLinks = allLinks.sort((a, b) => {
+  if (a.data.sortOrder !== undefined && b.data.sortOrder !== undefined) {
+    return a.data.sortOrder - b.data.sortOrder;
+  }
+  return a.data.title.localeCompare(b.data.title);
+});
+
+const grouped = sortedCategories
+  .map((cat) => ({
+    id: cat.id,
+    label: cat.data.label,
+    links: sortedLinks.filter((l) => l.data.category === cat.id),
+  }))
+  .filter((g) => g.links.length > 0);
+---
+
+<BaseLayout
+  title={linksPage.pageTitle || 'Links'}
+  description={linksPage.metaDescription}
+>
+  <div class="section-header">
+    <h1>{linksPage.pageTitle || 'Links'}</h1>
+  </div>
+
+  {linksPage.introText && (
+    <p style="margin-bottom: 2rem;">{linksPage.introText}</p>
+  )}
+
+  {grouped.map((group) => (
+    <section class="category-group">
+      <h2>{group.label}</h2>
+      {group.links.map((link) => (
+        <LinkCard
+          title={link.data.title}
+          url={link.data.url}
+          description={link.data.description}
+        />
+      ))}
+    </section>
+  ))}
+
+  {allLinks.length === 0 && (
+    <p style="color: var(--color-text-muted);">{linksPage.emptyStateMessage}</p>
+  )}
+</BaseLayout>

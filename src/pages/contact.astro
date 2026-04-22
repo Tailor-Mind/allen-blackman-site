@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSettings } from '../lib/utils';
+
+const { general, contact } = getSettings();
+
+const pageDescription = contact.metaDescription ||
+  `Contact ${general.authorName} at the ${general.authorAffiliation}.`;
+---
+
+<BaseLayout title={contact.pageTitle || 'Contact'} description={pageDescription}>
+  <div class="section-header">
+    <h1>{contact.pageTitle || 'Contact'}</h1>
+  </div>
+
+  <section>
+    <h2>{general.authorName}</h2>
+    <p style="color: var(--color-text-muted); margin-bottom: 1.5rem;">
+      {general.authorTitle}, {general.authorAffiliation}
+    </p>
+
+    <div style="line-height: 2;">
+      <p>
+        <strong>{contact.addressHeading || 'Address'}:</strong><br />
+        {contact.organizationName}<br />
+        {contact.departmentName && <>{contact.departmentName}<br /></>}
+        {contact.streetAddress}<br />
+        {contact.city}, {contact.region} {contact.postalCode}<br />
+        {contact.country}
+      </p>
+
+      {contact.phone && (
+        <p style="margin-top: 1rem;">
+          <strong>{contact.phoneHeading || 'Phone'}:</strong> {contact.phone}
+        </p>
+      )}
+
+      <p style="margin-top: 1rem;">
+        <strong>{contact.emailHeading || 'Email'}:</strong>
+        <a href={`mailto:${general.authorEmail}`}>{general.authorEmail}</a>
+      </p>
+
+      {contact.additionalInfo && (
+        <p style="margin-top: 1.5rem;">{contact.additionalInfo}</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

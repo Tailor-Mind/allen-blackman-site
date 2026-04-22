@@ -1,0 +1,15 @@
+{
+  "sections": [
+    { "id": "home", "label": "Home", "path": "/", "enabled": true, "order": 1 },
+    { "id": "about", "label": "About", "path": "/about", "enabled": true, "order": 2 },
+    { "id": "cv", "label": "CV", "path": "/cv", "enabled": true, "order": 3 },
+    { "id": "research", "label": "Research", "path": "/research", "enabled": true, "order": 4 },
+    { "id": "publications", "label": "Publications", "path": "/publications", "enabled": true, "order": 5 },
+    { "id": "blog", "label": "Blog", "path": "/blog", "enabled": true, "order": 6 },
+    { "id": "webtools", "label": "Webtools", "path": "/webtools", "enabled": true, "order": 7 },
+    { "id": "links", "label": "Links", "path": "/links", "enabled": true, "order": 8 },
+    { "id": "contact", "label": "Contact", "path": "/contact", "enabled": true, "order": 9 }
+  ],
+  "showCvDownload": true,
+  "cvFile": "/uploads/allen-blackman-cv.pdf"
+}

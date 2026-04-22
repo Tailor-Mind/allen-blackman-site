@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PdfPreview from '../components/PdfPreview.astro';
+import { getSettings } from '../lib/utils';
+
+const { general, sections: sectionsData, cvPage } = getSettings();
+
+const cvAvailable = sectionsData.showCvDownload && sectionsData.cvFile;
+const cvUrl = sectionsData.cvFile;
+const cvTitle = general.authorName + ' CV';
+---
+
+<BaseLayout
+  title={cvPage.pageTitle || 'Curriculum Vitae'}
+  description={cvPage.metaDescription}
+>
+  <div class="section-header">
+    <h1>{cvPage.pageHeading || 'Curriculum Vitae'}</h1>
+  </div>
+
+  <p style="color: var(--color-text-muted); font-size: 1.05rem; margin-bottom: 0.5rem;">
+    {general.authorName} — {general.authorTitle}, {general.authorAffiliation}
+  </p>
+
+  {cvPage.introText && (
+    <p style="margin-bottom: 1rem;">{cvPage.introText}</p>
+  )}
+
+  {cvAvailable && cvPage.viewerHeading && (
+    <h2 style="margin-top: 1rem; font-size: 1.25rem;">{cvPage.viewerHeading}</h2>
+  )}
+
+  {cvAvailable && (
+    <PdfPreview
+      src={cvUrl}
+      title={cvTitle}
+      downloadLabel={cvPage.downloadButtonLabel || 'Download PDF'}
+    />
+  )}
+
+  {!cvAvailable && (
+    <p style="color: var(--color-text-muted); padding: 2rem 0;">
+      {cvPage.noCvMessage}
+    </p>
+  )}
+</BaseLayout>

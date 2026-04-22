@@ -1,0 +1,95 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: string;
+  article?: {
+    publishedTime?: string;
+    authors?: string[];
+    tags?: string[];
+  };
+}
+
+import { getSettings } from '../lib/utils';
+
+const { general } = getSettings();
+
+const {
+  title,
+  description,
+  image,
+  type = 'website',
+  article,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// OG image: per-page image > admin default > site logo fallback
+const ogImagePath = image || general.defaultOgImage || general.authorPhoto || '/favicon.svg';
+const ogImageURL = new URL(ogImagePath, Astro.site);
+
+// Favicon: admin-uploaded > fallback to built-in SVG
+const faviconPath = general.favicon || '/favicon.svg';
+const faviconType = faviconPath.endsWith('.ico')
+  ? 'image/x-icon'
+  : faviconPath.endsWith('.png')
+    ? 'image/png'
+    : 'image/svg+xml';
+
+const fullTitle = title === general.siteTitle ? title : `${title} | ${general.siteTitle}`;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Favicon -->
+<link rel="icon" type={faviconType} href={faviconPath} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageURL} />
+<meta property="og:site_name" content={general.siteTitle} />
+
+<!-- Twitter Card -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={ogImageURL} />
+
+{article?.publishedTime && (
+  <meta property="article:published_time" content={article.publishedTime} />
+)}
+{article?.tags?.map((tag) => (
+  <meta property="article:tag" content={tag} />
+))}
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title={`${general.siteTitle} Blog`} href="/rss.xml" />
+
+<!-- Netlify Identity Widget (for CMS login redirect) -->
+<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+<!-- Google Analytics (conditional) -->
+{general.googleAnalyticsId && (
+  <>
+    <script is:inline src={`https://www.googletagmanager.com/gtag/js?id=${general.googleAnalyticsId}`} async></script>
+    <script is:inline define:vars={{ gaId: general.googleAnalyticsId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', gaId);
+    </script>
+  </>
+)}

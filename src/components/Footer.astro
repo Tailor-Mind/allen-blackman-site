@@ -1,0 +1,44 @@
+---
+import { getSettings } from '../lib/utils';
+
+const { general, social, footer } = getSettings();
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  { label: 'Google Scholar', url: social.googleScholar },
+  { label: 'ORCID', url: social.orcid },
+  { label: 'ResearchGate', url: social.researchGate },
+  { label: 'Academia.edu', url: social.academiaEdu },
+  { label: 'LinkedIn', url: social.linkedin },
+  { label: 'GitHub', url: social.github },
+].filter((link) => link.url);
+
+const copyrightText = footer.copyrightText ||
+  `© ${currentYear} ${general.authorName}. ${general.authorAffiliation}.`;
+---
+
+<footer class="site-footer">
+  {footer.showSocialLinks !== false && socialLinks.length > 0 && (
+    <div class="social-links" style="justify-content: center; margin-bottom: 0.75rem;">
+      {socialLinks.map((link) => (
+        <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a>
+      ))}
+    </div>
+  )}
+  <p>{copyrightText}</p>
+  {footer.additionalText && (
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;">{footer.additionalText}</p>
+  )}
+</footer>
+
+<script is:inline>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", function(user) {
+      if (!user) {
+        window.netlifyIdentity.on("login", function() {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>

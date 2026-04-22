@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSettings } from '../lib/utils';
+
+const { general, sections: sectionsData, about } = getSettings();
+
+// Split biography into paragraphs
+const bioParagraphs = about.biography.split(/\n\n+/).filter(Boolean);
+
+const pageDescription = about.metaDescription ||
+  `About ${general.authorName}, ${general.authorTitle} at ${general.authorAffiliation}.`;
+---
+
+<BaseLayout title={about.pageTitle || 'About'} description={pageDescription}>
+  <div class="section-header">
+    <h1>{about.pageTitle || 'About'}</h1>
+  </div>
+
+  <section class="hero" style="margin-bottom: 2rem;">
+    {general.authorPhoto && (
+      <img
+        src={general.authorPhoto}
+        alt={general.authorName}
+        class="hero-photo"
+        width="200"
+        height="200"
+      />
+    )}
+    <div class="hero-text">
+      <h2 style="margin-top: 0;">{general.authorName}</h2>
+      <p style="color: var(--color-text-muted); font-size: 1.05rem;">
+        {general.authorTitle}, {general.authorAffiliation}
+      </p>
+    </div>
+  </section>
+
+  {bioParagraphs.length > 0 && (
+    <section>
+      <h2>{about.biographyHeading}</h2>
+      {bioParagraphs.map((para) => <p>{para}</p>)}
+    </section>
+  )}
+
+  {about.education && about.education.length > 0 && (
+    <section style="margin-top: 2rem;">
+      <h2>{about.educationHeading}</h2>
+      <ul style="padding-left: 1.5rem;">
+        {about.education.map((ed) => (
+          <li>{ed.degree}, {ed.institution}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {about.affiliations && about.affiliations.length > 0 && (
+    <section style="margin-top: 2rem;">
+      <h2>{about.affiliationsHeading}</h2>
+      <ul style="padding-left: 1.5rem;">
+        {about.affiliations.map((aff) => <li>{aff}</li>)}
+      </ul>
+    </section>
+  )}
+
+  {sectionsData.showCvDownload && sectionsData.cvFile && (
+    <section style="margin-top: 2rem;">
+      <a href="/cv" class="btn">
+        {about.cvButtonLabel || 'View Full CV'}
+      </a>
+    </section>
+  )}
+</BaseLayout>

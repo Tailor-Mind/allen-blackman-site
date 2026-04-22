@@ -1,0 +1,49 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getSettings } from '../lib/utils';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: string;
+  article?: {
+    publishedTime?: string;
+    authors?: string[];
+    tags?: string[];
+  };
+  extraHead?: boolean;
+}
+
+const { general } = getSettings();
+const { title, description, image, type, article } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={image} type={type} article={article} />
+    <style define:vars={{
+      colorPrimary: general.primaryColor,
+      colorAccent: general.accentColor,
+    }}>
+      :root {
+        --color-primary: var(--colorPrimary);
+        --color-accent: var(--colorAccent);
+        --color-link: var(--colorAccent);
+      }
+    </style>
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

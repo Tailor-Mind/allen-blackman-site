@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PdfPreview from '../../components/PdfPreview.astro';
+import AttachmentsList from '../../components/AttachmentsList.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+// Look up the category label
+const categoryEntry = await getEntry('projectCategories', project.data.category);
+const categoryLabel = categoryEntry?.data.label || project.data.category;
+
+// Look up related publications
+const relatedPubs = [];
+if (project.data.relatedPublications && project.data.relatedPublications.length > 0) {
+  for (const pubId of project.data.relatedPublications) {
+    const pub = await getEntry('publications', pubId);
+    if (pub) relatedPubs.push(pub);
+  }
+}
+
+const featuredIsPdf =
+  !!project.data.featuredDocument &&
+  project.data.featuredDocument.toLowerCase().endsWith('.pdf');
+---
+
+<BaseLayout title={project.data.title} description={project.data.description}>
+  <article>
+    <p style="margin-bottom: 1rem;"><a href="/research">&larr; All Research</a></p>
+
+    <h1>{project.data.title}</h1>
+
+    <p>
+      <span class="tag">{project.data.status === 'active' ? 'Active' : 'Completed'}</span>
+      <span class="tag">{categoryLabel}</span>
+    </p>
+
+    <p style="margin-top: 1rem;">{project.data.description}</p>
+
+    {project.data.collaborators && project.data.collaborators.length > 0 && (
+      <section style="margin-top: 1.5rem;">
+        <h2>Collaborators</h2>
+        <ul style="padding-left: 1.5rem;">
+          {project.data.collaborators.map((c: { name: string; institution?: string }) => (
+            <li>{c.name}{c.institution ? ` (${c.institution})` : ''}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {project.data.funding && (
+      <p style="margin-top: 1rem;"><strong>Funding:</strong> {project.data.funding}</p>
+    )}
+
+    {project.body && (
+      <section class="prose" style="margin-top: 1.5rem;">
+        <Content />
+      </section>
+    )}
+
+    {featuredIsPdf && (
+      <section style="margin-top: 2rem;">
+        <h2>{project.data.featuredDocumentLabel || 'Featured Document'}</h2>
+        {project.data.featuredDocumentDescription && (
+          <p style="color: var(--color-text-muted);">{project.data.featuredDocumentDescription}</p>
+        )}
+        <PdfPreview
+          src={project.data.featuredDocument}
+          title={project.data.featuredDocumentLabel || project.data.title}
+          downloadLabel="Download PDF"
+        />
+      </section>
+    )}
+
+    {relatedPubs.length > 0 && (
+      <section style="margin-top: 2rem;">
+        <h2>Related Publications</h2>
+        <ul style="padding-left: 1.5rem;">
+          {relatedPubs.map((pub) => (
+            <li style="margin-bottom: 0.4rem;">
+              <a href={`/publications/${pub.id}`}>{pub.data.title}</a>
+              <span style="color: var(--color-text-muted); font-size: 0.9rem;">
+                {' — '}{pub.data.authors.join(', ')} ({pub.data.year})
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {project.data.attachments && project.data.attachments.length > 0 && (
+      <AttachmentsList attachments={project.data.attachments} heading="Resources" />
+    )}
+  </article>
+</BaseLayout>
