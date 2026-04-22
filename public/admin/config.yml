@@ -10,459 +10,22 @@ public_folder: "/uploads"
 # ============================================================
 # Admin Panel Organization
 # ============================================================
-# Collections appear in this order in the left sidebar.
-# We order by frequency of use: content Allen updates most often goes first.
+# Collections appear in this order in the left sidebar:
+#   1. 📝 Pages              (edit text on each page — most frequent task)
+#   2. 📚 Publications       (add/edit papers)
+#   3. ✍️ Blog Posts          (add/edit posts)
+#   4. 🔬 Research Projects  (add/edit projects)
+#   5. 🛠️ Webtools            (add/edit tools)
+#   6. 🔗 External Links     (add/edit links)
+#   7. 🏷️ Project Categories  ┐
+#   8. 🏷️ Publication Types   ├─ (taxonomy — edit rarely)
+#   9. 🏷️ Link Categories     ┘
+#  10. ⚙️ Site Settings       (site-wide identity, rarely changes)
 
 collections:
 
   # ============================================================
-  # PUBLICATIONS — Most frequently updated
-  # ============================================================
-  - name: "publications"
-    label: "📚 Publications"
-    label_singular: "Publication"
-    description: "Journal articles, working papers, book chapters, and policy reports. Each publication generates its own indexed page with full citation metadata for Google Scholar. → View live listing: https://allenblackman.netlify.app/publications"
-    folder: "src/data/publications"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{title}} ({{year}})"
-    editor:
-      preview: false
-    sortable_fields: ["year", "title"]
-    fields:
-      - label: "Title"
-        name: "title"
-        widget: "string"
-        hint: "🎯 SEO: Full title of the paper exactly as published. Appears in Google search results and is the most important field for discoverability."
-      - label: "Authors"
-        name: "authors"
-        widget: "list"
-        field: { label: "Author Full Name", name: "author", widget: "string" }
-        hint: "🎯 SEO: Each author on a separate line, in the order they appear on the paper. Use 'First Last' format consistently — Google Scholar uses these exactly as written."
-      - label: "Year"
-        name: "year"
-        widget: "number"
-        value_type: "int"
-        hint: "Publication year. Used for sorting and citation display."
-      - label: "Publication Type"
-        name: "type"
-        widget: "relation"
-        collection: "publicationTypes"
-        value_field: "{{slug}}"
-        search_fields: ["label"]
-        display_fields: ["label"]
-        default: "journal-article"
-        hint: "Publications are grouped by type on the public page. Add new types under '🏷️ Taxonomies → Publication Types'."
-      - label: "Status"
-        name: "status"
-        widget: "select"
-        options:
-          - { label: "Published", value: "published" }
-          - { label: "Forthcoming / In Press", value: "forthcoming" }
-          - { label: "Under Review", value: "under-review" }
-        default: "published"
-        hint: "Forthcoming and under-review papers get a visible tag so readers don't mistake them for peer-reviewed work."
-      - label: "Journal / Publisher Name"
-        name: "journal"
-        widget: "string"
-        required: false
-        hint: "🎯 SEO: Full journal name (e.g., 'Journal of Environmental Economics and Management'). Indexed by Google Scholar for journal-specific searches."
-      - label: "Volume"
-        name: "volume"
-        widget: "string"
-        required: false
-        hint: "🎯 SEO: Volume number — required by Google Scholar for journal articles to be indexed correctly."
-      - label: "Issue"
-        name: "issue"
-        widget: "string"
-        required: false
-        hint: "Issue number. Optional but helpful for Scholar."
-      - label: "Pages"
-        name: "pages"
-        widget: "string"
-        required: false
-        hint: "Page range, e.g. '102-135'. Used by Google Scholar to build accurate citations."
-      - label: "DOI"
-        name: "doi"
-        widget: "string"
-        required: false
-        hint: "🎯 SEO CRITICAL: Digital Object Identifier (e.g., '10.1016/j.jeem.2024.102935') WITHOUT the 'https://doi.org/' prefix. The DOI is how Google Scholar uniquely identifies papers — always include it if available."
-      - label: "ISSN"
-        name: "issn"
-        widget: "string"
-        required: false
-        hint: "Journal's ISSN (e.g., '0095-0696'). Optional but improves Scholar's journal matching."
-      - label: "Abstract"
-        name: "abstract"
-        widget: "text"
-        required: false
-        hint: "🎯 SEO: The paper abstract. What Google shows in search results and what LLMs (ChatGPT, Claude) read. Include specific statistics — LLMs cite papers with concrete numbers 40% more often."
-      - label: "Paper PDF (main document, shown inline with preview)"
-        name: "pdfUrl"
-        widget: "file"
-        required: false
-        hint: "🎯 SEO: Upload the paper PDF (under 5 MB, text-searchable — no scanned images). It will be shown inline on the publication page with an embedded viewer, letting readers scan the paper without leaving the site. Also picked up by Google Scholar as 'citation_pdf_url'."
-      - label: "External URL (Publisher or SSRN)"
-        name: "externalUrl"
-        widget: "string"
-        required: false
-        hint: "Link to publisher page, SSRN, or another full-text location."
-      - label: "Publication Date (optional)"
-        name: "publicationDate"
-        widget: "datetime"
-        date_format: "YYYY-MM-DD"
-        time_format: false
-        required: false
-        hint: "Exact publication date if known — Google Scholar prefers precise dates over just a year."
-      - label: "Language"
-        name: "language"
-        widget: "string"
-        default: "en"
-        required: false
-        hint: "Two-letter language code (e.g., 'en', 'es'). Helps Scholar serve the right version."
-      - label: "Topic Tags"
-        name: "tags"
-        widget: "list"
-        default: []
-        hint: "🎯 SEO: Keywords describing the paper. Appear as 'keywords' in structured data, improving topical discoverability."
-      - label: "Manual Sort Order (optional)"
-        name: "sortOrder"
-        widget: "number"
-        required: false
-        hint: "Leave blank to sort by year. Fill in a number (lower = higher) to manually promote a publication."
-      - label: "Supplementary Attachments"
-        name: "attachments"
-        widget: "list"
-        required: false
-        default: []
-        hint: "🎯 SEO: Additional materials — appendix, replication data, code, slides, press coverage. Shown as a 'Supplementary Materials' section below the paper. Each attachment is displayed as a download/external link. Adding these signals research transparency (a ranking factor for academic credibility)."
-        fields:
-          - label: "Label"
-            name: "label"
-            widget: "string"
-            hint: "What this attachment is — e.g., 'Online Appendix', 'Replication Data & Code', 'Slides', 'Press Release'."
-          - label: "File Upload (use for PDFs, ZIPs, datasets)"
-            name: "file"
-            widget: "file"
-            required: false
-            hint: "Upload a file hosted on this site. Use this OR the External URL below — not both."
-          - label: "External URL (use for GitHub, Dataverse, etc.)"
-            name: "externalUrl"
-            widget: "string"
-            required: false
-            hint: "Link to an external source (GitHub repo, Dataverse dataset, publisher page). Use this OR the File Upload above — not both."
-      - label: "Extended Notes (optional)"
-        name: "body"
-        widget: "markdown"
-        required: false
-        hint: "Optional extended notes, press coverage, or commentary."
-
-  # ============================================================
-  # BLOG POSTS
-  # ============================================================
-  - name: "blog"
-    label: "✍️ Blog Posts"
-    label_singular: "Blog Post"
-    description: "News, commentary, and updates. Active blog posts signal to Google that your site is actively maintained — a ranking factor. → View live listing: https://allenblackman.netlify.app/blog"
-    folder: "src/data/blog"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    extension: "md"
-    summary: "{{title}} — {{pubDate}}"
-    editor:
-      preview: false
-    fields:
-      - label: "Title"
-        name: "title"
-        widget: "string"
-        hint: "🎯 SEO: Post title — appears in Google search results and social shares. Aim for 50–60 characters."
-      - label: "Short Description / Summary"
-        name: "description"
-        widget: "text"
-        hint: "🎯 SEO: 1–2 sentences. Becomes the meta description Google shows in search results AND the social media preview text. Aim for 140–160 characters. Make it compelling."
-      - label: "Publish Date"
-        name: "pubDate"
-        widget: "datetime"
-        hint: "When the post was (or should be) published."
-      - label: "Last Updated (optional)"
-        name: "updatedDate"
-        widget: "datetime"
-        required: false
-        hint: "🎯 SEO: Set this if you meaningfully edit the post later. Google considers recently updated posts fresher, helping ranking."
-      - label: "Hero / Featured Image"
-        name: "heroImage"
-        widget: "image"
-        required: false
-        hint: "🎯 SEO: Shown at top of post AND in social media previews (Twitter, LinkedIn, Facebook). Use 1200×630px."
-      - label: "Tags"
-        name: "tags"
-        widget: "list"
-        default: []
-        hint: "Topic tags help readers find related posts and add keywords to structured data."
-      - label: "Draft"
-        name: "draft"
-        widget: "boolean"
-        default: false
-        hint: "Check to save without publishing. Uncheck when ready."
-      - label: "Body / Content"
-        name: "body"
-        widget: "markdown"
-        hint: "🎯 SEO: Full content. Cite sources explicitly — LLMs are 30–40% more likely to surface your post when you include citations and direct quotations."
-
-  # ============================================================
-  # RESEARCH PROJECTS
-  # ============================================================
-  - name: "projects"
-    label: "🔬 Research Projects"
-    label_singular: "Research Project"
-    description: "Active and completed research projects. Each project becomes its own page, giving search engines more content to index under your name. → View live listing: https://allenblackman.netlify.app/research"
-    folder: "src/data/projects"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{title}}"
-    editor:
-      preview: false
-    fields:
-      - label: "Project Title"
-        name: "title"
-        widget: "string"
-        hint: "🎯 SEO: Short, descriptive. Also the H1 heading and page title."
-      - label: "Short Description"
-        name: "description"
-        widget: "text"
-        hint: "🎯 SEO: One-sentence summary. Shown on the listing page and used as the meta description."
-      - label: "Category"
-        name: "category"
-        widget: "relation"
-        collection: "projectCategories"
-        value_field: "{{slug}}"
-        search_fields: ["label"]
-        display_fields: ["label"]
-        default: "other"
-        hint: "Projects are grouped by category on the Research page. Add new categories under '🏷️ Taxonomies → Project Categories'."
-      - label: "Status"
-        name: "status"
-        widget: "select"
-        options:
-          - { label: "Active", value: "active" }
-          - { label: "Completed", value: "completed" }
-        default: "active"
-        hint: "Appears as a visible tag on the project."
-      - label: "Collaborators"
-        name: "collaborators"
-        widget: "list"
-        required: false
-        fields:
-          - { label: "Name", name: "name", widget: "string" }
-          - { label: "Institution (optional)", name: "institution", widget: "string", required: false }
-        hint: "🎯 SEO: Co-author names become indexed text — helps when people search for 'Allen Blackman + [collaborator]'."
-      - label: "Funding Source"
-        name: "funding"
-        widget: "string"
-        required: false
-        hint: "Who funded this research. Appears on the project page and signals credibility."
-      - label: "Project Image"
-        name: "image"
-        widget: "image"
-        required: false
-      - label: "Sort Order (optional)"
-        name: "sortOrder"
-        widget: "number"
-        required: false
-        hint: "Lower numbers appear higher within the category."
-      - label: "Full Project Description"
-        name: "body"
-        widget: "markdown"
-        hint: "🎯 SEO: Extended description. More content here = more text for search engines to index. Include links to related publications."
-      - label: "Featured Document (main PDF shown inline)"
-        name: "featuredDocument"
-        widget: "file"
-        required: false
-        hint: "🎯 SEO: Upload the main document for this project — typically a policy brief, project report, or white paper. It will be shown inline with a PDF viewer on the project page (same behavior as the CV page). This is prime SEO content: readers stay longer, Google indexes the document."
-      - label: "Featured Document Label"
-        name: "featuredDocumentLabel"
-        widget: "string"
-        required: false
-        hint: "Heading shown above the document. Default: 'Featured Document'. Use something descriptive like 'Policy Brief' or 'Project Report'."
-      - label: "Featured Document Description"
-        name: "featuredDocumentDescription"
-        widget: "text"
-        required: false
-        hint: "Optional short description shown above the document preview."
-      - label: "Related Publications"
-        name: "relatedPublications"
-        widget: "relation"
-        collection: "publications"
-        value_field: "{{slug}}"
-        search_fields: ["title", "authors"]
-        display_fields: ["title", "year"]
-        multiple: true
-        required: false
-        hint: "🎯 SEO: Papers that came out of this project. Shown as a clickable list on the project page. Cross-linking between research and publications boosts both pages' SEO (Google values internal links)."
-      - label: "Additional Resources / Attachments"
-        name: "attachments"
-        widget: "list"
-        required: false
-        default: []
-        hint: "Other files or links — data, code repositories, presentations, press coverage. Shown as a 'Resources' section on the project page."
-        fields:
-          - label: "Label"
-            name: "label"
-            widget: "string"
-            hint: "Display name, e.g., 'Replication Data', 'GitHub Repository', 'Project Slides'."
-          - label: "File Upload"
-            name: "file"
-            widget: "file"
-            required: false
-            hint: "Upload a file. Use this OR the External URL below — not both."
-          - label: "External URL"
-            name: "externalUrl"
-            widget: "string"
-            required: false
-            hint: "Link to an external resource. Use this OR File Upload above — not both."
-
-  # ============================================================
-  # WEBTOOLS
-  # ============================================================
-  - name: "webtools"
-    label: "🛠️ Webtools"
-    label_singular: "Webtool"
-    description: "Interactive tools you've developed. These differentiate your portfolio from typical academic sites. → View live listing: https://allenblackman.netlify.app/webtools"
-    folder: "src/data/webtools"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{title}}"
-    editor:
-      preview: false
-    fields:
-      - { label: "Tool Name", name: "title", widget: "string", hint: "🎯 SEO: Full name of the tool, e.g. 'Forest Conservation Targeting Tool (FCTT)'." }
-      - { label: "Short Description", name: "description", widget: "text", hint: "🎯 SEO: 1–2 sentences explaining what the tool does. Shown on the Webtools page and used as meta description." }
-      - { label: "Tool URL", name: "url", widget: "string", hint: "External link where users launch the tool. Opens in a new tab." }
-      - { label: "Screenshot or Logo", name: "image", widget: "image", required: false }
-      - { label: "Funding Source", name: "funding", widget: "string", required: false }
-      - { label: "Sort Order", name: "sortOrder", widget: "number", required: false, hint: "Lower = higher on the page." }
-      - { label: "Extended Description", name: "body", widget: "markdown", required: false, hint: "Additional context: methodology, use cases, notable projects that have used it." }
-
-  # ============================================================
-  # EXTERNAL LINKS
-  # ============================================================
-  - name: "links"
-    label: "🔗 External Links"
-    label_singular: "Link"
-    description: "Curated directory of organizations and networks. Establishes the site as a useful resource. → View live listing: https://allenblackman.netlify.app/links"
-    folder: "src/data/links"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{title}}"
-    editor:
-      preview: false
-    fields:
-      - { label: "Organization Name", name: "title", widget: "string", hint: "Full name as you want it displayed." }
-      - { label: "Website URL", name: "url", widget: "string", hint: "Full URL including https://" }
-      - label: "Category"
-        name: "category"
-        widget: "relation"
-        collection: "linkCategories"
-        value_field: "{{slug}}"
-        search_fields: ["label"]
-        display_fields: ["label"]
-        default: "organizations"
-        hint: "Links are grouped by category on the Links page. Add new categories under '🏷️ Taxonomies → Link Categories'."
-      - { label: "Description (optional)", name: "description", widget: "text", required: false }
-      - { label: "Sort Order", name: "sortOrder", widget: "number", required: false }
-
-  # ============================================================
-  # TAXONOMIES — Categories used by Projects, Publications, Links
-  # ============================================================
-  # ⚠️ IMPORTANT: Deleting a category that is still used by a project,
-  # publication, or link will cause the site build to fail with a clear
-  # error message. Reassign or remove the referencing entries first.
-
-  - name: "projectCategories"
-    label: "🏷️ Project Categories"
-    label_singular: "Project Category"
-    description: "Categories used to group Research Projects. ⚠️ Do NOT delete a category that's still used by any project — the site will fail to build. Reassign all affected projects first."
-    folder: "src/data/project-categories"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{label}}"
-    editor:
-      preview: false
-    identifier_field: "label"
-    fields:
-      - label: "Display Label"
-        name: "label"
-        widget: "string"
-        hint: "🎯 SEO: How this category appears as a heading on the Research page. Example: 'Air & Water Pollution'."
-      - label: "Display Order"
-        name: "order"
-        widget: "number"
-        default: 99
-        hint: "Lower numbers appear first. Current categories use 1-4, and 'Other' uses 99."
-      - label: "Description (optional)"
-        name: "description"
-        widget: "text"
-        required: false
-        hint: "Internal note about what this category covers. Not shown publicly."
-
-  - name: "publicationTypes"
-    label: "🏷️ Publication Types"
-    label_singular: "Publication Type"
-    description: "Types used to group Publications (Journal Articles, Working Papers, etc.). ⚠️ Do NOT delete a type that's still used by any publication."
-    folder: "src/data/publication-types"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{label}}"
-    editor:
-      preview: false
-    identifier_field: "label"
-    fields:
-      - label: "Display Label (plural)"
-        name: "label"
-        widget: "string"
-        hint: "Section heading on the Publications page. Use plural form: 'Journal Articles', 'Working Papers'."
-      - label: "Singular Form (optional)"
-        name: "singular"
-        widget: "string"
-        required: false
-        hint: "Singular form (e.g., 'Journal Article'). Used when referring to one item."
-      - label: "Display Order"
-        name: "order"
-        widget: "number"
-        default: 99
-        hint: "Lower numbers appear first."
-
-  - name: "linkCategories"
-    label: "🏷️ Link Categories"
-    label_singular: "Link Category"
-    description: "Categories used to group External Links. ⚠️ Do NOT delete a category that's still used by any link."
-    folder: "src/data/link-categories"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{label}}"
-    editor:
-      preview: false
-    identifier_field: "label"
-    fields:
-      - label: "Display Label"
-        name: "label"
-        widget: "string"
-        hint: "Section heading on the Links page."
-      - label: "Display Order"
-        name: "order"
-        widget: "number"
-        default: 99
-        hint: "Lower numbers appear first."
-
-  # ============================================================
-  # PAGE CONTENT — All page text is editable here
+  # 📝 PAGES — Most-visited editing surface
   # ============================================================
   - name: "pages"
     label: "📝 Pages"
@@ -656,7 +219,453 @@ collections:
           - { label: "Additional Footer Text (optional)", name: "additionalText", widget: "text", required: false, hint: "Optional extra line below copyright (e.g., a disclaimer or acknowledgment)." }
 
   # ============================================================
-  # SITE SETTINGS — Core identity, rarely changes
+  # 📚 PUBLICATIONS
+  # ============================================================
+  - name: "publications"
+    label: "📚 Publications"
+    label_singular: "Publication"
+    description: "Journal articles, working papers, book chapters, and policy reports. Each publication generates its own indexed page with full citation metadata for Google Scholar. → View live listing: https://allenblackman.netlify.app/publications"
+    folder: "src/data/publications"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    summary: "{{title}} ({{year}})"
+    editor:
+      preview: false
+    sortable_fields: ["year", "title"]
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "🎯 SEO: Full title of the paper exactly as published. Appears in Google search results and is the most important field for discoverability."
+      - label: "Authors"
+        name: "authors"
+        widget: "list"
+        field: { label: "Author Full Name", name: "author", widget: "string" }
+        hint: "🎯 SEO: Each author on a separate line, in the order they appear on the paper. Use 'First Last' format consistently — Google Scholar uses these exactly as written."
+      - label: "Year"
+        name: "year"
+        widget: "number"
+        value_type: "int"
+        hint: "Publication year. Used for sorting and citation display."
+      - label: "Publication Type"
+        name: "type"
+        widget: "relation"
+        collection: "publicationTypes"
+        value_field: "{{slug}}"
+        search_fields: ["label"]
+        display_fields: ["label"]
+        default: "journal-article"
+        hint: "Publications are grouped by type on the public page. Add new types under '🏷️ Taxonomies → Publication Types'."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Published", value: "published" }
+          - { label: "Forthcoming / In Press", value: "forthcoming" }
+          - { label: "Under Review", value: "under-review" }
+        default: "published"
+        hint: "Forthcoming and under-review papers get a visible tag so readers don't mistake them for peer-reviewed work."
+      - label: "Journal / Publisher Name"
+        name: "journal"
+        widget: "string"
+        required: false
+        hint: "🎯 SEO: Full journal name (e.g., 'Journal of Environmental Economics and Management'). Indexed by Google Scholar for journal-specific searches."
+      - label: "Volume"
+        name: "volume"
+        widget: "string"
+        required: false
+        hint: "🎯 SEO: Volume number — required by Google Scholar for journal articles to be indexed correctly."
+      - label: "Issue"
+        name: "issue"
+        widget: "string"
+        required: false
+        hint: "Issue number. Optional but helpful for Scholar."
+      - label: "Pages"
+        name: "pages"
+        widget: "string"
+        required: false
+        hint: "Page range, e.g. '102-135'. Used by Google Scholar to build accurate citations."
+      - label: "DOI"
+        name: "doi"
+        widget: "string"
+        required: false
+        hint: "🎯 SEO CRITICAL: Digital Object Identifier (e.g., '10.1016/j.jeem.2024.102935') WITHOUT the 'https://doi.org/' prefix. The DOI is how Google Scholar uniquely identifies papers — always include it if available."
+      - label: "ISSN"
+        name: "issn"
+        widget: "string"
+        required: false
+        hint: "Journal's ISSN (e.g., '0095-0696'). Optional but improves Scholar's journal matching."
+      - label: "Abstract"
+        name: "abstract"
+        widget: "text"
+        required: false
+        hint: "🎯 SEO: The paper abstract. What Google shows in search results and what LLMs (ChatGPT, Claude) read. Include specific statistics — LLMs cite papers with concrete numbers 40% more often."
+      - label: "Paper PDF (main document, shown inline with preview)"
+        name: "pdfUrl"
+        widget: "file"
+        required: false
+        hint: "🎯 SEO: Upload the paper PDF (under 5 MB, text-searchable — no scanned images). It will be shown inline on the publication page with an embedded viewer, letting readers scan the paper without leaving the site. Also picked up by Google Scholar as 'citation_pdf_url'."
+      - label: "External URL (Publisher or SSRN)"
+        name: "externalUrl"
+        widget: "string"
+        required: false
+        hint: "Link to publisher page, SSRN, or another full-text location."
+      - label: "Publication Date (optional)"
+        name: "publicationDate"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        required: false
+        hint: "Exact publication date if known — Google Scholar prefers precise dates over just a year."
+      - label: "Language"
+        name: "language"
+        widget: "string"
+        default: "en"
+        required: false
+        hint: "Two-letter language code (e.g., 'en', 'es'). Helps Scholar serve the right version."
+      - label: "Topic Tags"
+        name: "tags"
+        widget: "list"
+        default: []
+        hint: "🎯 SEO: Keywords describing the paper. Appear as 'keywords' in structured data, improving topical discoverability."
+      - label: "Manual Sort Order (optional)"
+        name: "sortOrder"
+        widget: "number"
+        required: false
+        hint: "Leave blank to sort by year. Fill in a number (lower = higher) to manually promote a publication."
+      - label: "Supplementary Attachments"
+        name: "attachments"
+        widget: "list"
+        required: false
+        default: []
+        hint: "🎯 SEO: Additional materials — appendix, replication data, code, slides, press coverage. Shown as a 'Supplementary Materials' section below the paper. Each attachment is displayed as a download/external link. Adding these signals research transparency (a ranking factor for academic credibility)."
+        fields:
+          - label: "Label"
+            name: "label"
+            widget: "string"
+            hint: "What this attachment is — e.g., 'Online Appendix', 'Replication Data & Code', 'Slides', 'Press Release'."
+          - label: "File Upload (use for PDFs, ZIPs, datasets)"
+            name: "file"
+            widget: "file"
+            required: false
+            hint: "Upload a file hosted on this site. Use this OR the External URL below — not both."
+          - label: "External URL (use for GitHub, Dataverse, etc.)"
+            name: "externalUrl"
+            widget: "string"
+            required: false
+            hint: "Link to an external source (GitHub repo, Dataverse dataset, publisher page). Use this OR the File Upload above — not both."
+      - label: "Extended Notes (optional)"
+        name: "body"
+        widget: "markdown"
+        required: false
+        hint: "Optional extended notes, press coverage, or commentary."
+
+  # ============================================================
+  # ✍️ BLOG POSTS
+  # ============================================================
+  - name: "blog"
+    label: "✍️ Blog Posts"
+    label_singular: "Blog Post"
+    description: "News, commentary, and updates. Active blog posts signal to Google that your site is actively maintained — a ranking factor. → View live listing: https://allenblackman.netlify.app/blog"
+    folder: "src/data/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    summary: "{{title}} — {{pubDate}}"
+    editor:
+      preview: false
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "🎯 SEO: Post title — appears in Google search results and social shares. Aim for 50–60 characters."
+      - label: "Short Description / Summary"
+        name: "description"
+        widget: "text"
+        hint: "🎯 SEO: 1–2 sentences. Becomes the meta description Google shows in search results AND the social media preview text. Aim for 140–160 characters. Make it compelling."
+      - label: "Publish Date"
+        name: "pubDate"
+        widget: "datetime"
+        hint: "When the post was (or should be) published."
+      - label: "Last Updated (optional)"
+        name: "updatedDate"
+        widget: "datetime"
+        required: false
+        hint: "🎯 SEO: Set this if you meaningfully edit the post later. Google considers recently updated posts fresher, helping ranking."
+      - label: "Hero / Featured Image"
+        name: "heroImage"
+        widget: "image"
+        required: false
+        hint: "🎯 SEO: Shown at top of post AND in social media previews (Twitter, LinkedIn, Facebook). Use 1200×630px."
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        default: []
+        hint: "Topic tags help readers find related posts and add keywords to structured data."
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+        hint: "Check to save without publishing. Uncheck when ready."
+      - label: "Body / Content"
+        name: "body"
+        widget: "markdown"
+        hint: "🎯 SEO: Full content. Cite sources explicitly — LLMs are 30–40% more likely to surface your post when you include citations and direct quotations."
+
+  # ============================================================
+  # 🔬 RESEARCH PROJECTS
+  # ============================================================
+  - name: "projects"
+    label: "🔬 Research Projects"
+    label_singular: "Research Project"
+    description: "Active and completed research projects. Each project becomes its own page, giving search engines more content to index under your name. → View live listing: https://allenblackman.netlify.app/research"
+    folder: "src/data/projects"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    summary: "{{title}}"
+    editor:
+      preview: false
+    fields:
+      - label: "Project Title"
+        name: "title"
+        widget: "string"
+        hint: "🎯 SEO: Short, descriptive. Also the H1 heading and page title."
+      - label: "Short Description"
+        name: "description"
+        widget: "text"
+        hint: "🎯 SEO: One-sentence summary. Shown on the listing page and used as the meta description."
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "projectCategories"
+        value_field: "{{slug}}"
+        search_fields: ["label"]
+        display_fields: ["label"]
+        default: "other"
+        hint: "Projects are grouped by category on the Research page. Add new categories under '🏷️ Taxonomies → Project Categories'."
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Active", value: "active" }
+          - { label: "Completed", value: "completed" }
+        default: "active"
+        hint: "Appears as a visible tag on the project."
+      - label: "Collaborators"
+        name: "collaborators"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Institution (optional)", name: "institution", widget: "string", required: false }
+        hint: "🎯 SEO: Co-author names become indexed text — helps when people search for 'Allen Blackman + [collaborator]'."
+      - label: "Funding Source"
+        name: "funding"
+        widget: "string"
+        required: false
+        hint: "Who funded this research. Appears on the project page and signals credibility."
+      - label: "Project Image"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "Sort Order (optional)"
+        name: "sortOrder"
+        widget: "number"
+        required: false
+        hint: "Lower numbers appear higher within the category."
+      - label: "Full Project Description"
+        name: "body"
+        widget: "markdown"
+        hint: "🎯 SEO: Extended description. More content here = more text for search engines to index. Include links to related publications."
+      - label: "Featured Document (main PDF shown inline)"
+        name: "featuredDocument"
+        widget: "file"
+        required: false
+        hint: "🎯 SEO: Upload the main document for this project — typically a policy brief, project report, or white paper. It will be shown inline with a PDF viewer on the project page (same behavior as the CV page). This is prime SEO content: readers stay longer, Google indexes the document."
+      - label: "Featured Document Label"
+        name: "featuredDocumentLabel"
+        widget: "string"
+        required: false
+        hint: "Heading shown above the document. Default: 'Featured Document'. Use something descriptive like 'Policy Brief' or 'Project Report'."
+      - label: "Featured Document Description"
+        name: "featuredDocumentDescription"
+        widget: "text"
+        required: false
+        hint: "Optional short description shown above the document preview."
+      - label: "Related Publications"
+        name: "relatedPublications"
+        widget: "relation"
+        collection: "publications"
+        value_field: "{{slug}}"
+        search_fields: ["title", "authors"]
+        display_fields: ["title", "year"]
+        multiple: true
+        required: false
+        hint: "🎯 SEO: Papers that came out of this project. Shown as a clickable list on the project page. Cross-linking between research and publications boosts both pages' SEO (Google values internal links)."
+      - label: "Additional Resources / Attachments"
+        name: "attachments"
+        widget: "list"
+        required: false
+        default: []
+        hint: "Other files or links — data, code repositories, presentations, press coverage. Shown as a 'Resources' section on the project page."
+        fields:
+          - label: "Label"
+            name: "label"
+            widget: "string"
+            hint: "Display name, e.g., 'Replication Data', 'GitHub Repository', 'Project Slides'."
+          - label: "File Upload"
+            name: "file"
+            widget: "file"
+            required: false
+            hint: "Upload a file. Use this OR the External URL below — not both."
+          - label: "External URL"
+            name: "externalUrl"
+            widget: "string"
+            required: false
+            hint: "Link to an external resource. Use this OR File Upload above — not both."
+
+  # ============================================================
+  # 🛠️ WEBTOOLS
+  # ============================================================
+  - name: "webtools"
+    label: "🛠️ Webtools"
+    label_singular: "Webtool"
+    description: "Interactive tools you've developed. These differentiate your portfolio from typical academic sites. → View live listing: https://allenblackman.netlify.app/webtools"
+    folder: "src/data/webtools"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    summary: "{{title}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Tool Name", name: "title", widget: "string", hint: "🎯 SEO: Full name of the tool, e.g. 'Forest Conservation Targeting Tool (FCTT)'." }
+      - { label: "Short Description", name: "description", widget: "text", hint: "🎯 SEO: 1–2 sentences explaining what the tool does. Shown on the Webtools page and used as meta description." }
+      - { label: "Tool URL", name: "url", widget: "string", hint: "External link where users launch the tool. Opens in a new tab." }
+      - { label: "Screenshot or Logo", name: "image", widget: "image", required: false }
+      - { label: "Funding Source", name: "funding", widget: "string", required: false }
+      - { label: "Sort Order", name: "sortOrder", widget: "number", required: false, hint: "Lower = higher on the page." }
+      - { label: "Extended Description", name: "body", widget: "markdown", required: false, hint: "Additional context: methodology, use cases, notable projects that have used it." }
+
+  # ============================================================
+  # 🔗 EXTERNAL LINKS
+  # ============================================================
+  - name: "links"
+    label: "🔗 External Links"
+    label_singular: "Link"
+    description: "Curated directory of organizations and networks. Establishes the site as a useful resource. → View live listing: https://allenblackman.netlify.app/links"
+    folder: "src/data/links"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    summary: "{{title}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Organization Name", name: "title", widget: "string", hint: "Full name as you want it displayed." }
+      - { label: "Website URL", name: "url", widget: "string", hint: "Full URL including https://" }
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "linkCategories"
+        value_field: "{{slug}}"
+        search_fields: ["label"]
+        display_fields: ["label"]
+        default: "organizations"
+        hint: "Links are grouped by category on the Links page. Add new categories under '🏷️ Taxonomies → Link Categories'."
+      - { label: "Description (optional)", name: "description", widget: "text", required: false }
+      - { label: "Sort Order", name: "sortOrder", widget: "number", required: false }
+
+  # ============================================================
+  # 🏷️ TAXONOMIES — Categories used by Projects, Publications, Links
+  # ============================================================
+  # ⚠️ IMPORTANT: Deleting a category that is still used by a project,
+  # publication, or link will cause the site build to fail with a clear
+  # error message. Reassign or remove the referencing entries first.
+
+  - name: "projectCategories"
+    label: "🏷️ Project Categories"
+    label_singular: "Project Category"
+    description: "Categories used to group Research Projects. ⚠️ Do NOT delete a category that's still used by any project — the site will fail to build. Reassign all affected projects first."
+    folder: "src/data/project-categories"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    summary: "{{label}}"
+    editor:
+      preview: false
+    identifier_field: "label"
+    fields:
+      - label: "Display Label"
+        name: "label"
+        widget: "string"
+        hint: "🎯 SEO: How this category appears as a heading on the Research page. Example: 'Air & Water Pollution'."
+      - label: "Display Order"
+        name: "order"
+        widget: "number"
+        default: 99
+        hint: "Lower numbers appear first. Current categories use 1-4, and 'Other' uses 99."
+      - label: "Description (optional)"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "Internal note about what this category covers. Not shown publicly."
+
+  - name: "publicationTypes"
+    label: "🏷️ Publication Types"
+    label_singular: "Publication Type"
+    description: "Types used to group Publications (Journal Articles, Working Papers, etc.). ⚠️ Do NOT delete a type that's still used by any publication."
+    folder: "src/data/publication-types"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    summary: "{{label}}"
+    editor:
+      preview: false
+    identifier_field: "label"
+    fields:
+      - label: "Display Label (plural)"
+        name: "label"
+        widget: "string"
+        hint: "Section heading on the Publications page. Use plural form: 'Journal Articles', 'Working Papers'."
+      - label: "Singular Form (optional)"
+        name: "singular"
+        widget: "string"
+        required: false
+        hint: "Singular form (e.g., 'Journal Article'). Used when referring to one item."
+      - label: "Display Order"
+        name: "order"
+        widget: "number"
+        default: 99
+        hint: "Lower numbers appear first."
+
+  - name: "linkCategories"
+    label: "🏷️ Link Categories"
+    label_singular: "Link Category"
+    description: "Categories used to group External Links. ⚠️ Do NOT delete a category that's still used by any link."
+    folder: "src/data/link-categories"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    summary: "{{label}}"
+    editor:
+      preview: false
+    identifier_field: "label"
+    fields:
+      - label: "Display Label"
+        name: "label"
+        widget: "string"
+        hint: "Section heading on the Links page."
+      - label: "Display Order"
+        name: "order"
+        widget: "number"
+        default: 99
+        hint: "Lower numbers appear first."
+
+  # ============================================================
+  # ⚙️ SITE SETTINGS — Core identity, rarely changes
   # ============================================================
   - name: "settings"
     label: "⚙️ Site Settings"
@@ -715,16 +724,17 @@ collections:
       - label: "🧭 Navigation (structural metadata)"
         name: "sections"
         file: "src/data/settings/sections.json"
-        description: "Bird's-eye view of site navigation structure. The visibility toggle and display order for each page now live in Pages → [page name] → 👁️ Show in navigation. Use this view only to rename labels or update structural metadata."
+        description: "⚠️ Advanced. Read-only list of the site's built-in pages. You CANNOT add new pages here — pages are defined in code. To hide a page from the nav or reorder it, edit the page's own entry under 📝 Pages → 👁️ Show in navigation. The only field worth editing here is the Navigation Label (e.g., rename 'Home' to 'Start')."
         fields:
           - label: "Sections"
             name: "sections"
             widget: "list"
-            hint: "One entry per top-level page. To hide a page from the nav or reorder it, edit the page's own entry under 📝 Pages."
+            allow_add: false
+            hint: "🔒 Locked list — add/remove requires a developer. To hide/show a page in the nav, edit the page under 📝 Pages."
             fields:
-              - { label: "ID (do not change)", name: "id", widget: "string", hint: "Internal identifier — don't change this." }
-              - { label: "Navigation Label", name: "label", widget: "string", hint: "How this appears in the nav menu." }
-              - { label: "URL Path (do not change)", name: "path", widget: "string", hint: "Path on the site — changing this without renaming the page file will break the link." }
+              - { label: "ID (do not change)", name: "id", widget: "string", hint: "🔒 Internal identifier — DO NOT change this. Breaking it will hide the page from the site." }
+              - { label: "Navigation Label", name: "label", widget: "string", hint: "The text shown in the nav menu. Safe to rename (e.g., 'Home' → 'Start')." }
+              - { label: "URL Path (do not change)", name: "path", widget: "string", hint: "🔒 URL path — DO NOT change. Changing this without renaming the page file in code will break the link." }
           - { label: "Show CV Download Button", name: "showCvDownload", widget: "boolean", default: true }
           - { label: "CV File (PDF)", name: "cvFile", widget: "file", required: false, hint: "Upload as PDF. Update this whenever your CV changes." }
 
