@@ -1,12 +1,12 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import WebtoolCard from '../components/WebtoolCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebtoolCard from '../../components/WebtoolCard.astro';
 import { getCollection } from 'astro:content';
-import { getSettings } from '../lib/utils';
+import { getSettings } from '../../lib/utils';
 
 const { webtoolsPage } = getSettings();
 
-const allTools = await getCollection('webtools');
+const allTools = await getCollection('webtools', ({ data }) => !data.archived);
 const sorted = allTools.sort((a, b) => {
   if (a.data.sortOrder !== undefined && b.data.sortOrder !== undefined) {
     return a.data.sortOrder - b.data.sortOrder;
@@ -29,6 +29,7 @@ const sorted = allTools.sort((a, b) => {
 
   {sorted.map((tool) => (
     <WebtoolCard
+      id={tool.id}
       title={tool.data.title}
       description={tool.data.description}
       url={tool.data.url}

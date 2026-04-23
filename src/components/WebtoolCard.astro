@@ -1,5 +1,6 @@
 ---
 interface Props {
+  id: string;
   title: string;
   description: string;
   url: string;
@@ -7,17 +8,18 @@ interface Props {
   funding?: string;
 }
 
-const { title, description, url, image, funding } = Astro.props;
+const { id, title, description, url, image, funding } = Astro.props;
 ---
 
 <article class="card">
   {image && (
     <img src={image} alt={`${title} screenshot`} style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 3px; margin-bottom: 0.75rem;" loading="lazy" />
   )}
-  <h3><a href={url} target="_blank" rel="noopener noreferrer">{title}</a></h3>
+  <h3><a href={`/webtools/${id}`}>{title}</a></h3>
   <p>{description}</p>
   {funding && <p class="meta">Funded by: {funding}</p>}
   <div class="pub-links">
     <a href={url} target="_blank" rel="noopener noreferrer">Launch Tool &rarr;</a>
+    <a href={`/webtools/${id}`}>Details</a>
   </div>
 </article>

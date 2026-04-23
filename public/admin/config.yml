@@ -232,6 +232,11 @@ collections:
       preview: false
     sortable_fields: ["year", "title"]
     fields:
+      - label: "📦 Archived (hide from Publications listing)"
+        name: "archived"
+        widget: "boolean"
+        default: false
+        hint: "Check to remove this publication from the public Publications page. The URL still works, so existing bookmarks and inbound links stay valid — it's just unlisted."
       - label: "Title"
         name: "title"
         widget: "string"
@@ -354,6 +359,45 @@ collections:
             widget: "string"
             required: false
             hint: "Link to an external source (GitHub repo, Dataverse dataset, publisher page). Use this OR the File Upload above — not both."
+
+      # Cross-links to other content types
+      - label: "🔗 Related Research Projects"
+        name: "relatedResearch"
+        widget: "relation"
+        collection: "projects"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick research projects to show in a 'Related Research' section on this publication's page. One-directional — to also show this publication on the project page, add it there too."
+      - label: "🔗 Related Webtools"
+        name: "relatedWebtools"
+        widget: "relation"
+        collection: "webtools"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick webtools to show in a 'Related Webtools' section on this publication's page."
+      - label: "🔗 Related Blog Posts"
+        name: "relatedBlog"
+        widget: "relation"
+        collection: "blog"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick blog posts to show in a 'Related Blog Posts' section on this publication's page."
+      - { label: "👁️ Show 'Related Research' section on public page", name: "showLinkedResearch", widget: "boolean", default: true, hint: "Uncheck to hide the Related Research section even if links are selected above." }
+      - { label: "👁️ Show 'Related Webtools' section on public page", name: "showLinkedWebtools", widget: "boolean", default: true }
+      - { label: "👁️ Show 'Related Blog Posts' section on public page", name: "showLinkedBlog", widget: "boolean", default: true }
+
       - label: "Extended Notes (optional)"
         name: "body"
         widget: "markdown"
@@ -375,6 +419,11 @@ collections:
     editor:
       preview: false
     fields:
+      - label: "📦 Archived (hide from Blog listing)"
+        name: "archived"
+        widget: "boolean"
+        default: false
+        hint: "Check to remove this post from the public Blog page. URL still works."
       - label: "Title"
         name: "title"
         widget: "string"
@@ -407,6 +456,45 @@ collections:
         widget: "boolean"
         default: false
         hint: "Check to save without publishing. Uncheck when ready."
+
+      # Cross-links to other content types
+      - label: "🔗 Related Research Projects"
+        name: "relatedResearch"
+        widget: "relation"
+        collection: "projects"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick research projects to show in a 'Related Research' section on this blog post's page."
+      - label: "🔗 Related Publications"
+        name: "relatedPublications"
+        widget: "relation"
+        collection: "publications"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick publications to show in a 'Related Publications' section on this blog post's page."
+      - label: "🔗 Related Webtools"
+        name: "relatedWebtools"
+        widget: "relation"
+        collection: "webtools"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick webtools to show in a 'Related Webtools' section on this blog post's page."
+      - { label: "👁️ Show 'Related Research' section on public page", name: "showLinkedResearch", widget: "boolean", default: true }
+      - { label: "👁️ Show 'Related Publications' section on public page", name: "showLinkedPublications", widget: "boolean", default: true }
+      - { label: "👁️ Show 'Related Webtools' section on public page", name: "showLinkedWebtools", widget: "boolean", default: true }
+
       - label: "Body / Content"
         name: "body"
         widget: "markdown"
@@ -427,6 +515,11 @@ collections:
     editor:
       preview: false
     fields:
+      - label: "📦 Archived (hide from Research listing)"
+        name: "archived"
+        widget: "boolean"
+        default: false
+        hint: "Check to remove this project from the public Research page. URL still works."
       - label: "Project Title"
         name: "title"
         widget: "string"
@@ -494,7 +587,8 @@ collections:
         widget: "text"
         required: false
         hint: "Optional short description shown above the document preview."
-      - label: "Related Publications"
+      # Cross-links to other content types
+      - label: "🔗 Related Publications"
         name: "relatedPublications"
         widget: "relation"
         collection: "publications"
@@ -503,7 +597,33 @@ collections:
         display_fields: ["title", "year"]
         multiple: true
         required: false
-        hint: "🎯 SEO: Papers that came out of this project. Shown as a clickable list on the project page. Cross-linking between research and publications boosts both pages' SEO (Google values internal links)."
+        default: []
+        hint: "🎯 SEO: Papers that came out of this project. Shown as a clickable list on the project page. Cross-linking between research and publications boosts both pages' SEO."
+      - label: "🔗 Related Webtools"
+        name: "relatedWebtools"
+        widget: "relation"
+        collection: "webtools"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick webtools to show in a 'Related Webtools' section on this project's page."
+      - label: "🔗 Related Blog Posts"
+        name: "relatedBlog"
+        widget: "relation"
+        collection: "blog"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick blog posts to show in a 'Related Blog Posts' section on this project's page."
+      - { label: "👁️ Show 'Related Publications' section on public page", name: "showLinkedPublications", widget: "boolean", default: true }
+      - { label: "👁️ Show 'Related Webtools' section on public page", name: "showLinkedWebtools", widget: "boolean", default: true }
+      - { label: "👁️ Show 'Related Blog Posts' section on public page", name: "showLinkedBlog", widget: "boolean", default: true }
       - label: "Additional Resources / Attachments"
         name: "attachments"
         widget: "list"
@@ -541,6 +661,7 @@ collections:
     editor:
       preview: false
     fields:
+      - { label: "📦 Archived (hide from Webtools listing)", name: "archived", widget: "boolean", default: false, hint: "Check to remove this tool from the public Webtools page. URL still works." }
       - { label: "Tool Name", name: "title", widget: "string", hint: "🎯 SEO: Full name of the tool, e.g. 'Forest Conservation Targeting Tool (FCTT)'." }
       - { label: "Short Description", name: "description", widget: "text", hint: "🎯 SEO: 1–2 sentences explaining what the tool does. Shown on the Webtools page and used as meta description." }
       - { label: "Tool URL", name: "url", widget: "string", hint: "External link where users launch the tool. Opens in a new tab." }
@@ -548,6 +669,44 @@ collections:
       - { label: "Funding Source", name: "funding", widget: "string", required: false }
       - { label: "Sort Order", name: "sortOrder", widget: "number", required: false, hint: "Lower = higher on the page." }
       - { label: "Extended Description", name: "body", widget: "markdown", required: false, hint: "Additional context: methodology, use cases, notable projects that have used it." }
+
+      # Cross-links to other content types
+      - label: "🔗 Related Research Projects"
+        name: "relatedResearch"
+        widget: "relation"
+        collection: "projects"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick research projects to show in a 'Related Research' section on this tool's page."
+      - label: "🔗 Related Publications"
+        name: "relatedPublications"
+        widget: "relation"
+        collection: "publications"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick publications to show in a 'Related Publications' section on this tool's page."
+      - label: "🔗 Related Blog Posts"
+        name: "relatedBlog"
+        widget: "relation"
+        collection: "blog"
+        value_field: "{{slug}}"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        multiple: true
+        required: false
+        default: []
+        hint: "Pick blog posts to show in a 'Related Blog Posts' section on this tool's page."
+      - { label: "👁️ Show 'Related Research' section on public page", name: "showLinkedResearch", widget: "boolean", default: true }
+      - { label: "👁️ Show 'Related Publications' section on public page", name: "showLinkedPublications", widget: "boolean", default: true }
+      - { label: "👁️ Show 'Related Blog Posts' section on public page", name: "showLinkedBlog", widget: "boolean", default: true }
 
   # ============================================================
   # 🔗 EXTERNAL LINKS
@@ -564,6 +723,7 @@ collections:
     editor:
       preview: false
     fields:
+      - { label: "📦 Archived (hide from Links page)", name: "archived", widget: "boolean", default: false, hint: "Check to remove this link from the public Links page." }
       - { label: "Organization Name", name: "title", widget: "string", hint: "Full name as you want it displayed." }
       - { label: "Website URL", name: "url", widget: "string", hint: "Full URL including https://" }
       - label: "Category"

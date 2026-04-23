@@ -1,0 +1,40 @@
+---
+/**
+ * Generic renderer for a "Related X" section on detail pages.
+ *
+ * Takes a pre-resolved array of entries (the caller is responsible for
+ * looking them up from a collection and filtering out archived ones).
+ * Renders nothing if the list is empty.
+ */
+interface RelatedEntry {
+  id: string;
+  title: string;
+  href: string;
+  subtitle?: string;
+}
+
+interface Props {
+  heading: string;
+  entries: RelatedEntry[];
+}
+
+const { heading, entries } = Astro.props;
+---
+
+{entries.length > 0 && (
+  <section style="margin-top: 2rem;">
+    <h2>{heading}</h2>
+    <ul style="padding-left: 1.5rem;">
+      {entries.map((e) => (
+        <li style="margin-bottom: 0.4rem;">
+          <a href={e.href}>{e.title}</a>
+          {e.subtitle && (
+            <span style="color: var(--color-text-muted); font-size: 0.9rem;">
+              {' — '}{e.subtitle}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

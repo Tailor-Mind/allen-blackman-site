@@ -4,7 +4,8 @@ import CitationMeta from '../../components/CitationMeta.astro';
 import JsonLd from '../../components/JsonLd.astro';
 import PdfPreview from '../../components/PdfPreview.astro';
 import AttachmentsList from '../../components/AttachmentsList.astro';
-import { getCollection, render } from 'astro:content';
+import RelatedEntriesList from '../../components/RelatedEntriesList.astro';
+import { getCollection, getEntry, render } from 'astro:content';
 import { getSettings, parsePages } from '../../lib/utils';
 
 export async function getStaticPaths() {
@@ -71,6 +72,29 @@ const description = pub.data.abstract
   : `${pub.data.title} by ${pub.data.authors.join(', ')} (${pub.data.year})`;
 
 const hasPdf = !!pub.data.pdfUrl && pub.data.pdfUrl.toLowerCase().endsWith('.pdf');
+
+// Resolve related entries, filtering out archived
+async function resolveEntries<C extends 'projects' | 'webtools' | 'blog'>(
+  collectionName: C,
+  ids: string[]
+) {
+  const resolved = await Promise.all(
+    ids.map((id) => getEntry(collectionName, id))
+  );
+  return resolved.filter(
+    (e): e is NonNullable<typeof e> => !!e && !e.data.archived
+  );
+}
+
+const relatedResearch = pub.data.showLinkedResearch
+  ? await resolveEntries('projects', pub.data.relatedResearch)
+  : [];
+const relatedWebtools = pub.data.showLinkedWebtools
+  ? await resolveEntries('webtools', pub.data.relatedWebtools)
+  : [];
+const relatedBlog = pub.data.showLinkedBlog
+  ? await resolveEntries('blog', pub.data.relatedBlog)
+  : [];
 ---
 
 <BaseLayout title={pub.data.title} description={description} type="article">
@@ -145,6 +169,34 @@ const hasPdf = !!pub.data.pdfUrl && pub.data.pdfUrl.toLowerCase().endsWith('.pdf
     {pub.data.attachments && pub.data.attachments.length > 0 && (
       <AttachmentsList attachments={pub.data.attachments} heading="Supplementary Materials" />
     )}
+
+    <RelatedEntriesList
+      heading="Related Research"
+      entries={relatedResearch.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/research/${p.id}`,
+      }))}
+    />
+
+    <RelatedEntriesList
+      heading="Related Webtools"
+      entries={relatedWebtools.map((w) => ({
+        id: w.id,
+        title: w.data.title,
+        href: `/webtools/${w.id}`,
+      }))}
+    />
+
+    <RelatedEntriesList
+      heading="Related Blog Posts"
+      entries={relatedBlog.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/blog/${p.id}`,
+        subtitle: p.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      }))}
+    />
 
     {pub.data.tags && pub.data.tags.length > 0 && (
       <div style="margin-top: 1.5rem;">

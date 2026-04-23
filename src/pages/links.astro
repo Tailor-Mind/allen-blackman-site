@@ -6,7 +6,7 @@ import { getSettings, validateCategoryReferences } from '../lib/utils';
 
 const { linksPage } = getSettings();
 
-const allLinks = await getCollection('links');
+const allLinks = await getCollection('links', ({ data }) => !data.archived);
 const categories = await getCollection('linkCategories');
 
 // Fail build if any link references a deleted category

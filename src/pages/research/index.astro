@@ -6,7 +6,7 @@ import { getSettings, validateCategoryReferences } from '../../lib/utils';
 
 const { researchPage } = getSettings();
 
-const allProjects = await getCollection('projects');
+const allProjects = await getCollection('projects', ({ data }) => !data.archived);
 const categories = await getCollection('projectCategories');
 
 // Fail build if any project references a deleted category

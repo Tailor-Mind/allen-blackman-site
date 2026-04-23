@@ -6,7 +6,7 @@ import { getSettings, validateCategoryReferences } from '../../lib/utils';
 
 const { publicationsPage } = getSettings();
 
-const allPubs = await getCollection('publications');
+const allPubs = await getCollection('publications', ({ data }) => !data.archived);
 const types = await getCollection('publicationTypes');
 
 // Fail build if any publication references a deleted type

@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PdfPreview from '../../components/PdfPreview.astro';
 import AttachmentsList from '../../components/AttachmentsList.astro';
+import RelatedEntriesList from '../../components/RelatedEntriesList.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -19,14 +20,28 @@ const { Content } = await render(project);
 const categoryEntry = await getEntry('projectCategories', project.data.category);
 const categoryLabel = categoryEntry?.data.label || project.data.category;
 
-// Look up related publications
-const relatedPubs = [];
-if (project.data.relatedPublications && project.data.relatedPublications.length > 0) {
-  for (const pubId of project.data.relatedPublications) {
-    const pub = await getEntry('publications', pubId);
-    if (pub) relatedPubs.push(pub);
-  }
+// Resolve related entries, filtering out archived
+async function resolveEntries<C extends 'publications' | 'webtools' | 'blog'>(
+  collectionName: C,
+  ids: string[]
+) {
+  const resolved = await Promise.all(
+    ids.map((id) => getEntry(collectionName, id))
+  );
+  return resolved.filter(
+    (e): e is NonNullable<typeof e> => !!e && !e.data.archived
+  );
 }
+
+const relatedPubs = project.data.showLinkedPublications
+  ? await resolveEntries('publications', project.data.relatedPublications)
+  : [];
+const relatedWebtools = project.data.showLinkedWebtools
+  ? await resolveEntries('webtools', project.data.relatedWebtools)
+  : [];
+const relatedBlog = project.data.showLinkedBlog
+  ? await resolveEntries('blog', project.data.relatedBlog)
+  : [];
 
 const featuredIsPdf =
   !!project.data.featuredDocument &&
@@ -81,21 +96,34 @@ const featuredIsPdf =
       </section>
     )}
 
-    {relatedPubs.length > 0 && (
-      <section style="margin-top: 2rem;">
-        <h2>Related Publications</h2>
-        <ul style="padding-left: 1.5rem;">
-          {relatedPubs.map((pub) => (
-            <li style="margin-bottom: 0.4rem;">
-              <a href={`/publications/${pub.id}`}>{pub.data.title}</a>
-              <span style="color: var(--color-text-muted); font-size: 0.9rem;">
-                {' — '}{pub.data.authors.join(', ')} ({pub.data.year})
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
+    <RelatedEntriesList
+      heading="Related Publications"
+      entries={relatedPubs.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/publications/${p.id}`,
+        subtitle: `${p.data.authors.join(', ')} (${p.data.year})`,
+      }))}
+    />
+
+    <RelatedEntriesList
+      heading="Related Webtools"
+      entries={relatedWebtools.map((w) => ({
+        id: w.id,
+        title: w.data.title,
+        href: `/webtools/${w.id}`,
+      }))}
+    />
+
+    <RelatedEntriesList
+      heading="Related Blog Posts"
+      entries={relatedBlog.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/blog/${p.id}`,
+        subtitle: p.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      }))}
+    />
 
     {project.data.attachments && project.data.attachments.length > 0 && (
       <AttachmentsList attachments={project.data.attachments} heading="Resources" />

@@ -4,10 +4,10 @@ import general from '../data/settings/general.json';
 import social from '../data/settings/social.json';
 
 export const GET: APIRoute = async ({ site }) => {
-  const pubs = await getCollection('publications');
-  const projects = await getCollection('projects');
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  const tools = await getCollection('webtools');
+  const pubs = await getCollection('publications', ({ data }) => !data.archived);
+  const projects = await getCollection('projects', ({ data }) => !data.archived);
+  const posts = await getCollection('blog', ({ data }) => !data.draft && !data.archived);
+  const tools = await getCollection('webtools', ({ data }) => !data.archived);
 
   const baseUrl = site?.href.replace(/\/$/, '') || '';
 

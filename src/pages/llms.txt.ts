@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import general from '../data/settings/general.json';
 
 export const GET: APIRoute = async ({ site }) => {
-  const pubs = await getCollection('publications');
+  const pubs = await getCollection('publications', ({ data }) => !data.archived);
   const sortedPubs = pubs
     .sort((a, b) => b.data.year - a.data.year)
     .slice(0, 10);

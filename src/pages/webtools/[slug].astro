@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RelatedEntriesList from '../../components/RelatedEntriesList.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('webtools');
+  return tools.map((tool) => ({
+    params: { slug: tool.id },
+    props: { tool },
+  }));
+}
+
+const { tool } = Astro.props;
+const { Content } = await render(tool);
+
+// Resolve related entries, filtering out archived
+async function resolveEntries<T extends { data: { archived?: boolean } }>(
+  collectionName: 'projects' | 'publications' | 'blog',
+  ids: string[]
+) {
+  const resolved = await Promise.all(
+    ids.map((id) => getEntry(collectionName, id))
+  );
+  return resolved
+    .filter((e): e is NonNullable<typeof e> => !!e && !e.data.archived);
+}
+
+const relatedResearch = tool.data.showLinkedResearch
+  ? await resolveEntries('projects', tool.data.relatedResearch)
+  : [];
+const relatedPublications = tool.data.showLinkedPublications
+  ? await resolveEntries('publications', tool.data.relatedPublications)
+  : [];
+const relatedBlog = tool.data.showLinkedBlog
+  ? await resolveEntries('blog', tool.data.relatedBlog)
+  : [];
+---
+
+<BaseLayout title={tool.data.title} description={tool.data.description}>
+  <article>
+    <p style="margin-bottom: 1rem;"><a href="/webtools">&larr; All Webtools</a></p>
+
+    <h1>{tool.data.title}</h1>
+
+    {tool.data.image && (
+      <img
+        src={tool.data.image}
+        alt={`${tool.data.title} screenshot`}
+        style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 4px; margin: 1rem 0;"
+        loading="lazy"
+      />
+    )}
+
+    <p>{tool.data.description}</p>
+
+    <div class="pub-links" style="margin: 1.25rem 0;">
+      <a href={tool.data.url} class="btn" target="_blank" rel="noopener noreferrer">
+        Launch Tool &rarr;
+      </a>
+    </div>
+
+    {tool.data.funding && (
+      <p class="meta"><strong>Funded by:</strong> {tool.data.funding}</p>
+    )}
+
+    {tool.body && (
+      <section class="prose" style="margin-top: 1.5rem;">
+        <Content />
+      </section>
+    )}
+
+    <RelatedEntriesList
+      heading="Related Research"
+      entries={relatedResearch.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/research/${p.id}`,
+      }))}
+    />
+
+    <RelatedEntriesList
+      heading="Related Publications"
+      entries={relatedPublications.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/publications/${p.id}`,
+        subtitle: `${p.data.authors.join(', ')} (${p.data.year})`,
+      }))}
+    />
+
+    <RelatedEntriesList
+      heading="Related Blog Posts"
+      entries={relatedBlog.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/blog/${p.id}`,
+        subtitle: p.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      }))}
+    />
+  </article>
+</BaseLayout>

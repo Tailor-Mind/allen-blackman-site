@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import JsonLd from '../../components/JsonLd.astro';
-import { getCollection, render } from 'astro:content';
+import RelatedEntriesList from '../../components/RelatedEntriesList.astro';
+import { getCollection, getEntry, render } from 'astro:content';
 import { getSettings } from '../../lib/utils';
 
 export async function getStaticPaths() {
@@ -21,6 +22,29 @@ const dateStr = post.data.pubDate.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+
+// Resolve related entries, filtering out archived
+async function resolveEntries<C extends 'projects' | 'publications' | 'webtools'>(
+  collectionName: C,
+  ids: string[]
+) {
+  const resolved = await Promise.all(
+    ids.map((id) => getEntry(collectionName, id))
+  );
+  return resolved.filter(
+    (e): e is NonNullable<typeof e> => !!e && !e.data.archived
+  );
+}
+
+const relatedResearch = post.data.showLinkedResearch
+  ? await resolveEntries('projects', post.data.relatedResearch)
+  : [];
+const relatedPublications = post.data.showLinkedPublications
+  ? await resolveEntries('publications', post.data.relatedPublications)
+  : [];
+const relatedWebtools = post.data.showLinkedWebtools
+  ? await resolveEntries('webtools', post.data.relatedWebtools)
+  : [];
 
 const blogPostSchema = {
   '@context': 'https://schema.org',
@@ -79,6 +103,34 @@ const blogPostSchema = {
     <section class="prose" style="margin-top: 1.5rem;">
       <Content />
     </section>
+
+    <RelatedEntriesList
+      heading="Related Research"
+      entries={relatedResearch.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/research/${p.id}`,
+      }))}
+    />
+
+    <RelatedEntriesList
+      heading="Related Publications"
+      entries={relatedPublications.map((p) => ({
+        id: p.id,
+        title: p.data.title,
+        href: `/publications/${p.id}`,
+        subtitle: `${p.data.authors.join(', ')} (${p.data.year})`,
+      }))}
+    />
+
+    <RelatedEntriesList
+      heading="Related Webtools"
+      entries={relatedWebtools.map((w) => ({
+        id: w.id,
+        title: w.data.title,
+        href: `/webtools/${w.id}`,
+      }))}
+    />
 
     {post.data.tags && post.data.tags.length > 0 && (
       <div style="margin-top: 2rem;">

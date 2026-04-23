@@ -23,6 +23,14 @@ const blog = defineCollection({
     heroImage: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    archived: z.boolean().default(false),
+    // Cross-collection relationships (one-directional; edit the reverse manually if needed)
+    relatedResearch: z.array(z.string()).default([]),
+    relatedPublications: z.array(z.string()).default([]),
+    relatedWebtools: z.array(z.string()).default([]),
+    showLinkedResearch: z.boolean().default(true),
+    showLinkedPublications: z.boolean().default(true),
+    showLinkedWebtools: z.boolean().default(true),
   }),
 });
 
@@ -56,6 +64,14 @@ const publications = defineCollection({
         })
       )
       .default([]),
+    archived: z.boolean().default(false),
+    // Cross-collection relationships
+    relatedResearch: z.array(z.string()).default([]),
+    relatedWebtools: z.array(z.string()).default([]),
+    relatedBlog: z.array(z.string()).default([]),
+    showLinkedResearch: z.boolean().default(true),
+    showLinkedWebtools: z.boolean().default(true),
+    showLinkedBlog: z.boolean().default(true),
   }),
 });
 
@@ -89,7 +105,14 @@ const projects = defineCollection({
         })
       )
       .default([]),
+    archived: z.boolean().default(false),
+    // Cross-collection relationships
     relatedPublications: z.array(z.string()).default([]),
+    relatedWebtools: z.array(z.string()).default([]),
+    relatedBlog: z.array(z.string()).default([]),
+    showLinkedPublications: z.boolean().default(true),
+    showLinkedWebtools: z.boolean().default(true),
+    showLinkedBlog: z.boolean().default(true),
   }),
 });
 
@@ -102,6 +125,14 @@ const webtools = defineCollection({
     image: z.string().optional(),
     funding: z.string().optional(),
     sortOrder: z.number().optional(),
+    archived: z.boolean().default(false),
+    // Cross-collection relationships
+    relatedResearch: z.array(z.string()).default([]),
+    relatedPublications: z.array(z.string()).default([]),
+    relatedBlog: z.array(z.string()).default([]),
+    showLinkedResearch: z.boolean().default(true),
+    showLinkedPublications: z.boolean().default(true),
+    showLinkedBlog: z.boolean().default(true),
   }),
 });
 
@@ -113,6 +144,7 @@ const links = defineCollection({
     category: z.string().default('organizations'),
     description: z.string().optional(),
     sortOrder: z.number().optional(),
+    archived: z.boolean().default(false),
   }),
 });
 
