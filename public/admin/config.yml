@@ -102,27 +102,20 @@ collections:
             hint: "Each entry becomes a bullet point."
           - { label: "CV Download Button Label", name: "cvButtonLabel", widget: "string", required: false, hint: "Text shown on the CV download button. Default: 'Download Full CV (PDF)'." }
 
-      - label: "📬 Contact Page"
-        name: "contact"
-        file: "src/data/settings/contact.json"
-        description: "Contact information — update this if you change institutions. → View live: https://allenblackman.netlify.app/contact"
+      - label: "📄 CV Page"
+        name: "cv-page"
+        file: "src/data/settings/cv-page.json"
+        description: "The Curriculum Vitae page — shows the CV PDF inline with download options. To upload the actual CV file, go to Settings → Navigation → CV File. → View live: https://allenblackman.netlify.app/cv"
         fields:
-          - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'Contact' link from the nav menu. The page URL still works." }
+          - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'CV' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
-          - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Contact'." }
-          - { label: "Meta Description Override (optional)", name: "metaDescription", widget: "text", required: false }
-          - { label: "Address Section Label", name: "addressHeading", widget: "string", hint: "Label for the address block. Default: 'Address'." }
-          - { label: "Phone Section Label", name: "phoneHeading", widget: "string", hint: "Default: 'Phone'." }
-          - { label: "Email Section Label", name: "emailHeading", widget: "string", hint: "Default: 'Email'." }
-          - { label: "Organization Name", name: "organizationName", widget: "string" }
-          - { label: "Department / Unit", name: "departmentName", widget: "string", required: false }
-          - { label: "Street Address", name: "streetAddress", widget: "string" }
-          - { label: "City", name: "city", widget: "string" }
-          - { label: "State / Region", name: "region", widget: "string" }
-          - { label: "Postal Code", name: "postalCode", widget: "string" }
-          - { label: "Country", name: "country", widget: "string" }
-          - { label: "Phone", name: "phone", widget: "string", required: false }
-          - { label: "Additional Info (optional)", name: "additionalInfo", widget: "text", required: false, hint: "Office hours, assistant name, or other info." }
+          - { label: "Page Title (browser tab)", name: "pageTitle", widget: "string", hint: "Default: 'Curriculum Vitae'." }
+          - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Shown in Google search results for the CV page." }
+          - { label: "Page Heading", name: "pageHeading", widget: "string", hint: "The H1 shown at the top of the page. Default: 'Curriculum Vitae'." }
+          - { label: "Intro Text (optional)", name: "introText", widget: "text", required: false, hint: "Optional paragraph shown above the download button — e.g., a note about when the CV was last updated." }
+          - { label: "Download Button Label", name: "downloadButtonLabel", widget: "string", hint: "Text on the download button. Default: 'Download PDF'." }
+          - { label: "Preview Section Heading", name: "viewerHeading", widget: "string", hint: "Heading above the inline PDF viewer. Default: 'Preview'. Leave blank to hide the heading." }
+          - { label: "'No CV' Fallback Message", name: "noCvMessage", widget: "string", hint: "Shown if no CV file has been uploaded yet." }
 
       - label: "🔬 Research Listing Page"
         name: "research-page"
@@ -184,20 +177,27 @@ collections:
           - { label: "Intro Text (optional)", name: "introText", widget: "text", required: false, hint: "🎯 SEO: Paragraph shown above the links." }
           - { label: "Empty State Message", name: "emptyStateMessage", widget: "string" }
 
-      - label: "📄 CV Page"
-        name: "cv-page"
-        file: "src/data/settings/cv-page.json"
-        description: "The Curriculum Vitae page — shows the CV PDF inline with download options. To upload the actual CV file, go to Settings → Navigation → CV File. → View live: https://allenblackman.netlify.app/cv"
+      - label: "📬 Contact Page"
+        name: "contact"
+        file: "src/data/settings/contact.json"
+        description: "Contact information — update this if you change institutions. → View live: https://allenblackman.netlify.app/contact"
         fields:
-          - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'CV' link from the nav menu. The page URL still works." }
+          - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'Contact' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
-          - { label: "Page Title (browser tab)", name: "pageTitle", widget: "string", hint: "Default: 'Curriculum Vitae'." }
-          - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Shown in Google search results for the CV page." }
-          - { label: "Page Heading", name: "pageHeading", widget: "string", hint: "The H1 shown at the top of the page. Default: 'Curriculum Vitae'." }
-          - { label: "Intro Text (optional)", name: "introText", widget: "text", required: false, hint: "Optional paragraph shown above the download button — e.g., a note about when the CV was last updated." }
-          - { label: "Download Button Label", name: "downloadButtonLabel", widget: "string", hint: "Text on the download button. Default: 'Download PDF'." }
-          - { label: "Preview Section Heading", name: "viewerHeading", widget: "string", hint: "Heading above the inline PDF viewer. Default: 'Preview'. Leave blank to hide the heading." }
-          - { label: "'No CV' Fallback Message", name: "noCvMessage", widget: "string", hint: "Shown if no CV file has been uploaded yet." }
+          - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Contact'." }
+          - { label: "Meta Description Override (optional)", name: "metaDescription", widget: "text", required: false }
+          - { label: "Address Section Label", name: "addressHeading", widget: "string", hint: "Label for the address block. Default: 'Address'." }
+          - { label: "Phone Section Label", name: "phoneHeading", widget: "string", hint: "Default: 'Phone'." }
+          - { label: "Email Section Label", name: "emailHeading", widget: "string", hint: "Default: 'Email'." }
+          - { label: "Organization Name", name: "organizationName", widget: "string" }
+          - { label: "Department / Unit", name: "departmentName", widget: "string", required: false }
+          - { label: "Street Address", name: "streetAddress", widget: "string" }
+          - { label: "City", name: "city", widget: "string" }
+          - { label: "State / Region", name: "region", widget: "string" }
+          - { label: "Postal Code", name: "postalCode", widget: "string" }
+          - { label: "Country", name: "country", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string", required: false }
+          - { label: "Additional Info (optional)", name: "additionalInfo", widget: "text", required: false, hint: "Office hours, assistant name, or other info." }
 
       - label: "❌ 404 Not Found Page"
         name: "not-found"
