@@ -1,0 +1,130 @@
+financial_statement,section,variable-key,hierarchy,parent,historical_formula,forecast_formula,color,previous,next,Key
+Balance Sheet,Activity Ratios,AR-purchases,2,,independent_variable,[AR-purchases](t-1),colors.charting.color13.base,,AR-eoynetworkingcapital,AR-purchases
+Balance Sheet,Activity Ratios,AR-eoynetworkingcapital,2,,independent_variable,[AR-eoynetworkingcapital](t-1),colors.charting.color13.base,AR-purchases,AR-avgnetworkingcapital,AR-eoynetworkingcapital
+Balance Sheet,Activity Ratios,AR-avgnetworkingcapital,2,,independent_variable,[AR-avgnetworkingcapital](t-1),colors.charting.color13.base,AR-eoynetworkingcapital,AR-receivablesturnover,AR-avgnetworkingcapital
+Balance Sheet,Activity Ratios,AR-receivablesturnover,2,,independent_variable,[AR-receivablesturnover](t-1),colors.charting.color9.base,AR-avgnetworkingcapital,AR-inventoryturnover,AR-receivablesturnover
+Balance Sheet,Activity Ratios,AR-inventoryturnover,2,,independent_variable,[AR-inventoryturnover](t-1),colors.charting.color9.base,AR-receivablesturnover,AR-payablesturnover,AR-inventoryturnover
+Balance Sheet,Activity Ratios,AR-payablesturnover,2,,independent_variable,[AR-payablesturnover](t-1),colors.charting.color5.base,AR-inventoryturnover,AR-dso,AR-payablesturnover
+Balance Sheet,Activity Ratios,AR-dso,2,,365*[BS-accountsreceivable]/[IS-revenue],[AR-dso](t-1),colors.charting.color13.base,AR-payablesturnover,AR-doh,AR-dso
+Balance Sheet,Activity Ratios,AR-doh,2,,365*[BS-inventoryandothercurrentassets]/[IS-costofsales],[AR-doh](t-1),colors.charting.color13.base,AR-dso,AR-dpo,AR-doh
+Balance Sheet,Activity Ratios,AR-dpo,2,,365*[BS-accountspayable]/[IS-costofsales],[AR-dpo](t-1),colors.charting.color13.base,AR-doh,AR-cashconversioncycle,AR-dpo
+Balance Sheet,Activity Ratios,AR-cashconversioncycle,2,,[AR-dso]+[AR-doh]-[AR-dpo],[AR-cashconversioncycle](t-1),colors.charting.color9.base,AR-dpo,AR-tangibleassetstosales,AR-cashconversioncycle
+Balance Sheet,Activity Ratios,AR-tangibleassetstosales,2,,independent_variable,[AR-tangibleassetstosales](t-1),colors.charting.color9.base,AR-cashconversioncycle,AR-intangible-otherfixedassetstosales,AR-tangibleassetstosales
+Balance Sheet,Activity Ratios,AR-intangible_otherfixedassetstosales,2,,independent_variable,[AR-intangible-otherfixedassetstosales](t-1),colors.charting.color9.base,AR-tangibleassetstosales,AR-fixedassetstosales,AR-intangible-otherfixedassetstosales
+Balance Sheet,Activity Ratios,AR-fixedassetstosales,2,,independent_variable,[AR-fixedassetstosales](t-1),colors.charting.color9.base,AR-intangible-otherfixedassetstosales,AR-totalassetstosales,AR-fixedassetstosales
+Balance Sheet,Activity Ratios,AR-totalassetstosales,1,,independent_variable,[AR-totalassetstosales](t-1),colors.charting.color9.base,AR-fixedassetstosales,AR-totalassetturnover,AR-totalassetstosales
+Balance Sheet,Activity Ratios,AR-totalassetturnover,1,,independent_variable,[AR-totalassetturnover](t-1),colors.charting.color9.base,AR-totalassetstosales,BS-cash-cashequivalents,AR-totalassetturnover
+Balance Sheet,Balance Sheet,BS-cash_cashequivalents,2,BS-currentassets,independent_variable,[BS-cash-cashequivalents](t-1),colors.charting.color9.base,AR-totalassetturnover,BS-accountsreceivable,BS-cash-cashequivalents
+Balance Sheet,Balance Sheet,BS-accountsreceivable,2,BS-currentassets,independent_variable,[BS-accountsreceivable](t-1),colors.charting.color9.base,BS-cash-cashequivalents,BS-inventoryandothercurrentassets,BS-accountsreceivable
+Balance Sheet,Balance Sheet,BS-inventoryandothercurrentassets,1,BS-currentassets,independent_variable,[BS-inventoryandothercurrentassets](t-1),colors.charting.color9.base,BS-accountsreceivable,BS-currentassets,BS-inventoryandothercurrentassets
+Balance Sheet,Balance Sheet,BS-currentassets,1,BS-totalassets,[BS-cash-cashequivalents]+[BS-accountsreceivable]+[BS-inventoryandothercurrentassets],[BS-currentassets](t-1),colors.charting.color9.base,BS-inventoryandothercurrentassets,BS-tangibleassets,BS-currentassets
+Balance Sheet,Balance Sheet,BS-tangibleassets,1,BS-fixedassets,independent_variable,[BS-tangibleassets](t-1),colors.charting.color9.base,BS-currentassets,BS-intangibleandotherfixedassets,BS-tangibleassets
+Balance Sheet,Balance Sheet,BS-intangibleandotherfixedassets,1,BS-fixedassets,independent_variable,[BS-intangibleandotherfixedassets](t-1),colors.charting.color9.base,BS-tangibleassets,BS-fixedassets,BS-intangibleandotherfixedassets
+Balance Sheet,Balance Sheet,BS-fixedassets,1,BS-totalassets,[BS-tangibleassets]+[BS-intangibleandotherfixedassets],[BS-fixedassets](t-1),colors.charting.color9.base,BS-intangibleandotherfixedassets,BS-totalassets,BS-fixedassets
+Balance Sheet,Balance Sheet,BS-totalassets,1,,[BS-currentassets]+[BS-fixedassets],[BS-totalassets](t-1),colors.charting.color9.base,BS-fixedassets,BS-accountspayable,BS-totalassets
+Balance Sheet,Balance Sheet,BS-accountspayable,2,BS-currentliabilities,independent_variable,[BS-accountspayable](t-1),colors.charting.color5.base,BS-totalassets,BS-shorttermdebt,BS-accountspayable
+Balance Sheet,Balance Sheet,BS-shorttermdebt,2,BS-currentliabilities,independent_variable,[BS-shorttermdebt](t-1),colors.charting.color5.base,BS-accountspayable,BS-othercurrentliabilities,BS-shorttermdebt
+Balance Sheet,Balance Sheet,BS-othercurrentliabilities,1,BS-currentliabilities,independent_variable,[BS-othercurrentliabilities](t-1),colors.charting.color13.base,BS-shorttermdebt,BS-currentliabilities,BS-othercurrentliabilities
+Balance Sheet,Balance Sheet,BS-currentliabilities,1,BS-totalliabilities,[BS-accountspayable]+[BS-shorttermdebt]+[BS-othercurrentliabilities],[BS-currentliabilities](t-1),colors.charting.color13.base,BS-othercurrentliabilities,BS-longtermdebt,BS-currentliabilities
+Balance Sheet,Balance Sheet,BS-longtermdebt,2,BS-longtermliabilities,independent_variable,[BS-longtermdebt](t-1),colors.charting.color5.base,BS-currentliabilities,BS-otherlongtermliabilities,BS-longtermdebt
+Balance Sheet,Balance Sheet,BS-otherlongtermliabilities,1,BS-longtermliabilities,independent_variable,[BS-otherlongtermliabilities](t-1),colors.charting.color13.base,BS-longtermdebt,BS-longtermliabilities,BS-otherlongtermliabilities
+Balance Sheet,Balance Sheet,BS-longtermliabilities,1,BS-totalliabilities,[BS-longtermdebt]+[BS-otherlongtermliabilities],[BS-longtermliabilities](t-1),colors.charting.color13.base,BS-otherlongtermliabilities,BS-totalliabilities,BS-longtermliabilities
+Balance Sheet,Balance Sheet,BS-totalliabilities,1,BS-totalliabilitiesandequity,[BS-currentliabilities]+[BS-longtermliabilities],[BS-totalliabilities](t-1),colors.charting.color13.base,BS-longtermliabilities,BS-shareholdersequity,BS-totalliabilities
+Balance Sheet,Balance Sheet,BS-shareholdersequity,1,BS-totalliabilitiesandequity,independent_variable,[BS-shareholdersequity](t-1),colors.charting.color7.base,BS-totalliabilities,BS-totalliabilitiesandequity,BS-shareholdersequity
+Balance Sheet,Balance Sheet,BS-totalliabilitiesandequity,1,,[BS-totalliabilities]+[BS-shareholdersequity],[BS-totalliabilitiesandequity](t-1),colors.charting.color7.base,BS-shareholdersequity,EQCR-netincome,BS-totalliabilitiesandequity
+Balance Sheet,Equity Change Reconciliation,EQCR-netincome,1,,independent_variable,[EQCR-netincome](t-1),colors.charting.color13.base,BS-totalliabilitiesandequity,EQCR-dividendspaid,EQCR-netincome
+Balance Sheet,Equity Change Reconciliation,EQCR-dividendspaid,2,,independent_variable,[EQCR-dividendspaid](t-1),colors.charting.color13.base,EQCR-netincome,EQCR-issuance-\1equitycapital,EQCR-dividendspaid
+Balance Sheet,Equity Change Reconciliation,EQCR-issuance_\1equitycapital,2,,independent_variable,[EQCR-issuance-\1equitycapital](t-1),colors.charting.color7.base,EQCR-dividendspaid,EQCR-othercf,EQCR-issuance-\1equitycapital
+Balance Sheet,Equity Change Reconciliation,EQCR-othercf,2,,independent_variable,[EQCR-othercf](t-1),colors.charting.color13.base,EQCR-issuance-\1equitycapital,EQCR-increaseinnetassets,EQCR-othercf
+Balance Sheet,Equity Change Reconciliation,EQCR-increaseinnetassets,1,,independent_variable,[EQCR-increaseinnetassets](t-1),colors.charting.color9.base,EQCR-othercf,EQCR-netcashincrease,EQCR-increaseinnetassets
+Balance Sheet,Equity Change Reconciliation,EQCR-netcashincrease,2,,independent_variable,[EQCR-netcashincrease](t-1),colors.charting.color9.base,EQCR-increaseinnetassets,EQCR-increaseinnetworkingcapital,EQCR-netcashincrease
+Balance Sheet,Equity Change Reconciliation,EQCR-increaseinnetworkingcapital,2,,independent_variable,[EQCR-increaseinnetworkingcapital](t-1),colors.charting.color13.base,EQCR-netcashincrease,EQCR-increaseinfixedassets,EQCR-increaseinnetworkingcapital
+Balance Sheet,Equity Change Reconciliation,EQCR-increaseinfixedassets,1,,independent_variable,[EQCR-increaseinfixedassets](t-1),colors.charting.color9.base,EQCR-increaseinnetworkingcapital,EQCR-increaseintotalassets,EQCR-increaseinfixedassets
+Balance Sheet,Equity Change Reconciliation,EQCR-increaseintotalassets,1,,independent_variable,[EQCR-increaseintotalassets](t-1),colors.charting.color9.base,EQCR-increaseinfixedassets,EQCR-increaseintotaldebt,EQCR-increaseintotalassets
+Balance Sheet,Equity Change Reconciliation,EQCR-increaseintotaldebt,1,,independent_variable,[EQCR-increaseintotaldebt](t-1),colors.charting.color5.base,EQCR-increaseintotalassets,EQCR-increaseinnondebtltl,EQCR-increaseintotaldebt
+Balance Sheet,Equity Change Reconciliation,EQCR-increaseinnondebtltl,2,,independent_variable,[EQCR-increaseinnondebtltl](t-1),colors.charting.color5.base,EQCR-increaseintotaldebt,EQCR-increaseintotalliabilities,EQCR-increaseinnondebtltl
+Balance Sheet,Equity Change Reconciliation,EQCR-increaseintotalliabilities,1,,independent_variable,[EQCR-increaseintotalliabilities](t-1),colors.charting.color13.base,EQCR-increaseinnondebtltl,EQCR-increaseinnetassets,EQCR-increaseintotalliabilities
+Balance Sheet,Equity Change Reconciliation,EQCR-increaseinnetassets,1,,independent_variable,[EQCR-increaseinnetassets](t-1),colors.charting.color9.base,EQCR-increaseintotalliabilities,FA-depreciation-tangibleassets,EQCR-increaseinnetassets
+Balance Sheet,Fixed Assets Da,FA-depreciation_tangibleassets,1,,[IS-depreciation]/[BS-tangibleassets],[FA-depreciation-tangibleassets](t-1),colors.charting.color9.base,EQCR-increaseinnetassets,FA-amortization-intangible-otherfixedassets,FA-depreciation-tangibleassets
+Balance Sheet,Fixed Assets Da,FA-amortization_intangible_otherfixedassets,1,,[IS-amortization]/[BS-intangibleandotherfixedassets],[FA-amortization-intangible-otherfixedassets](t-1),colors.charting.color9.base,FA-depreciation-tangibleassets,FA-weightedaverageusefullifetangibleassets,FA-amortization-intangible-otherfixedassets
+Balance Sheet,Fixed Assets Da,FA-weightedaverageusefullifetangibleassets,1,,[BS-tangibleassets]/[IS-depreciation],[FA-weightedaverageusefullifetangibleassets](t-1),colors.charting.color9.base,FA-amortization-intangible-otherfixedassets,FA-weightedaverageusefullifeotherfixedassets,FA-weightedaverageusefullifetangibleassets
+Balance Sheet,Fixed Assets Da,FA-weightedaverageusefullifeotherfixedassets,1,,[BS-intangibleandotherfixedassets]/[IS-amortization],[FA-weightedaverageusefullifeotherfixedassets](t-1),colors.charting.color9.base,FA-weightedaverageusefullifetangibleassets,FA-weightedaverageusefullifetotalfixedassets,FA-weightedaverageusefullifeotherfixedassets
+Balance Sheet,Fixed Assets Da,FA-weightedaverageusefullifetotalfixedassets,1,,[BS-fixedassets]/([IS-depreciation]+[IS-amortization]),[FA-weightedaverageusefullifetotalfixedassets](t-1),colors.charting.color9.base,FA-weightedaverageusefullifeotherfixedassets,CFS-netincome,FA-weightedaverageusefullifetotalfixedassets
+Cash Flow,Cash Flow,CFS-netincome,1,,independent_variable,[CFS-netincome](t-1),colors.charting.color10.base,FA-weightedaverageusefullifetotalfixedassets,CFS-depreciation,CFS-netincome
+Cash Flow,Cash Flow,CFS-depreciation,2,,independent_variable,[CFS-depreciation](t-1),colors.charting.color10.base,CFS-netincome,CFS-amortization,CFS-depreciation
+Cash Flow,Cash Flow,CFS-amortization,2,,independent_variable,[CFS-amortization](t-1),colors.charting.color10.base,CFS-depreciation,CFS-changeinnetworkingcapital,CFS-amortization
+Cash Flow,Cash Flow,CFS-changeinnetworkingcapital,2,,independent_variable,[CFS-changeinnetworkingcapital](t-1),colors.charting.color10.base,CFS-amortization,CFS-interestexpense,CFS-changeinnetworkingcapital
+Cash Flow,Cash Flow,CFS-interestexpense,2,,independent_variable,[CFS-interestexpense](t-1),colors.charting.color10.base,CFS-changeinnetworkingcapital,CFS-cfo,CFS-interestexpense
+Cash Flow,Cash Flow,CFS-cfo,2,,independent_variable,[CFS-cfo](t-1),colors.charting.color10.base,CFS-interestexpense,CFS-capex,CFS-cfo
+Cash Flow,Cash Flow,CFS-capex,2,,independent_variable,[CFS-capex](t-1),colors.charting.color10.base,CFS-cfo,CFS-cfi,CFS-capex
+Cash Flow,Cash Flow,CFS-cfi,2,,independent_variable,[CFS-cfi](t-1),colors.charting.color10.base,CFS-capex,CFS-interestexpense,CFS-cfi
+Cash Flow,Cash Flow,CFS-interestexpense,2,,independent_variable,[CFS-interestexpense](t-1),colors.charting.color10.base,CFS-cfi,CFS-debtissuance-\1,CFS-interestexpense
+Cash Flow,Cash Flow,CFS-debtissuance_\1,2,,independent_variable,[CFS-debtissuance-\1](t-1),colors.charting.color10.base,CFS-interestexpense,CFS-dividendspaid,CFS-debtissuance-\1
+Cash Flow,Cash Flow,CFS-dividendspaid,2,,independent_variable,[CFS-dividendspaid](t-1),colors.charting.color10.base,CFS-debtissuance-\1,CFS-equityissuance-\1,CFS-dividendspaid
+Cash Flow,Cash Flow,CFS-equityissuance_\1,2,,independent_variable,[CFS-equityissuance-\1](t-1),colors.charting.color10.base,CFS-dividendspaid,CFS-cff,CFS-equityissuance-\1
+Cash Flow,Cash Flow,CFS-cff,2,,independent_variable,[CFS-cff](t-1),colors.charting.color10.base,CFS-equityissuance-\1,CFS-totalcf,CFS-cff
+Cash Flow,Cash Flow,CFS-totalcf,1,,independent_variable,[CFS-totalcf](t-1),colors.charting.color10.base,CFS-cff,CFS-increase-\1innondebtltl,CFS-totalcf
+Cash Flow,Cash Flow,CFS-increase_\1innondebtltl,2,,independent_variable,[CFS-increase-\1innondebtltl](t-1),colors.charting.color10.base,CFS-totalcf,CFS-othercf,CFS-increase-\1innondebtltl
+Cash Flow,Cash Flow,CFS-othercf,2,,independent_variable,[CFS-othercf](t-1),colors.charting.color10.base,CFS-increase-\1innondebtltl,CFS-netcashincrease,CFS-othercf
+Cash Flow,Cash Flow,CFS-netcashincrease,2,,independent_variable,[CFS-netcashincrease](t-1),colors.charting.color10.base,CFS-othercf,DC-fcffirm,CFS-netcashincrease
+Cash Flow,Debt Coverage,DC-fcffirm,2,,independent_variable,[DC-fcffirm](t-1),colors.charting.color10.base,CFS-netcashincrease,DC-interestpaid,DC-fcffirm
+Cash Flow,Debt Coverage,DC-interestpaid,2,,independent_variable,[DC-interestpaid](t-1),colors.charting.color12.base,DC-fcffirm,DC-interestcoverageratio,DC-interestpaid
+Cash Flow,Debt Coverage,DC-interestcoverageratio,2,,independent_variable,[DC-interestcoverageratio](t-1),colors.charting.color13.base,DC-interestpaid,DC-netprincipalrepayments,DC-interestcoverageratio
+Cash Flow,Debt Coverage,DC-netprincipalrepayments,2,,independent_variable,[DC-netprincipalrepayments](t-1),colors.charting.color12.base,DC-interestcoverageratio,DC-principalandinterestpayments,DC-netprincipalrepayments
+Cash Flow,Debt Coverage,DC-principalandinterestpayments,2,,independent_variable,[DC-principalandinterestpayments](t-1),colors.charting.color12.base,DC-netprincipalrepayments,DC-debtcoverageratio,DC-principalandinterestpayments
+Cash Flow,Debt Coverage,DC-debtcoverageratio,2,,independent_variable,[DC-debtcoverageratio](t-1),colors.charting.color13.base,DC-principalandinterestpayments,FCF-cfo,DC-debtcoverageratio
+Cash Flow,Free Cash Flow,FCF-cfo,2,,independent_variable,[FCF-cfo](t-1),colors.charting.color10.base,DC-debtcoverageratio,FCF-capex,FCF-cfo
+Cash Flow,Free Cash Flow,FCF-capex,2,,independent_variable,[FCF-capex](t-1),colors.charting.color10.base,FCF-cfo,FCF-interestexpense,FCF-capex
+Cash Flow,Free Cash Flow,FCF-interestexpense,2,,independent_variable,[FCF-interestexpense](t-1),colors.charting.color10.base,FCF-capex,FCF-effectivetaxrate,FCF-interestexpense
+Cash Flow,Free Cash Flow,FCF-effectivetaxrate,2,,independent_variable,[FCF-effectivetaxrate](t-1),colors.charting.color10.base,FCF-interestexpense,FCF-interesttaxshield,FCF-effectivetaxrate
+Cash Flow,Free Cash Flow,FCF-interesttaxshield,2,,independent_variable,[FCF-interesttaxshield](t-1),colors.charting.color10.base,FCF-effectivetaxrate,FCF-firm,FCF-interesttaxshield
+Cash Flow,Free Cash Flow,FCF-firm,2,,independent_variable,[FCF-firm](t-1),colors.charting.color10.base,FCF-interesttaxshield,FCF-equity,FCF-firm
+Cash Flow,Free Cash Flow,FCF-equity,1,,independent_variable,[FCF-equity](t-1),colors.charting.color10.base,FCF-firm,CAGR-revenue,FCF-equity
+Income Statement,CAGR,CAGR-revenue,2,,independent_variable,[CAGR-revenue](t-1),colors.charting.color8.base,FCF-equity,CAGR-normalizedebitda,CAGR-revenue
+Income Statement,CAGR,CAGR-normalizedebitda,1,,independent_variable,[CAGR-normalizedebitda](t-1),colors.charting.color8.base,CAGR-revenue,CAGR-ebitda,CAGR-normalizedebitda
+Income Statement,CAGR,CAGR-ebitda,1,,independent_variable,[CAGR-ebitda](t-1),colors.charting.color8.base,CAGR-normalizedebitda,CAGR-ebit,CAGR-ebitda
+Income Statement,CAGR,CAGR-ebit,1,,independent_variable,[CAGR-ebit](t-1),colors.charting.color8.base,CAGR-ebitda,CAGR-ebt,CAGR-ebit
+Income Statement,CAGR,CAGR-ebt,2,,independent_variable,[CAGR-ebt](t-1),colors.charting.color13.base,CAGR-ebit,CAGR-netincome,CAGR-ebt
+Income Statement,CAGR,CAGR-netincome,1,,independent_variable,[CAGR-netincome](t-1),colors.charting.color8.base,CAGR-ebt,CSIS-revenue,CAGR-netincome
+Income Statement,Common-Size IS,CSIS-revenue,2,,independent_variable,[CSIS-revenue](t-1),colors.charting.color8.base,CAGR-netincome,CSIS-costofsales,CSIS-revenue
+Income Statement,Common-Size IS,CSIS-costofsales,2,,[IS-costofsales]/[IS-revenue],[CSIS-costofsales](t-1),colors.charting.color2.base,CSIS-revenue,CSIS-grossmargin,CSIS-costofsales
+Income Statement,Common-Size IS,CSIS-grossmargin,1,,[IS-grossprofit]/[IS-revenue],[CSIS-grossmargin](t-1),colors.charting.color8.base,CSIS-costofsales,CSIS-admin-opexpenses,CSIS-grossmargin
+Income Statement,Common-Size IS,CSIS-admin_opexpenses,2,,[IS-admin-opexpenses]/[IS-revenue],[CSIS-admin-opexpenses](t-1),colors.charting.color2.base,CSIS-grossmargin,CSIS-otheroperatingincome-\1,CSIS-admin-opexpenses
+Income Statement,Common-Size IS,CSIS-otheroperatingincome_\1,2,,independent_variable,[CSIS-otheroperatingincome-\1](t-1),colors.charting.color8.base,CSIS-admin-opexpenses,CSIS-normalizedebitdamargin,CSIS-otheroperatingincome-\1
+Income Statement,Common-Size IS,CSIS-normalizedebitdamargin,1,,[IS-normalizedebitda]/[IS-revenue],[CSIS-normalizedebitdamargin](t-1),colors.charting.color8.base,CSIS-otheroperatingincome-\1,CSIS-otherassetrelatedworks,CSIS-normalizedebitdamargin
+Income Statement,Common-Size IS,CSIS-otherassetrelatedworks,2,,independent_variable,[CSIS-otherassetrelatedworks](t-1),colors.charting.color2.base,CSIS-normalizedebitdamargin,CSIS-ebitdamargin,CSIS-otherassetrelatedworks
+Income Statement,Common-Size IS,CSIS-ebitdamargin,1,,[IS-ebitda]/[IS-revenue],[CSIS-ebitdamargin](t-1),colors.charting.color8.base,CSIS-otherassetrelatedworks,CSIS-extraordinaryitems,CSIS-ebitdamargin
+Income Statement,Common-Size IS,CSIS-extraordinaryitems,2,,independent_variable,[CSIS-extraordinaryitems](t-1),colors.charting.color2.base,CSIS-ebitdamargin,CSIS-amortization,CSIS-extraordinaryitems
+Income Statement,Common-Size IS,CSIS-amortization,2,,independent_variable,[CSIS-amortization](t-1),colors.charting.color2.base,CSIS-extraordinaryitems,CSIS-depreciation,CSIS-amortization
+Income Statement,Common-Size IS,CSIS-depreciation,2,,independent_variable,[CSIS-depreciation](t-1),colors.charting.color2.base,CSIS-amortization,CSIS-operatingmargin,CSIS-depreciation
+Income Statement,Common-Size IS,CSIS-operatingmargin,1,,[IS-ebit]/[IS-revenue],[CSIS-operatingmargin](t-1),colors.charting.color8.base,CSIS-depreciation,CSIS-financialincome,CSIS-operatingmargin
+Income Statement,Common-Size IS,CSIS-financialincome,1,,independent_variable,[CSIS-financialincome](t-1),colors.charting.color8.base,CSIS-operatingmargin,CSIS-interestexpense,CSIS-financialincome
+Income Statement,Common-Size IS,CSIS-interestexpense,2,,independent_variable,[CSIS-interestexpense](t-1),colors.charting.color2.base,CSIS-financialincome,CSIS-ebtmargin,CSIS-interestexpense
+Income Statement,Common-Size IS,CSIS-ebtmargin,1,,[IS-ebt]/[IS-revenue],[CSIS-ebtmargin](t-1),colors.charting.color8.base,CSIS-interestexpense,CSIS-taxes,CSIS-ebtmargin
+Income Statement,Common-Size IS,CSIS-taxes,2,,independent_variable,[CSIS-taxes](t-1),colors.charting.color2.base,CSIS-ebtmargin,CSIS-netincomemargin,CSIS-taxes
+Income Statement,Common-Size IS,CSIS-netincomemargin,1,,[IS-netincome]/[IS-revenue],[CSIS-netincomemargin](t-1),colors.charting.color8.base,CSIS-taxes,DUPONT-operatingprofitmargin,CSIS-netincomemargin
+Income Statement,Dupont,DUPONT-operatingprofitmargin,1,,[IS-ebit]/[IS-revenue],[DUPONT-operatingprofitmargin](t-1),colors.charting.color8.base,CSIS-netincomemargin,DUPONT-interestburden,DUPONT-operatingprofitmargin
+Income Statement,Dupont,DUPONT-interestburden,2,,[IS-ebt]/[IS-ebit],[DUPONT-interestburden](t-1),colors.charting.color13.base,DUPONT-operatingprofitmargin,DUPONT-taxburden,DUPONT-interestburden
+Income Statement,Dupont,DUPONT-taxburden,2,,[IS-netincome]/[IS-ebt],[DUPONT-taxburden](t-1),colors.charting.color2.base,DUPONT-interestburden,DUPONT-netprofitmargin,DUPONT-taxburden
+Income Statement,Dupont,DUPONT-netprofitmargin,1,,[IS-netincome]/[IS-revenue],[DUPONT-netprofitmargin](t-1),colors.charting.color8.base,DUPONT-taxburden,DUPONT-assetturnover,DUPONT-netprofitmargin
+Income Statement,Dupont,DUPONT-assetturnover,2,,[IS-revenue]/[BS-totalassets],[DUPONT-assetturnover](t-1),colors.charting.color13.base,DUPONT-netprofitmargin,DUPONT-returnonassets,DUPONT-assetturnover
+Income Statement,Dupont,DUPONT-returnonassets,1,,[IS-netincome]/[BS-totalassets],[DUPONT-returnonassets](t-1),colors.charting.color13.base,DUPONT-assetturnover,DUPONT-financialleverage,DUPONT-returnonassets
+Income Statement,Dupont,DUPONT-financialleverage,2,,[BS-totalassets]/[BS-shareholdersequity],[DUPONT-financialleverage](t-1),colors.charting.color13.base,DUPONT-returnonassets,DUPONT-returnonequity,DUPONT-financialleverage
+Income Statement,Dupont,DUPONT-returnonequity,1,,[IS-netincome]/[BS-shareholdersequity],[DUPONT-returnonequity](t-1),colors.charting.color13.base,DUPONT-financialleverage,IS-revenue,DUPONT-returnonequity
+Income Statement,Income Statement,IS-revenue,2,,independent_variable,[IS-revenue](t-1)*(1+[CAGR-revenue]),colors.charting.color8.base,DUPONT-returnonequity,IS-costofsales,IS-revenue
+Income Statement,Income Statement,IS-costofsales,2,,[IS-revenue]-[IS-grossprofit],[IS-costofsales](t-1)/[IS-revenue](t-1)*[IS-revenue],colors.charting.color2.base,IS-revenue,IS-grossprofit,IS-costofsales
+Income Statement,Income Statement,IS-grossprofit,1,,[IS-revenue]-[IS-costofsales],[IS-revenue]-[IS-costofsales],colors.charting.color8.base,IS-costofsales,IS-admin-opexpenses,IS-grossprofit
+Income Statement,Income Statement,IS-admin_opexpenses,2,,independent_variable,[IS-admin-opexpenses](t-1)/[IS-revenue](t-1)*[IS-revenue],colors.charting.color2.base,IS-grossprofit,IS-otheroperatingincome-\1,IS-admin-opexpenses
+Income Statement,Income Statement,IS-otheroperatingincome_\1,2,,independent_variable,[IS-otheroperatingincome-\1](t-1),colors.charting.color8.base,IS-admin-opexpenses,IS-normalizedebitda,IS-otheroperatingincome-\1
+Income Statement,Income Statement,IS-normalizedebitda,1,,[IS-ebitda]-[IS-extraordinaryitems]-[IS-otherassetrelatedworks],[IS-normalizedebitda](t-1)*(1+[CAGR-normalizedebitda]),colors.charting.color8.base,IS-otheroperatingincome-\1,IS-otherassetrelatedworks,IS-normalizedebitda
+Income Statement,Income Statement,IS-otherassetrelatedworks,2,,independent_variable,[IS-otherassetrelatedworks](t-1),colors.charting.color2.base,IS-normalizedebitda,IS-ebitda,IS-otherassetrelatedworks
+Income Statement,Income Statement,IS-ebitda,1,,[IS-ebit]+[IS-depreciation]+[IS-amortization],[IS-ebitda](t-1)*(1+[CAGR-ebitda]),colors.charting.color8.base,IS-otherassetrelatedworks,IS-extraordinaryitems,IS-ebitda
+Income Statement,Income Statement,IS-extraordinaryitems,2,,independent_variable,[IS-extraordinaryitems](t-1),colors.charting.color2.base,IS-ebitda,IS-amortization,IS-extraordinaryitems
+Income Statement,Income Statement,IS-amortization,2,,independent_variable,[IS-amortization](t-1),colors.charting.color2.base,IS-extraordinaryitems,IS-depreciation,IS-amortization
+Income Statement,Income Statement,IS-depreciation,2,,independent_variable,[IS-depreciation](t-1),colors.charting.color2.base,IS-amortization,IS-ebit,IS-depreciation
+Income Statement,Income Statement,IS-ebit,1,,[IS-ebitda]-[IS-depreciation]-[IS-amortization],[IS-ebit](t-1)*(1+[CAGR-ebit]),colors.charting.color8.base,IS-depreciation,IS-financialincome,IS-ebit
+Income Statement,Income Statement,IS-financialincome,1,,independent_variable,[IS-financialincome](t-1),colors.charting.color8.base,IS-ebit,IS-interestexpense,IS-financialincome
+Income Statement,Income Statement,IS-interestexpense,2,,independent_variable,[IS-interestexpense](t-1),colors.charting.color2.base,IS-financialincome,IS-ebt,IS-interestexpense
+Income Statement,Income Statement,IS-ebt,2,,[IS-ebit]+[IS-financialincome]-[IS-interestexpense],[IS-ebt](t-1)*(1+[CAGR-ebt]),colors.charting.color13.base,IS-interestexpense,IS-taxexpense,IS-ebt
+Income Statement,Income Statement,IS-taxexpense,2,,independent_variable,[IS-taxexpense](t-1),colors.charting.color2.base,IS-ebt,IS-netincome,IS-taxexpense
+Income Statement,Income Statement,IS-netincome,1,,[IS-ebt]-[IS-taxexpense],[IS-netincome](t-1)*(1+[CAGR-netincome]),colors.charting.color8.base,IS-taxexpense,,IS-netincome
