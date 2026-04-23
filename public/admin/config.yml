@@ -11,16 +11,103 @@ public_folder: "/uploads"
 # Admin Panel Organization
 # ============================================================
 # Collections appear in this order in the left sidebar:
-#   1. 📝 Pages              (edit text on each page — most frequent task)
-#   2. 📚 Publications       (add/edit papers)
-#   3. ✍️ Blog Posts          (add/edit posts)
-#   4. 🔬 Research Projects  (add/edit projects)
-#   5. 🛠️ Webtools            (add/edit tools)
-#   6. 🔗 External Links     (add/edit links)
-#   7. 🏷️ Types & Categories (all taxonomies in one entry — edit rarely)
-#   8. ⚙️ Site Settings       (site-wide identity, rarely changes)
+#   1. ⚙️ Main Settings       (site-wide identity, name, colors, social)
+#   2. 📝 Pages              (edit text on each page — most frequent task)
+#   3. 📚 Publications       (add/edit papers)
+#   4. ✍️ Blog Posts          (add/edit posts)
+#   5. 🔬 Research Projects  (add/edit projects)
+#   6. 🛠️ Webtools            (add/edit tools)
+#   7. 🔗 External Links     (add/edit links)
+#   8. 🏷️ Types & Categories (all taxonomies in one entry — edit rarely)
 
 collections:
+
+  # ============================================================
+  # ⚙️ MAIN SETTINGS — Core identity, rarely changes
+  # ============================================================
+  - name: "settings"
+    label: "⚙️ Main Settings"
+    description: "Core site identity: your name, site-wide metadata, colors, social profiles. These apply to every page — changing them affects the whole site."
+    editor:
+      preview: false
+    files:
+
+      - label: "🆔 Identity & SEO Basics"
+        name: "general"
+        file: "src/data/settings/general.json"
+        description: "Your identity and core SEO defaults used across the site."
+        fields:
+          - label: "Site Title"
+            name: "siteTitle"
+            widget: "string"
+            hint: "🎯 SEO CRITICAL: Your name or site name. Appears in browser tabs, Google search results, and the header. Affects EVERY page's <title> tag."
+          - label: "Site Description (default meta description)"
+            name: "siteDescription"
+            widget: "text"
+            hint: "🎯 SEO: One sentence describing who you are and what you do. Used as the default meta description. 140–160 characters is ideal."
+          - { label: "Your Full Name", name: "authorName", widget: "string", hint: "Your name as shown in headers, citations, and structured data." }
+          - { label: "Your Title / Position", name: "authorTitle", widget: "string", hint: "E.g., 'Lead Economist'. Appears next to your name and in structured data." }
+          - { label: "Your Affiliation", name: "authorAffiliation", widget: "string", hint: "🎯 SEO: Your institution. Used in structured data — Google reads this to understand who you work for." }
+          - { label: "Your Email", name: "authorEmail", widget: "string", hint: "Public contact email." }
+          - label: "Your Photo"
+            name: "authorPhoto"
+            widget: "image"
+            required: false
+            hint: "🎯 SEO: Professional headshot. Shown on homepage and About page. Also used as a fallback social media preview image. ⚠️ IMPORTANT: For the best look, upload a SQUARE image (1:1 ratio) with the face centered — at least 400×400px. If you upload a rectangular/portrait photo, use the 'Photo Focus' dropdown below to adjust which part of the image is shown."
+          - label: "Photo Focus (which part of the image to show when cropped)"
+            name: "photoFocus"
+            widget: "select"
+            default: "upper"
+            options:
+              - { label: "Upper portion (best for portraits — shows face)", value: "upper" }
+              - { label: "Top", value: "top" }
+              - { label: "Center", value: "center" }
+              - { label: "Lower portion", value: "lower" }
+              - { label: "Bottom", value: "bottom" }
+            hint: "Your photo is cropped to a square for display. This setting chooses which part of the image stays visible. 'Upper portion' works for most portraits since faces are usually in the top half. Change this if your photo's face is getting cut off."
+          - label: "Favicon (browser tab icon)"
+            name: "favicon"
+            widget: "image"
+            required: false
+            hint: "🎯 SEO: The tiny icon shown in browser tabs, bookmarks, and Google search results next to your URL. Recommended: a square 512×512 PNG or an SVG. A simple monogram (like 'AB') on your brand color works well. Leave blank to use the default Astro icon."
+          - label: "Default Social Media Preview Image"
+            name: "defaultOgImage"
+            widget: "image"
+            required: false
+            hint: "🎯 SEO: Shown when someone shares any page of your site on Twitter, LinkedIn, Facebook, Slack, iMessage, etc. Use 1200×630px for best results. A banner with your photo and name works well. Leave blank to fall back to your profile photo."
+          - { label: "Primary Color", name: "primaryColor", widget: "color", default: "#1a365d", hint: "Main color — headings, navigation, major accents." }
+          - { label: "Accent Color", name: "accentColor", widget: "color", default: "#2b6cb0", hint: "Secondary color — links, buttons, highlights." }
+          - { label: "Google Analytics ID (optional)", name: "googleAnalyticsId", widget: "string", required: false, hint: "Your GA Measurement ID (starts with 'G-'). Leave blank to disable." }
+
+      - label: "🧭 Navigation (structural metadata)"
+        name: "sections"
+        file: "src/data/settings/sections.json"
+        description: "⚠️ Advanced. Read-only list of the site's built-in pages. You CANNOT add new pages here — pages are defined in code. To hide a page from the nav or reorder it, edit the page's own entry under 📝 Pages → 👁️ Show in navigation. The only field worth editing here is the Navigation Label (e.g., rename 'Home' to 'Start')."
+        fields:
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            allow_add: false
+            hint: "🔒 Locked list — add/remove requires a developer. To hide/show a page in the nav, edit the page under 📝 Pages."
+            fields:
+              - { label: "ID (do not change)", name: "id", widget: "string", hint: "🔒 Internal identifier — DO NOT change this. Breaking it will hide the page from the site." }
+              - { label: "Navigation Label", name: "label", widget: "string", hint: "The text shown in the nav menu. Safe to rename (e.g., 'Home' → 'Start')." }
+              - { label: "URL Path (do not change)", name: "path", widget: "string", hint: "🔒 URL path — DO NOT change. Changing this without renaming the page file in code will break the link." }
+          - { label: "Show CV Download Button", name: "showCvDownload", widget: "boolean", default: true }
+          - { label: "CV File (PDF)", name: "cvFile", widget: "file", required: false, hint: "Upload as PDF. Update this whenever your CV changes." }
+
+      - label: "🌐 Social & Academic Profiles"
+        name: "social"
+        file: "src/data/settings/social.json"
+        description: "Links to your profiles on academic platforms. CRITICAL for SEO — helps Google confirm you're the real 'Allen Blackman'."
+        fields:
+          - { label: "Google Scholar URL", name: "googleScholar", widget: "string", required: false, hint: "🎯 SEO CRITICAL: Your Scholar profile URL. Establishes your academic identity." }
+          - { label: "ORCID URL", name: "orcid", widget: "string", required: false, hint: "🎯 SEO CRITICAL: Your ORCID profile (e.g., 'https://orcid.org/0000-0002-XXXX-XXXX'). The academic world's canonical identity system." }
+          - { label: "ResearchGate URL", name: "researchGate", widget: "string", required: false }
+          - { label: "Academia.edu URL", name: "academiaEdu", widget: "string", required: false }
+          - { label: "LinkedIn URL", name: "linkedin", widget: "string", required: false, hint: "Broadens reach beyond academic audiences." }
+          - { label: "Twitter / X URL", name: "twitter", widget: "string", required: false }
+          - { label: "GitHub URL", name: "github", widget: "string", required: false }
 
   # ============================================================
   # 📝 PAGES — Most-visited editing surface
@@ -103,7 +190,7 @@ collections:
       - label: "📄 CV Page"
         name: "cv-page"
         file: "src/data/settings/cv-page.json"
-        description: "The Curriculum Vitae page — shows the CV PDF inline with download options. To upload the actual CV file, go to Settings → Navigation → CV File. → View live: https://allenblackman.netlify.app/cv"
+        description: "The Curriculum Vitae page — shows the CV PDF inline with download options. To upload the actual CV file, go to ⚙️ Main Settings → Navigation → CV File. → View live: https://allenblackman.netlify.app/cv"
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'CV' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
@@ -803,89 +890,3 @@ collections:
               - { label: "Display Label", name: "label", widget: "string", hint: "Section heading on the Links page." }
               - { label: "Display Order", name: "order", widget: "number", default: 99, hint: "Lower numbers appear first." }
 
-  # ============================================================
-  # ⚙️ SITE SETTINGS — Core identity, rarely changes
-  # ============================================================
-  - name: "settings"
-    label: "⚙️ Site Settings"
-    description: "Core site identity: your name, site-wide metadata, colors, social profiles. These apply to every page — changing them affects the whole site."
-    editor:
-      preview: false
-    files:
-
-      - label: "🆔 Identity & SEO Basics"
-        name: "general"
-        file: "src/data/settings/general.json"
-        description: "Your identity and core SEO defaults used across the site."
-        fields:
-          - label: "Site Title"
-            name: "siteTitle"
-            widget: "string"
-            hint: "🎯 SEO CRITICAL: Your name or site name. Appears in browser tabs, Google search results, and the header. Affects EVERY page's <title> tag."
-          - label: "Site Description (default meta description)"
-            name: "siteDescription"
-            widget: "text"
-            hint: "🎯 SEO: One sentence describing who you are and what you do. Used as the default meta description. 140–160 characters is ideal."
-          - { label: "Your Full Name", name: "authorName", widget: "string", hint: "Your name as shown in headers, citations, and structured data." }
-          - { label: "Your Title / Position", name: "authorTitle", widget: "string", hint: "E.g., 'Lead Economist'. Appears next to your name and in structured data." }
-          - { label: "Your Affiliation", name: "authorAffiliation", widget: "string", hint: "🎯 SEO: Your institution. Used in structured data — Google reads this to understand who you work for." }
-          - { label: "Your Email", name: "authorEmail", widget: "string", hint: "Public contact email." }
-          - label: "Your Photo"
-            name: "authorPhoto"
-            widget: "image"
-            required: false
-            hint: "🎯 SEO: Professional headshot. Shown on homepage and About page. Also used as a fallback social media preview image. ⚠️ IMPORTANT: For the best look, upload a SQUARE image (1:1 ratio) with the face centered — at least 400×400px. If you upload a rectangular/portrait photo, use the 'Photo Focus' dropdown below to adjust which part of the image is shown."
-          - label: "Photo Focus (which part of the image to show when cropped)"
-            name: "photoFocus"
-            widget: "select"
-            default: "upper"
-            options:
-              - { label: "Upper portion (best for portraits — shows face)", value: "upper" }
-              - { label: "Top", value: "top" }
-              - { label: "Center", value: "center" }
-              - { label: "Lower portion", value: "lower" }
-              - { label: "Bottom", value: "bottom" }
-            hint: "Your photo is cropped to a square for display. This setting chooses which part of the image stays visible. 'Upper portion' works for most portraits since faces are usually in the top half. Change this if your photo's face is getting cut off."
-          - label: "Favicon (browser tab icon)"
-            name: "favicon"
-            widget: "image"
-            required: false
-            hint: "🎯 SEO: The tiny icon shown in browser tabs, bookmarks, and Google search results next to your URL. Recommended: a square 512×512 PNG or an SVG. A simple monogram (like 'AB') on your brand color works well. Leave blank to use the default Astro icon."
-          - label: "Default Social Media Preview Image"
-            name: "defaultOgImage"
-            widget: "image"
-            required: false
-            hint: "🎯 SEO: Shown when someone shares any page of your site on Twitter, LinkedIn, Facebook, Slack, iMessage, etc. Use 1200×630px for best results. A banner with your photo and name works well. Leave blank to fall back to your profile photo."
-          - { label: "Primary Color", name: "primaryColor", widget: "color", default: "#1a365d", hint: "Main color — headings, navigation, major accents." }
-          - { label: "Accent Color", name: "accentColor", widget: "color", default: "#2b6cb0", hint: "Secondary color — links, buttons, highlights." }
-          - { label: "Google Analytics ID (optional)", name: "googleAnalyticsId", widget: "string", required: false, hint: "Your GA Measurement ID (starts with 'G-'). Leave blank to disable." }
-
-      - label: "🧭 Navigation (structural metadata)"
-        name: "sections"
-        file: "src/data/settings/sections.json"
-        description: "⚠️ Advanced. Read-only list of the site's built-in pages. You CANNOT add new pages here — pages are defined in code. To hide a page from the nav or reorder it, edit the page's own entry under 📝 Pages → 👁️ Show in navigation. The only field worth editing here is the Navigation Label (e.g., rename 'Home' to 'Start')."
-        fields:
-          - label: "Sections"
-            name: "sections"
-            widget: "list"
-            allow_add: false
-            hint: "🔒 Locked list — add/remove requires a developer. To hide/show a page in the nav, edit the page under 📝 Pages."
-            fields:
-              - { label: "ID (do not change)", name: "id", widget: "string", hint: "🔒 Internal identifier — DO NOT change this. Breaking it will hide the page from the site." }
-              - { label: "Navigation Label", name: "label", widget: "string", hint: "The text shown in the nav menu. Safe to rename (e.g., 'Home' → 'Start')." }
-              - { label: "URL Path (do not change)", name: "path", widget: "string", hint: "🔒 URL path — DO NOT change. Changing this without renaming the page file in code will break the link." }
-          - { label: "Show CV Download Button", name: "showCvDownload", widget: "boolean", default: true }
-          - { label: "CV File (PDF)", name: "cvFile", widget: "file", required: false, hint: "Upload as PDF. Update this whenever your CV changes." }
-
-      - label: "🌐 Social & Academic Profiles"
-        name: "social"
-        file: "src/data/settings/social.json"
-        description: "Links to your profiles on academic platforms. CRITICAL for SEO — helps Google confirm you're the real 'Allen Blackman'."
-        fields:
-          - { label: "Google Scholar URL", name: "googleScholar", widget: "string", required: false, hint: "🎯 SEO CRITICAL: Your Scholar profile URL. Establishes your academic identity." }
-          - { label: "ORCID URL", name: "orcid", widget: "string", required: false, hint: "🎯 SEO CRITICAL: Your ORCID profile (e.g., 'https://orcid.org/0000-0002-XXXX-XXXX'). The academic world's canonical identity system." }
-          - { label: "ResearchGate URL", name: "researchGate", widget: "string", required: false }
-          - { label: "Academia.edu URL", name: "academiaEdu", widget: "string", required: false }
-          - { label: "LinkedIn URL", name: "linkedin", widget: "string", required: false, hint: "Broadens reach beyond academic audiences." }
-          - { label: "Twitter / X URL", name: "twitter", widget: "string", required: false }
-          - { label: "GitHub URL", name: "github", widget: "string", required: false }
