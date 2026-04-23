@@ -82,13 +82,15 @@ collections:
       - label: "🧭 Navigation (structural metadata)"
         name: "sections"
         file: "src/data/settings/sections.json"
-        description: "⚠️ Advanced. Read-only list of the site's built-in pages. You CANNOT add new pages here — pages are defined in code. To hide a page from the nav or reorder it, edit the page's own entry under 📝 Pages → 👁️ Show in navigation. The only field worth editing here is the Navigation Label (e.g., rename 'Home' to 'Start')."
+        description: "⚠️ Advanced. 🔒 Locked list — you cannot add or remove sections here (pages are defined in code). To HIDE or REORDER a page in the navigation, go to 📝 Pages → [page name] → 👁️ Show in navigation + Navigation order. The only field safe to edit here is the Navigation Label (e.g., rename 'Home' to 'Start')."
         fields:
           - label: "Sections"
             name: "sections"
             widget: "list"
             allow_add: false
-            hint: "🔒 Locked list — add/remove requires a developer. To hide/show a page in the nav, edit the page under 📝 Pages."
+            min: 9
+            max: 9
+            hint: "🔒 Locked list (9 sections, cannot add or remove). Only the Navigation Label is safe to edit. To hide/show a page, edit that page under 📝 Pages → 👁️ Show in navigation."
             fields:
               - { label: "ID (do not change)", name: "id", widget: "string", hint: "🔒 Internal identifier — DO NOT change this. Breaking it will hide the page from the site." }
               - { label: "Navigation Label", name: "label", widget: "string", hint: "The text shown in the nav menu. Safe to rename (e.g., 'Home' → 'Start')." }
