@@ -26,6 +26,11 @@
       "path": "/publications"
     },
     {
+      "id": "blog",
+      "label": "Blog",
+      "path": "/blog"
+    },
+    {
       "id": "webtools",
       "label": "Webtools",
       "path": "/webtools"
