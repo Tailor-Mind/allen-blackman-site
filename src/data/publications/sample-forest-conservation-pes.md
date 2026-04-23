@@ -22,7 +22,6 @@ tags:
   - forest conservation
   - remote sensing
   - payments for ecosystem services
-sortOrder: ""
 attachments:
   - label: Dataser
     file: /uploads/financial_model_variables.csv

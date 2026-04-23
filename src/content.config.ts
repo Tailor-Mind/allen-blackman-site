@@ -13,6 +13,23 @@ const taxonomyParser = (text: string) => {
   return Array.isArray(parsed?.items) ? parsed.items : [];
 };
 
+/**
+ * Optional number that tolerates the empty string "" that Decap CMS
+ * sometimes writes when a user clears an optional number input.
+ * Treats "" and null as undefined; coerces real strings/numbers normally.
+ */
+const optionalNumber = z.preprocess(
+  (val) => {
+    if (val === '' || val === null || val === undefined) return undefined;
+    if (typeof val === 'string') {
+      const n = Number(val);
+      return Number.isFinite(n) ? n : undefined;
+    }
+    return val;
+  },
+  z.number().optional()
+);
+
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/blog' }),
   schema: z.object({
@@ -51,7 +68,7 @@ const publications = defineCollection({
     pdfUrl: z.string().optional(),
     externalUrl: z.string().optional(),
     tags: z.array(z.string()).default([]),
-    sortOrder: z.number().optional(),
+    sortOrder: optionalNumber,
     language: z.string().default('en'),
     issn: z.string().optional(),
     publicationDate: z.coerce.date().optional(),
@@ -92,7 +109,7 @@ const projects = defineCollection({
       .default([]),
     funding: z.string().optional(),
     image: z.string().optional(),
-    sortOrder: z.number().optional(),
+    sortOrder: optionalNumber,
     featuredDocument: z.string().optional(),
     featuredDocumentLabel: z.string().optional(),
     featuredDocumentDescription: z.string().optional(),
@@ -124,7 +141,7 @@ const webtools = defineCollection({
     url: z.string(),
     image: z.string().optional(),
     funding: z.string().optional(),
-    sortOrder: z.number().optional(),
+    sortOrder: optionalNumber,
     archived: z.boolean().default(false),
     // Cross-collection relationships
     relatedResearch: z.array(z.string()).default([]),
@@ -143,7 +160,7 @@ const links = defineCollection({
     url: z.string(),
     category: z.string().default('organizations'),
     description: z.string().optional(),
-    sortOrder: z.number().optional(),
+    sortOrder: optionalNumber,
     archived: z.boolean().default(false),
   }),
 });
