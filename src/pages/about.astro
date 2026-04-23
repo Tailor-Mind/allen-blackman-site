@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSettings } from '../lib/utils';
 
-const { general, sections: sectionsData, about } = getSettings();
+const { general, about, cvPage } = getSettings();
 
 // Split biography into paragraphs
 const bioParagraphs = about.biography.split(/\n\n+/).filter(Boolean);
@@ -61,7 +61,7 @@ const pageDescription = about.metaDescription ||
     </section>
   )}
 
-  {sectionsData.showCvDownload && sectionsData.cvFile && (
+  {cvPage.showCvDownload && cvPage.cvFile && (
     <section style="margin-top: 2rem;">
       <a href="/cv" class="btn">
         {about.cvButtonLabel || 'View Full CV'}

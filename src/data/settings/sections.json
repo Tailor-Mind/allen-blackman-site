@@ -1,51 +1,13 @@
 {
   "sections": [
-    {
-      "id": "home",
-      "label": "Home",
-      "path": "/"
-    },
-    {
-      "id": "about",
-      "label": "About",
-      "path": "/about"
-    },
-    {
-      "id": "cv",
-      "label": "CV",
-      "path": "/cv"
-    },
-    {
-      "id": "research",
-      "label": "Research",
-      "path": "/research"
-    },
-    {
-      "id": "publications",
-      "label": "Publications",
-      "path": "/publications"
-    },
-    {
-      "id": "blog",
-      "label": "Blog",
-      "path": "/blog"
-    },
-    {
-      "id": "webtools",
-      "label": "Webtools",
-      "path": "/webtools"
-    },
-    {
-      "id": "links",
-      "label": "Links",
-      "path": "/links"
-    },
-    {
-      "id": "contact",
-      "label": "Contact",
-      "path": "/contact"
-    }
-  ],
-  "showCvDownload": true,
-  "cvFile": "/uploads/blackman.cv.pdf"
+    { "id": "home", "path": "/" },
+    { "id": "about", "path": "/about" },
+    { "id": "cv", "path": "/cv" },
+    { "id": "research", "path": "/research" },
+    { "id": "publications", "path": "/publications" },
+    { "id": "blog", "path": "/blog" },
+    { "id": "webtools", "path": "/webtools" },
+    { "id": "links", "path": "/links" },
+    { "id": "contact", "path": "/contact" }
+  ]
 }

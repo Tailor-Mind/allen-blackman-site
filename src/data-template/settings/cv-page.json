@@ -1,11 +1,14 @@
 {
   "navVisible": true,
   "navOrder": 3,
+  "navLabel": "CV",
   "pageTitle": "Curriculum Vitae",
   "metaDescription": "Curriculum vitae of Dr. Jane Doe.",
   "pageHeading": "Curriculum Vitae",
   "introText": "",
   "downloadButtonLabel": "Download PDF",
   "viewerHeading": "Preview",
-  "noCvMessage": "The CV is not currently available. Please check back soon."
+  "noCvMessage": "The CV is not currently available. Please check back soon.",
+  "cvFile": "",
+  "showCvDownload": true
 }

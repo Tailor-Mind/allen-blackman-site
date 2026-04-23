@@ -1,6 +1,7 @@
 {
   "navVisible": true,
   "navOrder": 6,
+  "navLabel": "Blog",
   "pageTitle": "Blog",
   "metaDescription": "News, commentary, and updates from Dr. Jane Doe.",
   "introText": "",

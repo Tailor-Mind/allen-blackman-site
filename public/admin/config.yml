@@ -79,25 +79,6 @@ collections:
           - { label: "Accent Color", name: "accentColor", widget: "color", default: "#2b6cb0", hint: "Secondary color — links, buttons, highlights." }
           - { label: "Google Analytics ID (optional)", name: "googleAnalyticsId", widget: "string", required: false, hint: "Your GA Measurement ID (starts with 'G-'). Leave blank to disable." }
 
-      - label: "🧭 Navigation (structural metadata)"
-        name: "sections"
-        file: "src/data/settings/sections.json"
-        description: "⚠️ Advanced. 🔒 Locked list — you cannot add or remove sections here (pages are defined in code). To HIDE or REORDER a page in the navigation, go to 📝 Pages → [page name] → 👁️ Show in navigation + Navigation order. The only field safe to edit here is the Navigation Label (e.g., rename 'Home' to 'Start')."
-        fields:
-          - label: "Sections"
-            name: "sections"
-            widget: "list"
-            allow_add: false
-            min: 9
-            max: 9
-            hint: "🔒 Locked list (9 sections, cannot add or remove). Only the Navigation Label is safe to edit. To hide/show a page, edit that page under 📝 Pages → 👁️ Show in navigation."
-            fields:
-              - { label: "ID (do not change)", name: "id", widget: "string", hint: "🔒 Internal identifier — DO NOT change this. Breaking it will hide the page from the site." }
-              - { label: "Navigation Label", name: "label", widget: "string", hint: "The text shown in the nav menu. Safe to rename (e.g., 'Home' → 'Start')." }
-              - { label: "URL Path (do not change)", name: "path", widget: "string", hint: "🔒 URL path — DO NOT change. Changing this without renaming the page file in code will break the link." }
-          - { label: "Show CV Download Button", name: "showCvDownload", widget: "boolean", default: true }
-          - { label: "CV File (PDF)", name: "cvFile", widget: "file", required: false, hint: "Upload as PDF. Update this whenever your CV changes." }
-
       - label: "🌐 Social & Academic Profiles"
         name: "social"
         file: "src/data/settings/social.json"
@@ -116,7 +97,7 @@ collections:
   # ============================================================
   - name: "pages"
     label: "📝 Pages"
-    description: "Edit the text on every page of your site. Each page is a separate entry below, with a direct link to the live page so you can see your context while editing. → Visit the live site: https://allenblackman.netlify.app/"
+    description: "Edit the text on every page of your site — including its navigation visibility, order, and menu label. Each page is a separate entry below, with a direct link to the live page so you can see your context while editing. → Visit the live site: https://allenblackman.netlify.app/"
     editor:
       preview: false
     files:
@@ -128,6 +109,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Note: Home is always accessible at the root URL (/). Unchecking this just hides the 'Home' link from the nav menu." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first in the nav menu. Home is typically 1." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'Home' → 'Start')." }
           - { label: "Page Title Override (optional)", name: "pageTitle", widget: "string", required: false, hint: "🎯 SEO: Override the browser tab title for the home page. Leave blank to use site title from Settings." }
           - { label: "Meta Description Override (optional)", name: "metaDescription", widget: "text", required: false, hint: "🎯 SEO: Override the Google search result description for the home page. Leave blank to use site description from Settings." }
           - label: "Hero Tagline"
@@ -166,6 +148,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'About' link from the nav menu. The page URL still works — useful for SEO and inbound links." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'About' → 'Bio')." }
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "🎯 SEO: Page heading AND browser tab title. Default: 'About'." }
           - { label: "Meta Description Override (optional)", name: "metaDescription", widget: "text", required: false, hint: "🎯 SEO: Google search result description for the About page." }
           - { label: "Biography Section Heading", name: "biographyHeading", widget: "string", hint: "Section heading, e.g. 'Biography'." }
@@ -196,6 +179,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'CV' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'About' → 'Bio')." }
           - { label: "Page Title (browser tab)", name: "pageTitle", widget: "string", hint: "Default: 'Curriculum Vitae'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Shown in Google search results for the CV page." }
           - { label: "Page Heading", name: "pageHeading", widget: "string", hint: "The H1 shown at the top of the page. Default: 'Curriculum Vitae'." }
@@ -203,6 +187,8 @@ collections:
           - { label: "Download Button Label", name: "downloadButtonLabel", widget: "string", hint: "Text on the download button. Default: 'Download PDF'." }
           - { label: "Preview Section Heading", name: "viewerHeading", widget: "string", hint: "Heading above the inline PDF viewer. Default: 'Preview'. Leave blank to hide the heading." }
           - { label: "'No CV' Fallback Message", name: "noCvMessage", widget: "string", hint: "Shown if no CV file has been uploaded yet." }
+          - { label: "📎 CV File (PDF)", name: "cvFile", widget: "file", required: false, hint: "Upload your CV as a PDF. Update this whenever your CV changes. The file is shown inline on the /cv page and linked from homepage/About CTA buttons." }
+          - { label: "Show CV Download Button (site-wide)", name: "showCvDownload", widget: "boolean", default: true, hint: "Master switch: when off, no CV link or download button appears anywhere on the site (homepage, About, CV page). When on, the buttons appear wherever 'Show Download CV' is enabled individually." }
 
       - label: "🔬 Research Listing Page"
         name: "research-page"
@@ -211,6 +197,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'Research' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'About' → 'Bio')." }
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Research'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results for this page." }
           - { label: "Intro Text (optional)", name: "introText", widget: "text", required: false, hint: "🎯 SEO: Paragraph shown above the project list. More context = more indexable text." }
@@ -223,6 +210,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'Publications' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'About' → 'Bio')." }
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Publications'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results." }
           - { label: "Intro Text (optional)", name: "introText", widget: "text", required: false, hint: "🎯 SEO: Paragraph shown above the publications list." }
@@ -235,6 +223,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'Blog' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'About' → 'Bio')." }
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Blog'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results." }
           - { label: "Intro Text (optional)", name: "introText", widget: "text", required: false, hint: "🎯 SEO: Paragraph shown above the blog post list." }
@@ -247,6 +236,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'Webtools' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'About' → 'Bio')." }
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Webtools'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results." }
           - { label: "Intro Text (optional)", name: "introText", widget: "text", required: false, hint: "🎯 SEO: Paragraph shown above the tools list." }
@@ -259,6 +249,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'Links' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'About' → 'Bio')." }
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Links'." }
           - { label: "Meta Description", name: "metaDescription", widget: "text", hint: "🎯 SEO: Description shown in Google search results." }
           - { label: "Intro Text (optional)", name: "introText", widget: "text", required: false, hint: "🎯 SEO: Paragraph shown above the links." }
@@ -271,6 +262,7 @@ collections:
         fields:
           - { label: "👁️ Show in navigation", name: "navVisible", widget: "boolean", default: true, hint: "Uncheck to hide the 'Contact' link from the nav menu. The page URL still works." }
           - { label: "Navigation order", name: "navOrder", widget: "number", value_type: "int", hint: "Lower numbers appear first." }
+          - { label: "Navigation label", name: "navLabel", widget: "string", hint: "The text shown in the navigation menu. Safe to rename (e.g., 'About' → 'Bio')." }
           - { label: "Page Title", name: "pageTitle", widget: "string", hint: "Default: 'Contact'." }
           - { label: "Meta Description Override (optional)", name: "metaDescription", widget: "text", required: false }
           - { label: "Address Section Label", name: "addressHeading", widget: "string", hint: "Label for the address block. Default: 'Address'." }

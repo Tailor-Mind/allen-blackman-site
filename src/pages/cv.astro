@@ -3,10 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PdfPreview from '../components/PdfPreview.astro';
 import { getSettings } from '../lib/utils';
 
-const { general, sections: sectionsData, cvPage } = getSettings();
+const { general, cvPage } = getSettings();
 
-const cvAvailable = sectionsData.showCvDownload && sectionsData.cvFile;
-const cvUrl = sectionsData.cvFile;
+const cvAvailable = cvPage.showCvDownload && cvPage.cvFile;
+const cvUrl = cvPage.cvFile;
 const cvTitle = general.authorName + ' CV';
 ---
 

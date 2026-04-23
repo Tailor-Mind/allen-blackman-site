@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { getSettings, getEnabledSections } from '../lib/utils';
 
-const { general, social, sections: sectionsData, home } = getSettings();
+const { general, social, home, cvPage } = getSettings();
 const enabledSections = getEnabledSections();
 
 const sameAs = [
@@ -64,7 +64,7 @@ const pageDescription = home.metaDescription || general.siteDescription;
         {home.ctaButtons?.showPublicationsButton && enabledSections.find((s) => s.id === 'publications') && (
           <a href="/publications" class="btn">Publications</a>
         )}
-        {home.ctaButtons?.showCvButton && sectionsData.showCvDownload && sectionsData.cvFile && (
+        {home.ctaButtons?.showCvButton && cvPage.showCvDownload && cvPage.cvFile && (
           <a href="/cv" class="btn">View CV</a>
         )}
       </div>

@@ -1,6 +1,7 @@
 {
   "navVisible": true,
   "navOrder": 7,
+  "navLabel": "Webtools",
   "pageTitle": "Webtools",
   "metaDescription": "Web-based tools for forest conservation analysis and policy evaluation by Allen Blackman.",
   "introText": "These web-based tools help policymakers, researchers, and conservation practitioners make evidence-based decisions about forest conservation. They are non-technical and easy to use, with embedded data and instructions requiring no external downloads.",

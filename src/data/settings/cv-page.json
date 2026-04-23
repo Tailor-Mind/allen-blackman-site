@@ -1,11 +1,14 @@
 {
   "navVisible": true,
   "navOrder": 3,
+  "navLabel": "CV",
   "pageTitle": "Curriculum Vitae",
   "metaDescription": "Curriculum vitae of Allen Blackman, Lead Economist at the Inter-American Development Bank.",
   "pageHeading": "Curriculum Vitae",
   "introText": "",
   "downloadButtonLabel": "Download PDF",
   "viewerHeading": "Preview",
-  "noCvMessage": "The CV is not currently available. Please check back soon."
+  "noCvMessage": "The CV is not currently available. Please check back soon.",
+  "cvFile": "/uploads/blackman.cv.pdf",
+  "showCvDownload": true
 }

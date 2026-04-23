@@ -33,11 +33,11 @@ export function getSettings() {
 }
 
 /**
- * Map each section id to its page settings file.
- * This is the bridge between sections.json (structural: id, label, path)
- * and per-page JSONs (which own navVisible + navOrder).
+ * Map each section id to its page settings file. Per-page JSONs own all
+ * nav-related state: navVisible, navOrder, navLabel. sections.json is
+ * purely structural (id + path) and not edited via the CMS.
  */
-type NavConfig = { navVisible?: boolean; navOrder?: number };
+type NavConfig = { navVisible?: boolean; navOrder?: number; navLabel?: string };
 const pageNavConfig: Record<string, NavConfig> = {
   home: home as NavConfig,
   about: about as NavConfig,
@@ -50,18 +50,27 @@ const pageNavConfig: Record<string, NavConfig> = {
   contact: contact as NavConfig,
 };
 
-/** Resolve a section's effective nav visibility and order from the per-page config. */
+/** Capitalize the first character of a string. Used only for last-resort label fallback. */
+function titleCase(id: string): string {
+  return id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, ' ');
+}
+
+/** Resolve a section's effective nav visibility, order, and label from per-page config. */
 function resolveSectionNav(id: string, fallbackOrder: number) {
   const cfg = pageNavConfig[id];
   return {
     navVisible: cfg?.navVisible ?? true,
     navOrder: cfg?.navOrder ?? fallbackOrder,
+    navLabel: cfg?.navLabel ?? titleCase(id),
   };
 }
 
 export function getEnabledSections() {
   return sections.sections
-    .map((s, i) => ({ ...s, ...resolveSectionNav(s.id, i + 1) }))
+    .map((s, i) => {
+      const nav = resolveSectionNav(s.id, i + 1);
+      return { ...s, ...nav, label: nav.navLabel };
+    })
     .filter((s) => s.navVisible)
     .sort((a, b) => a.navOrder - b.navOrder);
 }
