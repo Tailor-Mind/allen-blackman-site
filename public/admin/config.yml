@@ -837,15 +837,15 @@ collections:
   # entries first.
   - name: "taxonomies"
     label: "🏷️ Types & Categories"
-    description: "All the categories and types used across the site. Three editable sections below. ⚠️ Deleting an item that's still referenced by a project/publication/link will fail the build — reassign references first."
+    description: "All the categories and types used across the site. Three editable sections below: 🔬 Research Project Categories, 📚 Publication Types, and 🔗 External Link Categories. ⚠️ Deleting an item that's still referenced by a project/publication/link will fail the build — reassign references first."
     editor:
       preview: false
     files:
 
-      - label: "📁 Project Categories"
+      - label: "🔬 Research Project Categories"
         name: "project-categories"
         file: "src/data/settings/project-categories.json"
-        description: "Categories used to group Research Projects on the Research page."
+        description: "Categories used to group entries in 🔬 Research Projects. Each research project picks one of these in its 'Category' dropdown. Edits here change the group headings on the Research listing page."
         fields:
           - label: "Categories"
             name: "items"
@@ -859,10 +859,10 @@ collections:
               - { label: "Display Order", name: "order", widget: "number", default: 99, hint: "Lower numbers appear first. Typical: 1-4 for main categories, 99 for 'Other'." }
               - { label: "Description (internal only)", name: "description", widget: "text", required: false, hint: "Internal note — not shown publicly." }
 
-      - label: "📁 Publication Types"
+      - label: "📚 Publication Types"
         name: "publication-types"
         file: "src/data/settings/publication-types.json"
-        description: "Types used to group Publications (Journal Articles, Working Papers, etc.)."
+        description: "Types used to group entries in 📚 Publications (e.g., Journal Articles, Working Papers, Book Chapters, Policy Reports). Each publication picks one in its 'Type' dropdown."
         fields:
           - label: "Types"
             name: "items"
@@ -876,10 +876,10 @@ collections:
               - { label: "Singular Form (optional)", name: "singular", widget: "string", required: false, hint: "Singular form, e.g., 'Journal Article'." }
               - { label: "Display Order", name: "order", widget: "number", default: 99, hint: "Lower numbers appear first." }
 
-      - label: "📁 Link Categories"
+      - label: "🔗 External Link Categories"
         name: "link-categories"
         file: "src/data/settings/link-categories.json"
-        description: "Categories used to group External Links on the Links page."
+        description: "Categories used to group entries in 🔗 External Links. Each link picks one in its 'Category' dropdown."
         fields:
           - label: "Categories"
             name: "items"
