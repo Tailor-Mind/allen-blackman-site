@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": "organizations",
+      "label": "Organizations",
+      "order": 1
+    },
+    {
+      "id": "institutions",
+      "label": "Institutions",
+      "order": 2
+    }
+  ]
+}

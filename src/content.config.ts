@@ -1,6 +1,17 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { glob } from 'astro/loaders';
+import { glob, file } from 'astro/loaders';
+
+/**
+ * Parser for the taxonomy JSON files. Each file has shape:
+ *   { "items": [ { "id": "...", "label": "...", ... }, ... ] }
+ * Returns the items array so Astro treats each item as a collection entry.
+ * Each item's `id` field becomes the entry's id.
+ */
+const taxonomyParser = (text: string) => {
+  const parsed = JSON.parse(text);
+  return Array.isArray(parsed?.items) ? parsed.items : [];
+};
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/blog' }),
@@ -105,9 +116,11 @@ const links = defineCollection({
   }),
 });
 
-// Category collections — editable from CMS
+// Category collections — editable from CMS as a single "Types & Categories"
+// file collection backed by three JSON files. Each entry's `id` comes from
+// the array item's `id` field via the custom parser.
 const projectCategories = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/data/project-categories' }),
+  loader: file('src/data/settings/project-categories.json', { parser: taxonomyParser }),
   schema: z.object({
     label: z.string(),
     order: z.number().default(99),
@@ -116,7 +129,7 @@ const projectCategories = defineCollection({
 });
 
 const publicationTypes = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/data/publication-types' }),
+  loader: file('src/data/settings/publication-types.json', { parser: taxonomyParser }),
   schema: z.object({
     label: z.string(),
     singular: z.string().optional(),
@@ -125,7 +138,7 @@ const publicationTypes = defineCollection({
 });
 
 const linkCategories = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/data/link-categories' }),
+  loader: file('src/data/settings/link-categories.json', { parser: taxonomyParser }),
   schema: z.object({
     label: z.string(),
     order: z.number().default(99),

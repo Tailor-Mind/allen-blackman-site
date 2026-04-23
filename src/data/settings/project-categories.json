@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "id": "pollution",
+      "label": "Air & Water Pollution",
+      "order": 1,
+      "description": "Research on pollution, emissions, air quality, and water contamination."
+    },
+    {
+      "id": "land-use",
+      "label": "Land Use & Forest Conservation",
+      "order": 2,
+      "description": "Research on land use change, deforestation, forest conservation, and ecosystem services."
+    },
+    {
+      "id": "climate",
+      "label": "Climate Change",
+      "order": 3,
+      "description": "Research on climate mitigation, adaptation, and policy."
+    },
+    {
+      "id": "land-tenure",
+      "label": "Land Tenure",
+      "order": 4,
+      "description": "Research on land rights, titling, and tenure security."
+    },
+    {
+      "id": "other",
+      "label": "Other",
+      "order": 99,
+      "description": "Uncategorized research projects."
+    }
+  ]
+}

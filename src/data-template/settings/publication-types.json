@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "id": "journal-article",
+      "label": "Journal Articles",
+      "singular": "Journal Article",
+      "order": 1
+    },
+    {
+      "id": "working-paper",
+      "label": "Working Papers",
+      "singular": "Working Paper",
+      "order": 2
+    },
+    {
+      "id": "book-chapter",
+      "label": "Book Chapters",
+      "singular": "Book Chapter",
+      "order": 3
+    },
+    {
+      "id": "policy-report",
+      "label": "Policy Reports",
+      "singular": "Policy Report",
+      "order": 4
+    }
+  ]
+}

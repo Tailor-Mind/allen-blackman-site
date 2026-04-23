@@ -17,10 +17,8 @@ public_folder: "/uploads"
 #   4. 🔬 Research Projects  (add/edit projects)
 #   5. 🛠️ Webtools            (add/edit tools)
 #   6. 🔗 External Links     (add/edit links)
-#   7. 🏷️ Project Categories  ┐
-#   8. 🏷️ Publication Types   ├─ (taxonomy — edit rarely)
-#   9. 🏷️ Link Categories     ┘
-#  10. ⚙️ Site Settings       (site-wide identity, rarely changes)
+#   7. 🏷️ Types & Categories (all taxonomies in one entry — edit rarely)
+#   8. ⚙️ Site Settings       (site-wide identity, rarely changes)
 
 collections:
 
@@ -251,12 +249,13 @@ collections:
       - label: "Publication Type"
         name: "type"
         widget: "relation"
-        collection: "publicationTypes"
-        value_field: "{{slug}}"
-        search_fields: ["label"]
-        display_fields: ["label"]
+        collection: "taxonomies"
+        file: "publication-types"
+        value_field: "items.*.id"
+        search_fields: ["items.*.label"]
+        display_fields: ["items.*.label"]
         default: "journal-article"
-        hint: "Publications are grouped by type on the public page. Add new types under '🏷️ Taxonomies → Publication Types'."
+        hint: "Publications are grouped by type on the public page. Add new types under '🏷️ Types & Categories → Publication Types'."
       - label: "Status"
         name: "status"
         widget: "select"
@@ -439,12 +438,13 @@ collections:
       - label: "Category"
         name: "category"
         widget: "relation"
-        collection: "projectCategories"
-        value_field: "{{slug}}"
-        search_fields: ["label"]
-        display_fields: ["label"]
+        collection: "taxonomies"
+        file: "project-categories"
+        value_field: "items.*.id"
+        search_fields: ["items.*.label"]
+        display_fields: ["items.*.label"]
         default: "other"
-        hint: "Projects are grouped by category on the Research page. Add new categories under '🏷️ Taxonomies → Project Categories'."
+        hint: "Projects are grouped by category on the Research page. Add new categories under '🏷️ Types & Categories → Project Categories'."
       - label: "Status"
         name: "status"
         widget: "select"
@@ -569,100 +569,79 @@ collections:
       - label: "Category"
         name: "category"
         widget: "relation"
-        collection: "linkCategories"
-        value_field: "{{slug}}"
-        search_fields: ["label"]
-        display_fields: ["label"]
+        collection: "taxonomies"
+        file: "link-categories"
+        value_field: "items.*.id"
+        search_fields: ["items.*.label"]
+        display_fields: ["items.*.label"]
         default: "organizations"
-        hint: "Links are grouped by category on the Links page. Add new categories under '🏷️ Taxonomies → Link Categories'."
+        hint: "Links are grouped by category on the Links page. Add new categories under '🏷️ Types & Categories → Link Categories'."
       - { label: "Description (optional)", name: "description", widget: "text", required: false }
       - { label: "Sort Order", name: "sortOrder", widget: "number", required: false }
 
   # ============================================================
-  # 🏷️ TAXONOMIES — Categories used by Projects, Publications, Links
+  # 🏷️ TYPES & CATEGORIES — All taxonomies in one sidebar entry
   # ============================================================
-  # ⚠️ IMPORTANT: Deleting a category that is still used by a project,
-  # publication, or link will cause the site build to fail with a clear
-  # error message. Reassign or remove the referencing entries first.
-
-  - name: "projectCategories"
-    label: "🏷️ Project Categories"
-    label_singular: "Project Category"
-    description: "Categories used to group Research Projects. ⚠️ Do NOT delete a category that's still used by any project — the site will fail to build. Reassign all affected projects first."
-    folder: "src/data/project-categories"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{label}}"
+  # ⚠️ IMPORTANT: Deleting a category/type that is still used by a
+  # project, publication, or link will cause the site build to fail
+  # with a clear error message. Reassign or remove the referencing
+  # entries first.
+  - name: "taxonomies"
+    label: "🏷️ Types & Categories"
+    description: "All the categories and types used across the site. Three editable sections below. ⚠️ Deleting an item that's still referenced by a project/publication/link will fail the build — reassign references first."
     editor:
       preview: false
-    identifier_field: "label"
-    fields:
-      - label: "Display Label"
-        name: "label"
-        widget: "string"
-        hint: "🎯 SEO: How this category appears as a heading on the Research page. Example: 'Air & Water Pollution'."
-      - label: "Display Order"
-        name: "order"
-        widget: "number"
-        default: 99
-        hint: "Lower numbers appear first. Current categories use 1-4, and 'Other' uses 99."
-      - label: "Description (optional)"
-        name: "description"
-        widget: "text"
-        required: false
-        hint: "Internal note about what this category covers. Not shown publicly."
+    files:
 
-  - name: "publicationTypes"
-    label: "🏷️ Publication Types"
-    label_singular: "Publication Type"
-    description: "Types used to group Publications (Journal Articles, Working Papers, etc.). ⚠️ Do NOT delete a type that's still used by any publication."
-    folder: "src/data/publication-types"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{label}}"
-    editor:
-      preview: false
-    identifier_field: "label"
-    fields:
-      - label: "Display Label (plural)"
-        name: "label"
-        widget: "string"
-        hint: "Section heading on the Publications page. Use plural form: 'Journal Articles', 'Working Papers'."
-      - label: "Singular Form (optional)"
-        name: "singular"
-        widget: "string"
-        required: false
-        hint: "Singular form (e.g., 'Journal Article'). Used when referring to one item."
-      - label: "Display Order"
-        name: "order"
-        widget: "number"
-        default: 99
-        hint: "Lower numbers appear first."
+      - label: "📁 Project Categories"
+        name: "project-categories"
+        file: "src/data/settings/project-categories.json"
+        description: "Categories used to group Research Projects on the Research page."
+        fields:
+          - label: "Categories"
+            name: "items"
+            widget: "list"
+            allow_add: true
+            summary: "{{fields.label}}"
+            hint: "Add, edit, remove, or reorder categories here. The 'ID' is the internal slug used in project files — don't change it once a category is in use."
+            fields:
+              - { label: "ID (slug — lowercase, hyphens)", name: "id", widget: "string", hint: "🔒 Used in project markdown files. Example: 'pollution', 'land-use'. DON'T change once used." }
+              - { label: "Display Label", name: "label", widget: "string", hint: "How this category appears on the Research page (e.g., 'Air & Water Pollution')." }
+              - { label: "Display Order", name: "order", widget: "number", default: 99, hint: "Lower numbers appear first. Typical: 1-4 for main categories, 99 for 'Other'." }
+              - { label: "Description (internal only)", name: "description", widget: "text", required: false, hint: "Internal note — not shown publicly." }
 
-  - name: "linkCategories"
-    label: "🏷️ Link Categories"
-    label_singular: "Link Category"
-    description: "Categories used to group External Links. ⚠️ Do NOT delete a category that's still used by any link."
-    folder: "src/data/link-categories"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    summary: "{{label}}"
-    editor:
-      preview: false
-    identifier_field: "label"
-    fields:
-      - label: "Display Label"
-        name: "label"
-        widget: "string"
-        hint: "Section heading on the Links page."
-      - label: "Display Order"
-        name: "order"
-        widget: "number"
-        default: 99
-        hint: "Lower numbers appear first."
+      - label: "📁 Publication Types"
+        name: "publication-types"
+        file: "src/data/settings/publication-types.json"
+        description: "Types used to group Publications (Journal Articles, Working Papers, etc.)."
+        fields:
+          - label: "Types"
+            name: "items"
+            widget: "list"
+            allow_add: true
+            summary: "{{fields.label}}"
+            hint: "Add, edit, remove, or reorder publication types."
+            fields:
+              - { label: "ID (slug)", name: "id", widget: "string", hint: "🔒 Used in publication markdown files. Example: 'journal-article'. DON'T change once used." }
+              - { label: "Display Label (plural)", name: "label", widget: "string", hint: "Section heading on the Publications page. Use plural: 'Journal Articles', 'Working Papers'." }
+              - { label: "Singular Form (optional)", name: "singular", widget: "string", required: false, hint: "Singular form, e.g., 'Journal Article'." }
+              - { label: "Display Order", name: "order", widget: "number", default: 99, hint: "Lower numbers appear first." }
+
+      - label: "📁 Link Categories"
+        name: "link-categories"
+        file: "src/data/settings/link-categories.json"
+        description: "Categories used to group External Links on the Links page."
+        fields:
+          - label: "Categories"
+            name: "items"
+            widget: "list"
+            allow_add: true
+            summary: "{{fields.label}}"
+            hint: "Add, edit, remove, or reorder link categories."
+            fields:
+              - { label: "ID (slug)", name: "id", widget: "string", hint: "🔒 Used in link markdown files. DON'T change once used." }
+              - { label: "Display Label", name: "label", widget: "string", hint: "Section heading on the Links page." }
+              - { label: "Display Order", name: "order", widget: "number", default: 99, hint: "Lower numbers appear first." }
 
   # ============================================================
   # ⚙️ SITE SETTINGS — Core identity, rarely changes

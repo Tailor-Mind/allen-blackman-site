@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "organizations",
+      "label": "Environmental Economics Organizations",
+      "order": 1
+    },
+    {
+      "id": "research-networks",
+      "label": "Research Networks & Initiatives",
+      "order": 2
+    },
+    {
+      "id": "institutions",
+      "label": "International Development Institutions",
+      "order": 3
+    },
+    {
+      "id": "academic",
+      "label": "Academic Institutions",
+      "order": 4
+    }
+  ]
+}
